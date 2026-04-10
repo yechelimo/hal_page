@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hal的个人学习页面</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E40AF',
+                        secondary: '#F3F4F6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-primary font-bold text-xl">
+                <i class="fa fa-graduation-cap mr-2"></i>hal的学习空间
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="text-gray-700 hover:text-primary transition-colors">首页</a>
+                <a href="#courses" class="text-gray-700 hover:text-primary transition-colors">课程</a>
+                <a href="#about" class="text-gray-700 hover:text-primary transition-colors">关于我</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-gray-700 hover:text-primary">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 个人信息区 -->
+    <section id="home" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center">
+                <div class="w-32 h-32 rounded-full bg-primary text-white flex items-center justify-center text-4xl mb-6">
+                    <i class="fa fa-user"></i>
+                </div>
+                <h1 class="text-3xl font-bold mb-2">hal</h1>
+                <p class="text-gray-600 mb-4">广东科学技术职业学院</p>
+                <p class="text-gray-600 mb-6">商学院 · 商务数据分析与应用专业</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        <i class="fa fa-github mr-2"></i>GitHub
+                    </a>
+                    <a href="#" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors">
+                        <i class="fa fa-envelope mr-2"></i>联系我
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程列表 -->
+    <section id="courses" class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold mb-8 text-center">我的课程</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 课程卡片 1 -->
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="w-12 h-12 bg-blue-100 text-primary rounded-lg flex items-center justify-center mb-4">
+                        <i class="fa fa-code text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Python基础</h3>
+                    <p class="text-gray-600 mb-4">学习Python编程语言的基础知识和应用技巧</p>
+                    <a href="#" class="text-primary hover:underline">查看详情 <i class="fa fa-arrow-right ml-1"></i></a>
+                </div>
+                
+                <!-- 课程卡片 2 -->
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="w-12 h-12 bg-blue-100 text-primary rounded-lg flex items-center justify-center mb-4">
+                        <i class="fa fa-bar-chart text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">数据分析技术</h3>
+                    <p class="text-gray-600 mb-4">掌握数据分析的基本方法和工具</p>
+                    <a href="#" class="text-primary hover:underline">查看详情 <i class="fa fa-arrow-right ml-1"></i></a>
+                </div>
+                
+                <!-- 课程卡片 3 -->
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="w-12 h-12 bg-blue-100 text-primary rounded-lg flex items-center justify-center mb-4">
+                        <i class="fa fa-database text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">数据采集与处理</h3>
+                    <p class="text-gray-600 mb-4">学习数据采集的方法和数据预处理技术</p>
+                    <a href="#" class="text-primary hover:underline">查看详情 <i class="fa fa-arrow-right ml-1"></i></a>
+                </div>
+                
+                <!-- 课程卡片 4 -->
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="w-12 h-12 bg-blue-100 text-primary rounded-lg flex items-center justify-center mb-4">
+                        <i class="fa fa-truck text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">供应链数据分析</h3>
+                    <p class="text-gray-600 mb-4">分析供应链数据，优化供应链管理</p>
+                    <a href="#" class="text-primary hover:underline">查看详情 <i class="fa fa-arrow-right ml-1"></i></a>
+                </div>
+                
+                <!-- 课程卡片 5 -->
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="w-12 h-12 bg-blue-100 text-primary rounded-lg flex items-center justify-center mb-4">
+                        <i class="fa fa-table text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">数据库原理与应用</h3>
+                    <p class="text-gray-600 mb-4">学习数据库的基本原理和应用开发</p>
+                    <a href="#" class="text-primary hover:underline">查看详情 <i class="fa fa-arrow-right ml-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold mb-8 text-center">关于我</h2>
+            <div class="max-w-2xl mx-auto">
+                <p class="text-gray-700 mb-4">
+                    我是hal，广东科学技术职业学院商学院商务数据分析与应用专业的学生。
+                    我对数据分析和编程有着浓厚的兴趣，希望通过学习和实践，掌握更多专业技能。
+                </p>
+                <p class="text-gray-700 mb-4">
+                    本页面展示了我学习的主要课程，后续我会不断补充各个课程的详细内容，
+                    记录我的学习过程和成果。
+                </p>
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4">技能</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm">Python</span>
+                        <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm">数据分析</span>
+                        <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm">SQL</span>
+                        <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm">Excel</span>
+                        <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm">数据可视化</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p>© 2026 hal的个人学习页面</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-white hover:text-blue-300 transition-colors">
+                        <i class="fa fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-blue-300 transition-colors">
+                        <i class="fa fa-weixin text-xl"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-blue-300 transition-colors">
+                        <i class="fa fa-qq text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 简单的导航菜单交互
+        document.querySelector('.md\:hidden button').addEventListener('click', function() {
+            // 这里可以添加移动端菜单展开/收起的逻辑
+            alert('移动端菜单功能后续实现');
+        });
+
+        // 课程卡片点击事件
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.closest('a')) {
+                    const courseName = this.querySelector('h3').textContent;
+                    alert(`${courseName} 课程详情页面后续实现`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
