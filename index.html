@@ -14,6 +14,10 @@
                         primary: '#0F172A',
                         secondary: '#1E293B',
                         accent: '#3B82F6',
+                        accent2: '#10B981',
+                        accent3: '#A855F7',
+                        accent4: '#F59E0B',
+                        accent5: '#EF4444',
                         light: '#F8FAFC',
                     },
                     fontFamily: {
@@ -29,28 +33,28 @@
                 content-visibility: auto;
             }
             .card-hover {
-                transition: all 0.3s ease;
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             }
             .card-hover:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+                transform: translateY(-12px) scale(1.02);
+                box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.25);
             }
             .glass {
                 background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.12);
             }
             .glass-dark {
-                background: rgba(15, 23, 42, 0.8);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.05);
+                background: rgba(15, 23, 42, 0.85);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
             }
             .bg-tech {
-                background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                            radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.18) 0%, transparent 50%),
+                            radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+                            radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
                             #0F172A;
             }
             .btn-breath {
@@ -62,17 +66,21 @@
                     transform: scale(1);
                 }
                 50% {
-                    box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
-                    transform: scale(1.05);
+                    box-shadow: 0 0 50px rgba(59, 130, 246, 0.9);
+                    transform: scale(1.06);
                 }
             }
             .text-gradient {
-                background: linear-gradient(90deg, #3B82F6, #10B981);
+                background: linear-gradient(90deg, #3B82F6, #10B981, #A855F7);
+                background-size: 200% auto;
+                animation: textGradient 5s ease infinite;
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
             }
-            .border-glow {
-                box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            @keyframes textGradient {
+                0% { background-position: 0% center; }
+                50% { background-position: 100% center; }
+                100% { background-position: 0% center; }
             }
             .animate-float {
                 animation: float 6s ease-in-out infinite;
@@ -82,15 +90,174 @@
                     transform: translateY(0px);
                 }
                 50% {
-                    transform: translateY(-10px);
+                    transform: translateY(-15px);
                 }
+            }
+            .animate-float-slow {
+                animation: floatSlow 8s ease-in-out infinite;
+            }
+            @keyframes floatSlow {
+                0%, 100% {
+                    transform: translateY(0px) rotate(0deg);
+                }
+                50% {
+                    transform: translateY(-20px) rotate(5deg);
+                }
+            }
+            .particle {
+                position: absolute;
+                border-radius: 50%;
+                pointer-events: none;
+            }
+            .skill-pulse {
+                animation: skillPulse 2s ease-in-out infinite;
+            }
+            @keyframes skillPulse {
+                0%, 100% {
+                    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+                }
+                50% {
+                    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+                }
+            }
+            .reveal {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.6s ease;
+            }
+            .reveal.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .avatar-3d {
+                transform-style: preserve-3d;
+                transition: transform 0.6s ease;
+            }
+            .avatar-3d:hover {
+                transform: rotateY(15deg) rotateX(5deg);
+            }
+            .typing-cursor {
+                animation: blink 1s infinite;
+            }
+            @keyframes blink {
+                0%, 50% { opacity: 1; }
+                51%, 100% { opacity: 0; }
+            }
+            .progress-bar {
+                height: 6px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 3px;
+                overflow: hidden;
+            }
+            .progress-fill {
+                height: 100%;
+                border-radius: 3px;
+                transition: width 1.5s ease-in-out;
+            }
+            .scroll-progress {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #3B82F6, #10B981, #A855F7);
+                z-index: 9999;
+                transition: width 0.1s;
+            }
+            .back-to-top {
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #3B82F6, #10B981);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                cursor: pointer;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(20px);
+                transition: all 0.3s ease;
+                z-index: 9998;
+                box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+            }
+            .back-to-top.visible {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+            .back-to-top:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
+            }
+            .cursor-follower {
+                position: fixed;
+                width: 20px;
+                height: 20px;
+                border: 2px solid rgba(59, 130, 246, 0.6);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+                transform: translate(-50%, -50%);
+            }
+            .cursor-follower.active {
+                width: 50px;
+                height: 50px;
+                border-color: rgba(16, 185, 129, 0.8);
+            }
+            .btn-shine {
+                position: relative;
+                overflow: hidden;
+            }
+            .btn-shine::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.5s;
+            }
+            .btn-shine:hover::before {
+                left: 100%;
+            }
+            .star {
+                position: absolute;
+                background: white;
+                border-radius: 50%;
+                animation: twinkle 3s ease-in-out infinite;
+            }
+            @keyframes twinkle {
+                0%, 100% { opacity: 0.3; }
+                50% { opacity: 1; }
             }
         }
     </style>
 </head>
 <body class="bg-tech min-h-screen text-light overflow-x-hidden">
+    <!-- 滚动进度条 -->
+    <div id="scrollProgress" class="scroll-progress" style="width: 0%;"></div>
+    
+    <!-- 光标跟随效果 -->
+    <div id="cursorFollower" class="cursor-follower"></div>
+    
+    <!-- 回到顶部按钮 -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+    
+    <!-- 粒子背景 -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+    
+    <!-- 星星背景 -->
+    <div id="stars" class="fixed inset-0 pointer-events-none z-0"></div>
+
     <!-- 导航栏 -->
-    <nav class="glass-dark fixed top-0 left-0 right-0 z-50 shadow-lg">
+    <nav class="glass-dark fixed top-0 left-0 right-0 z-50 shadow-xl transition-all duration-300">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="text-accent font-bold text-xl flex items-center">
                 <i class="fa fa-graduation-cap mr-3 text-2xl"></i>
@@ -112,32 +279,57 @@
     <!-- 英雄区域 -->
     <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
         <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute top-20 left-10 w-64 h-64 bg-accent/20 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-20 right-10 w-80 h-80 bg-green-500/10 rounded-full blur-3xl"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute top-20 left-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-green-500/10 rounded-full blur-3xl animate-float-slow"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28rem] h-[28rem] bg-purple-500/10 rounded-full blur-3xl animate-float"></div>
         </div>
         <div class="container mx-auto px-4 z-10">
             <div class="flex flex-col items-center text-center">
-                <div class="w-40 h-40 rounded-full glass border-2 border-accent/50 flex items-center justify-center mb-8 animate-float">
-                    <i class="fa fa-user text-6xl text-accent"></i>
+                <div class="w-44 h-44 rounded-full glass border-3 border-accent/60 flex items-center justify-center mb-8 animate-float relative avatar-3d">
+                    <div class="absolute inset-0 rounded-full bg-gradient-to-br from-accent/30 to-accent2/30 animate-pulse"></div>
+                    <div class="absolute -inset-1 rounded-full bg-gradient-to-r from-accent via-accent2 to-accent3 animate-spin opacity-20" style="animation-duration: 3s;"></div>
+                    <i class="fa fa-user text-7xl text-accent relative z-10"></i>
                 </div>
-                <h1 class="text-5xl md:text-6xl font-bold mb-4">
+                <h1 class="text-5xl md:text-7xl font-bold mb-4">
                     <span class="text-gradient">hal</span>
                 </h1>
-                <p class="text-xl md:text-2xl mb-2 text-gray-300">广东科学技术职业学院</p>
-                <p class="text-lg md:text-xl mb-8 text-gray-400">商学院 · 商务数据分析与应用专业</p>
+                <div class="h-10 mb-2">
+                    <p id="typingText" class="text-xl md:text-2xl text-gray-300"></p>
+                </div>
+                <p class="text-lg md:text-xl mb-10 text-gray-400">商学院 · 商务数据分析与应用专业</p>
+                
+                <!-- 统计数据 -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 max-w-2xl">
+                    <div class="glass rounded-xl p-4">
+                        <div class="text-3xl font-bold text-accent">5</div>
+                        <div class="text-gray-400 text-sm">课程</div>
+                    </div>
+                    <div class="glass rounded-xl p-4">
+                        <div class="text-3xl font-bold text-accent2">6</div>
+                        <div class="text-gray-400 text-sm">章节/课程</div>
+                    </div>
+                    <div class="glass rounded-xl p-4">
+                        <div class="text-3xl font-bold text-accent3">5</div>
+                        <div class="text-gray-400 text-sm">技能</div>
+                    </div>
+                    <div class="glass rounded-xl p-4">
+                        <div class="text-3xl font-bold text-accent4">∞</div>
+                        <div class="text-gray-400 text-sm">学习热情</div>
+                    </div>
+                </div>
+
                 <div class="flex flex-wrap justify-center gap-4 mb-16">
-                    <a href="#" class="bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/90 transition-colors duration-300 flex items-center">
-                        <i class="fa fa-github mr-2"></i>GitHub
+                    <a href="#" class="bg-accent text-white px-8 py-4 rounded-xl hover:bg-accent/90 transition-all duration-300 flex items-center shadow-lg hover:shadow-accent/25 hover:shadow-xl transform hover:-translate-y-1 btn-shine">
+                        <i class="fa fa-github mr-2 text-xl"></i>GitHub
                     </a>
-                    <a href="#" class="glass text-light px-6 py-3 rounded-lg hover:bg-white/10 transition-colors duration-300 flex items-center">
-                        <i class="fa fa-envelope mr-2"></i>联系我
+                    <a href="#" class="glass text-light px-8 py-4 rounded-xl hover:bg-white/10 transition-all duration-300 flex items-center border border-white/10 btn-shine">
+                        <i class="fa fa-envelope mr-2 text-xl"></i>联系我
                     </a>
                 </div>
                 <div class="btn-breath">
-                    <a href="#courses" class="bg-accent/20 border border-accent/50 text-accent px-8 py-4 rounded-full hover:bg-accent/30 transition-all duration-300 flex items-center shadow-none">
-                        <span class="mr-2">探索课程</span>
-                        <i class="fa fa-arrow-down"></i>
+                    <a href="#courses" class="bg-accent/20 border-2 border-accent/50 text-accent px-10 py-5 rounded-full hover:bg-accent/30 transition-all duration-300 flex items-center text-lg">
+                        <span class="mr-3">探索课程</span>
+                        <i class="fa fa-arrow-down animate-bounce"></i>
                     </a>
                 </div>
             </div>
@@ -145,69 +337,122 @@
     </section>
 
     <!-- 课程列表 -->
-    <section id="courses" class="py-20 relative">
+    <section id="courses" class="py-24 relative">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
-                <span class="text-gradient">我的课程</span>
-            </h2>
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">
+                    <span class="text-gradient">我的课程</span>
+                </h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">精心设计的课程内容，系统学习数据分析与应用</p>
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- 课程卡片 1 -->
-                <div class="glass rounded-xl p-6 card-hover border border-white/5">
-                    <div class="w-16 h-16 bg-accent/20 text-accent rounded-xl flex items-center justify-center mb-6 border border-accent/30">
-                        <i class="fa fa-code text-2xl"></i>
+                <div class="glass rounded-2xl p-8 card-hover border border-white/5 reveal">
+                    <div class="w-20 h-20 bg-accent/20 text-accent rounded-2xl flex items-center justify-center mb-6 border-2 border-accent/30">
+                        <i class="fa fa-code text-3xl"></i>
                     </div>
                     <h3 class="text-2xl font-semibold mb-3">Python基础</h3>
-                    <p class="text-gray-400 mb-6">学习Python编程语言的基础知识和应用技巧，掌握编程思维和基础语法。</p>
-                    <a href="courses/python-basic.html" class="text-accent hover:text-accent/80 transition-colors duration-300 flex items-center">
-                        查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                    <p class="text-gray-400 mb-4 leading-relaxed">学习Python编程语言的基础知识和应用技巧，掌握编程思维和基础语法。</p>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">学习进度</span>
+                            <span class="text-accent font-medium">85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill bg-gradient-to-r from-accent to-accent2" style="width: 0%;" data-progress="85"></div>
+                        </div>
+                    </div>
+                    <a href="courses/python-basic.html" class="text-accent hover:text-accent/80 transition-colors duration-300 flex items-center font-medium">
+                        <span>查看详情</span>
+                        <i class="fa fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
                     </a>
                 </div>
                 
                 <!-- 课程卡片 2 -->
-                <div class="glass rounded-xl p-6 card-hover border border-white/5">
-                    <div class="w-16 h-16 bg-green-500/20 text-green-400 rounded-xl flex items-center justify-center mb-6 border border-green-400/30">
-                        <i class="fa fa-bar-chart text-2xl"></i>
+                <div class="glass rounded-2xl p-8 card-hover border border-white/5 reveal" style="transition-delay: 0.1s;">
+                    <div class="w-20 h-20 bg-green-500/20 text-green-400 rounded-2xl flex items-center justify-center mb-6 border-2 border-green-400/30">
+                        <i class="fa fa-bar-chart text-3xl"></i>
                     </div>
                     <h3 class="text-2xl font-semibold mb-3">数据分析技术</h3>
-                    <p class="text-gray-400 mb-6">掌握数据分析的基本方法和工具，学习如何从数据中提取有价值的信息。</p>
-                    <a href="courses/data-analysis.html" class="text-accent hover:text-accent/80 transition-colors duration-300 flex items-center">
-                        查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                    <p class="text-gray-400 mb-4 leading-relaxed">掌握数据分析的基本方法和工具，学习如何从数据中提取有价值的信息。</p>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">学习进度</span>
+                            <span class="text-green-400 font-medium">72%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill bg-gradient-to-r from-green-500 to-green-300" style="width: 0%;" data-progress="72"></div>
+                        </div>
+                    </div>
+                    <a href="courses/data-analysis.html" class="text-accent hover:text-accent/80 transition-colors duration-300 flex items-center font-medium">
+                        <span>查看详情</span>
+                        <i class="fa fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
                     </a>
                 </div>
                 
                 <!-- 课程卡片 3 -->
-                <div class="glass rounded-xl p-6 card-hover border border-white/5">
-                    <div class="w-16 h-16 bg-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center mb-6 border border-purple-400/30">
-                        <i class="fa fa-database text-2xl"></i>
+                <div class="glass rounded-2xl p-8 card-hover border border-white/5 reveal" style="transition-delay: 0.2s;">
+                    <div class="w-20 h-20 bg-purple-500/20 text-purple-400 rounded-2xl flex items-center justify-center mb-6 border-2 border-purple-400/30">
+                        <i class="fa fa-database text-3xl"></i>
                     </div>
                     <h3 class="text-2xl font-semibold mb-3">数据采集与处理</h3>
-                    <p class="text-gray-400 mb-6">学习数据采集的方法和数据预处理技术，为数据分析做好准备。</p>
-                    <a href="courses/data-collection.html" class="text-accent hover:text-accent/80 transition-colors duration-300 flex items-center">
-                        查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                    <p class="text-gray-400 mb-4 leading-relaxed">学习数据采集的方法和数据预处理技术，为数据分析做好准备。</p>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">学习进度</span>
+                            <span class="text-purple-400 font-medium">60%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill bg-gradient-to-r from-purple-500 to-purple-300" style="width: 0%;" data-progress="60"></div>
+                        </div>
+                    </div>
+                    <a href="courses/data-collection.html" class="text-accent hover:text-accent/80 transition-colors duration-300 flex items-center font-medium">
+                        <span>查看详情</span>
+                        <i class="fa fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
                     </a>
                 </div>
                 
                 <!-- 课程卡片 4 -->
-                <div class="glass rounded-xl p-6 card-hover border border-white/5">
-                    <div class="w-16 h-16 bg-yellow-500/20 text-yellow-400 rounded-xl flex items-center justify-center mb-6 border border-yellow-400/30">
-                        <i class="fa fa-truck text-2xl"></i>
+                <div class="glass rounded-2xl p-8 card-hover border border-white/5 reveal" style="transition-delay: 0.3s;">
+                    <div class="w-20 h-20 bg-yellow-500/20 text-yellow-400 rounded-2xl flex items-center justify-center mb-6 border-2 border-yellow-400/30">
+                        <i class="fa fa-truck text-3xl"></i>
                     </div>
                     <h3 class="text-2xl font-semibold mb-3">供应链数据分析</h3>
-                    <p class="text-gray-400 mb-6">分析供应链数据，优化供应链管理，提高企业运营效率。</p>
-                    <a href="courses/supply-chain.html" class="text-accent hover:text-accent/80 transition-colors duration-300 flex items-center">
-                        查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                    <p class="text-gray-400 mb-4 leading-relaxed">分析供应链数据，优化供应链管理，提高企业运营效率。</p>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">学习进度</span>
+                            <span class="text-yellow-400 font-medium">45%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill bg-gradient-to-r from-yellow-500 to-yellow-300" style="width: 0%;" data-progress="45"></div>
+                        </div>
+                    </div>
+                    <a href="courses/supply-chain.html" class="text-accent hover:text-accent/80 transition-colors duration-300 flex items-center font-medium">
+                        <span>查看详情</span>
+                        <i class="fa fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
                     </a>
                 </div>
                 
                 <!-- 课程卡片 5 -->
-                <div class="glass rounded-xl p-6 card-hover border border-white/5">
-                    <div class="w-16 h-16 bg-red-500/20 text-red-400 rounded-xl flex items-center justify-center mb-6 border border-red-400/30">
-                        <i class="fa fa-table text-2xl"></i>
+                <div class="glass rounded-2xl p-8 card-hover border border-white/5 reveal" style="transition-delay: 0.4s;">
+                    <div class="w-20 h-20 bg-red-500/20 text-red-400 rounded-2xl flex items-center justify-center mb-6 border-2 border-red-400/30">
+                        <i class="fa fa-table text-3xl"></i>
                     </div>
                     <h3 class="text-2xl font-semibold mb-3">数据库原理与应用</h3>
-                    <p class="text-gray-400 mb-6">学习数据库的基本原理和应用开发，掌握数据存储和管理技术。</p>
-                    <a href="courses/database.html" class="text-accent hover:text-accent/80 transition-colors duration-300 flex items-center">
-                        查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                    <p class="text-gray-400 mb-4 leading-relaxed">学习数据库的基本原理和应用开发，掌握数据存储和管理技术。</p>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">学习进度</span>
+                            <span class="text-red-400 font-medium">55%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill bg-gradient-to-r from-red-500 to-red-300" style="width: 0%;" data-progress="55"></div>
+                        </div>
+                    </div>
+                    <a href="courses/database.html" class="text-accent hover:text-accent/80 transition-colors duration-300 flex items-center font-medium">
+                        <span>查看详情</span>
+                        <i class="fa fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
                     </a>
                 </div>
             </div>
@@ -215,29 +460,37 @@
     </section>
 
     <!-- 关于我 -->
-    <section id="about" class="py-20 relative">
+    <section id="about" class="py-24 relative">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
-                <span class="text-gradient">关于我</span>
-            </h2>
-            <div class="glass rounded-2xl p-8 md:p-12 max-w-3xl mx-auto border border-white/5">
-                <p class="text-gray-300 mb-6 text-lg">
-                    我是hal，广东科学技术职业学院商学院商务数据分析与应用专业的学生。
-                    我对数据分析和编程有着浓厚的兴趣，希望通过学习和实践，掌握更多专业技能，
-                    成为一名优秀的数据分析师。
-                </p>
-                <p class="text-gray-400 mb-8 text-lg">
-                    本页面展示了我学习的主要课程，后续我会不断补充各个课程的详细内容，
-                    记录我的学习过程和成果，与大家分享我的学习心得。
-                </p>
-                <div class="mt-10">
-                    <h3 class="text-xl font-semibold mb-6 text-gray-200">技能</h3>
-                    <div class="flex flex-wrap gap-3">
-                        <span class="bg-accent/20 text-accent px-4 py-2 rounded-full text-sm border border-accent/30">Python</span>
-                        <span class="bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm border border-green-400/30">数据分析</span>
-                        <span class="bg-purple-500/20 text-purple-400 px-4 py-2 rounded-full text-sm border border-purple-400/30">SQL</span>
-                        <span class="bg-yellow-500/20 text-yellow-400 px-4 py-2 rounded-full text-sm border border-yellow-400/30">Excel</span>
-                        <span class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm border border-red-400/30">数据可视化</span>
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">
+                    <span class="text-gradient">关于我</span>
+                </h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">热爱学习，追求卓越，在数据分析的道路上不断前行</p>
+            </div>
+            <div class="glass rounded-3xl p-10 md:p-16 max-w-4xl mx-auto border border-white/5 reveal">
+                <div class="prose prose-invert max-w-none">
+                    <p class="text-gray-300 mb-8 text-xl leading-relaxed">
+                        我是hal，广东科学技术职业学院商学院商务数据分析与应用专业的学生。
+                        我对数据分析和编程有着浓厚的兴趣，希望通过学习和实践，掌握更多专业技能，
+                        成为一名优秀的数据分析师。
+                    </p>
+                    <p class="text-gray-400 mb-12 text-xl leading-relaxed">
+                        本页面展示了我学习的主要课程，后续我会不断补充各个课程的详细内容，
+                        记录我的学习过程和成果，与大家分享我的学习心得。
+                    </p>
+                    <div class="mt-10">
+                        <h3 class="text-2xl font-semibold mb-8 text-gray-200 flex items-center justify-center">
+                            <i class="fa fa-star text-accent mr-3"></i>
+                            技能标签
+                        </h3>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <span class="bg-accent/20 text-accent px-6 py-3 rounded-full text-lg border-2 border-accent/30 skill-pulse">Python</span>
+                            <span class="bg-green-500/20 text-green-400 px-6 py-3 rounded-full text-lg border-2 border-green-400/30 skill-pulse" style="animation-delay: 0.2s;">数据分析</span>
+                            <span class="bg-purple-500/20 text-purple-400 px-6 py-3 rounded-full text-lg border-2 border-purple-400/30 skill-pulse" style="animation-delay: 0.4s;">SQL</span>
+                            <span class="bg-yellow-500/20 text-yellow-400 px-6 py-3 rounded-full text-lg border-2 border-yellow-400/30 skill-pulse" style="animation-delay: 0.6s;">Excel</span>
+                            <span class="bg-red-500/20 text-red-400 px-6 py-3 rounded-full text-lg border-2 border-red-400/30 skill-pulse" style="animation-delay: 0.8s;">数据可视化</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -245,21 +498,22 @@
     </section>
 
     <!-- 页脚 -->
-    <footer class="glass-dark py-12">
+    <footer class="glass-dark py-16">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
-                    <p class="text-gray-400">© 2026 hal的个人学习页面</p>
+                <div class="mb-8 md:mb-0">
+                    <p class="text-gray-400 text-lg">© 2026 hal的学习空间</p>
+                    <p class="text-gray-500 text-sm mt-2">用代码构建未来，用数据创造价值</p>
                 </div>
                 <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-accent transition-colors duration-300">
-                        <i class="fa fa-github text-2xl"></i>
+                    <a href="#" class="text-gray-400 hover:text-accent transition-all duration-300 transform hover:-translate-y-1">
+                        <i class="fa fa-github text-3xl"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-accent transition-colors duration-300">
-                        <i class="fa fa-weixin text-2xl"></i>
+                    <a href="#" class="text-gray-400 hover:text-green-400 transition-all duration-300 transform hover:-translate-y-1">
+                        <i class="fa fa-weixin text-3xl"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-accent transition-colors duration-300">
-                        <i class="fa fa-qq text-2xl"></i>
+                    <a href="#" class="text-gray-400 hover:text-accent transition-all duration-300 transform hover:-translate-y-1">
+                        <i class="fa fa-qq text-3xl"></i>
                     </a>
                 </div>
             </div>
@@ -267,6 +521,99 @@
     </footer>
 
     <script>
+        // 粒子背景
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 80;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 4 + 1;
+                const colors = ['#3B82F6', '#10B981', '#A855F7', '#F59E0B', '#EF4444'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = color;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                particle.style.animation = `float ${Math.random() * 10 + 10}s ease-in-out infinite`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        createParticles();
+        
+        // 星星背景
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        createStars();
+        
+        // 打字机效果
+        function typeWriter() {
+            const texts = [
+                '广东科学技术职业学院',
+                '热爱数据分析',
+                '追求编程梦想',
+                '用数据创造价值'
+            ];
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const typingText = document.getElementById('typingText');
+            
+            function type() {
+                const currentText = texts[textIndex];
+                
+                if (isDeleting) {
+                    typingText.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typingText.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                
+                let typeSpeed = isDeleting ? 50 : 100;
+                
+                if (!isDeleting && charIndex === currentText.length) {
+                    typeSpeed = 2000;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    typeSpeed = 500;
+                }
+                
+                setTimeout(type, typeSpeed);
+            }
+            
+            type();
+        }
+        
+        typeWriter();
+        
         // 平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -285,21 +632,95 @@
         window.addEventListener('scroll', function() {
             const nav = document.querySelector('nav');
             if (window.scrollY > 100) {
-                nav.classList.add('bg-opacity-95');
-                nav.classList.add('shadow-xl');
+                nav.classList.add('bg-opacity-98');
+                nav.classList.add('shadow-2xl');
             } else {
-                nav.classList.remove('bg-opacity-95');
-                nav.classList.remove('shadow-xl');
+                nav.classList.remove('bg-opacity-98');
+                nav.classList.remove('shadow-2xl');
             }
         });
 
-        // 课程卡片点击事件
-        document.querySelectorAll('.card-hover').forEach(card => {
-            card.addEventListener('click', function(e) {
-                if (!e.target.closest('a')) {
-                    const courseName = this.querySelector('h3').textContent;
-                    alert(`${courseName} 课程详情页面后续实现`);
+        // 滚动显示动画
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
                 }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // 初始检查
+
+        // 进度条动画
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            
+            progressBars.forEach(bar => {
+                const progress = bar.getAttribute('data-progress');
+                const barTop = bar.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (barTop < windowHeight - 100) {
+                    bar.style.width = `${progress}%`;
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateProgressBars);
+        setTimeout(animateProgressBars, 500);
+
+        // 滚动进度条
+        function updateScrollProgress() {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = `${progress}%`;
+        }
+
+        window.addEventListener('scroll', updateScrollProgress);
+
+        // 回到顶部按钮
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 光标跟随效果
+        const cursorFollower = document.getElementById('cursorFollower');
+        
+        document.addEventListener('mousemove', function(e) {
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        });
+
+        // 为交互元素添加光标效果
+        const interactiveElements = document.querySelectorAll('a, button, .card-hover');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', function() {
+                cursorFollower.classList.add('active');
+            });
+            el.addEventListener('mouseleave', function() {
+                cursorFollower.classList.remove('active');
             });
         });
 
