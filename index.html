@@ -322,7 +322,7 @@
                     <a href="#" class="bg-accent text-white px-8 py-4 rounded-xl hover:bg-accent/90 transition-all duration-300 flex items-center shadow-lg hover:shadow-accent/25 hover:shadow-xl transform hover:-translate-y-1 btn-shine">
                         <i class="fa fa-github mr-2 text-xl"></i>GitHub
                     </a>
-                    <a href="#" class="glass text-light px-8 py-4 rounded-xl hover:bg-white/10 transition-all duration-300 flex items-center border border-white/10 btn-shine">
+                    <a href="#" class="glass text-light px-8 py-4 rounded-xl hover:bg-white/10 transition-all duration-300 flex items-center border border-white/10 btn-shine" onclick="showEmailPopup()">
                         <i class="fa fa-envelope mr-2 text-xl"></i>联系我
                     </a>
                 </div>
@@ -728,6 +728,11 @@
         document.querySelector('.md\:hidden button').addEventListener('click', function() {
             alert('移动端菜单功能后续实现');
         });
+        
+        // 邮箱弹窗功能
+        function showEmailPopup() {
+            alert('我的邮箱：15875659538@163.com\n\n您可以通过此邮箱与我联系，欢迎交流学习心得！');
+        }
     </script>
 </body>
 </html>
