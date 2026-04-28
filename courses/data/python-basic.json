@@ -1,0 +1,460 @@
+{
+  "course": {
+    "title": "Python基础",
+    "description": "学习Python编程语言的基础知识和应用技巧，掌握编程思维和基础语法。",
+    "totalChapters": 5
+  },
+  "chapters": [
+    {
+      "id": 1,
+      "title": "Python简介",
+      "duration": "15分钟",
+      "difficulty": "入门",
+      "completed": true,
+      "introduction": "本章将带您了解Python的基本概念和特点，学习如何安装和配置Python环境，并编写您的第一个Python程序。通过本章的学习，您将对Python有一个初步的认识。",
+      "sections": [
+        {
+          "title": "什么是Python？",
+          "content": "<p class=\"text-gray-300 mb-4\">Python是一种高级、解释型、通用的编程语言，由Guido van Rossum于1991年创建。Python的设计哲学强调代码的可读性，使用显著的缩进。</p>"
+        },
+        {
+          "title": "Python的特点",
+          "content": "<p class=\"text-gray-300 mb-4\">Python具有简单易学、代码可读性高、强大的标准库、丰富的第三方库、跨平台等特点，适合多种应用场景。</p>"
+        },
+        {
+          "title": "Python的应用领域",
+          "content": "<p class=\"text-gray-300 mb-4\">Python广泛应用于Web开发、数据分析、人工智能、科学计算、自动化脚本等领域。</p>"
+        }
+      ],
+      "summary": [
+        {
+          "point": "print函数",
+          "description": "用于输出内容到屏幕"
+        },
+        {
+          "point": "字符串",
+          "description": "用引号包裹的文本"
+        },
+        {
+          "point": "运行方式",
+          "description": "交互式、脚本文件、在线环境"
+        }
+      ],
+      "exercises": [
+        {
+          "id": 1,
+          "title": "Hello World",
+          "description": "编写第一个Python程序"
+        },
+        {
+          "id": 2,
+          "title": "多行输出",
+          "description": "使用print函数输出多行文本"
+        },
+        {
+          "id": 3,
+          "title": "字符串拼接",
+          "description": "学习字符串的拼接方法"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "变量和数据类型",
+      "duration": "30分钟",
+      "difficulty": "入门",
+      "completed": false,
+      "introduction": "本章将学习Python的变量和数据类型，这是编程的基础。变量是存储数据的容器，不同的数据类型有不同的特性和用途。",
+      "sections": [
+        {
+          "title": "变量的定义",
+          "content": "<p class=\"text-gray-300 mb-4\">变量是存储数据的容器，在Python中，变量不需要声明类型，可以直接赋值。</p>"
+        },
+        {
+          "title": "数据类型",
+          "content": "<p class=\"text-gray-300 mb-4\">Python的基本数据类型包括整数(int)、浮点数(float)、字符串(str)、布尔值(bool)等。</p>"
+        },
+        {
+          "title": "类型转换",
+          "content": "<p class=\"text-gray-300 mb-4\">Python提供了类型转换函数，如int()、float()、str()等，可以在不同数据类型之间进行转换。</p>"
+        }
+      ],
+      "summary": [
+        {
+          "point": "变量",
+          "description": "存储数据的容器"
+        },
+        {
+          "point": "数据类型",
+          "description": "int、float、str、bool"
+        },
+        {
+          "point": "类型转换",
+          "description": "int()、float()、str()"
+        }
+      ],
+      "exercises": [
+        {
+          "id": 1,
+          "title": "定义变量",
+          "description": "定义三个变量分别存储你的姓名、年龄和身高"
+        },
+        {
+          "id": 2,
+          "title": "交换变量",
+          "description": "交换两个变量的值"
+        },
+        {
+          "id": 3,
+          "title": "类型转换",
+          "description": "将字符串\"123\"转换为整数并加1"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "运算符",
+      "duration": "25分钟",
+      "difficulty": "入门",
+      "completed": false,
+      "introduction": "本章将学习Python的各种运算符，包括算术运算符、比较运算符、逻辑运算符等，这些是进行数据处理的基础工具。",
+      "sections": [
+        {
+          "title": "算术运算符",
+          "content": "<p class=\"text-gray-300 mb-4\">Python支持常见的算术运算，包括加、减、乘、除、取模、幂运算等。</p>"
+        },
+        {
+          "title": "比较运算符",
+          "content": "<p class=\"text-gray-300 mb-4\">比较运算符用于比较两个值的大小，返回布尔值。包括等于(==)、不等于(!=)、大于(>)、小于(<)、大于等于(>=)、小于等于(<=)。</p>"
+        },
+        {
+          "title": "逻辑运算符",
+          "content": "<p class=\"text-gray-300 mb-4\">逻辑运算符用于组合多个条件，包括and(与)、or(或)、not(非)。</p>"
+        }
+      ],
+      "summary": [
+        {
+          "point": "算术运算符",
+          "description": "+、-、*、/、%、**"
+        },
+        {
+          "point": "比较运算符",
+          "description": "==、!=、<、>、<=、>="
+        },
+        {
+          "point": "逻辑运算符",
+          "description": "and、or、not"
+        }
+      ],
+      "exercises": [
+        {
+          "id": 1,
+          "title": "简单计算",
+          "description": "计算圆的面积（半径=5）"
+        },
+        {
+          "id": 2,
+          "title": "温度转换",
+          "description": "将华氏温度转换为摄氏温度"
+        },
+        {
+          "id": 3,
+          "title": "BMI计算",
+          "description": "计算BMI指数"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "控制流",
+      "duration": "35分钟",
+      "difficulty": "入门",
+      "completed": false,
+      "introduction": "本章将学习Python的控制流语句，包括条件语句if-elif-else和循环语句for、while，这些让程序能够做出判断和重复执行。",
+      "sections": [
+        {
+          "title": "条件语句",
+          "content": "<p class=\"text-gray-300 mb-4\">条件语句让程序根据不同的情况执行不同的代码。</p>"
+        },
+        {
+          "title": "for循环",
+          "content": "<p class=\"text-gray-300 mb-4\">for循环用于遍历序列中的元素，如列表、元组、字符串等。</p>"
+        },
+        {
+          "title": "while循环",
+          "content": "<p class=\"text-gray-300 mb-4\">while循环用于在条件满足时重复执行代码块。</p>"
+        }
+      ],
+      "summary": [
+        {
+          "point": "if语句",
+          "description": "条件判断"
+        },
+        {
+          "point": "for循环",
+          "description": "遍历序列"
+        },
+        {
+          "point": "while循环",
+          "description": "条件循环"
+        }
+      ],
+      "exercises": [
+        {
+          "id": 1,
+          "title": "判断奇偶",
+          "description": "判断一个数是奇数还是偶数"
+        },
+        {
+          "id": 2,
+          "title": "求和",
+          "description": "计算1到100的和"
+        },
+        {
+          "id": 3,
+          "title": "九九乘法表",
+          "description": "打印九九乘法表"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "函数",
+      "duration": "40分钟",
+      "difficulty": "入门",
+      "completed": false,
+      "introduction": "本章将学习Python的函数概念，包括如何定义函数、参数传递、返回值等。函数是组织代码的重要方式。",
+      "sections": [
+        {
+          "title": "函数的定义",
+          "content": "<p class=\"text-gray-300 mb-4\">函数是一段可重复使用的代码块，可以接受输入参数并返回输出结果。</p>"
+        },
+        {
+          "title": "参数传递",
+          "content": "<p class=\"text-gray-300 mb-4\">函数可以接受多个参数，包括位置参数、默认参数、可变参数等。</p>"
+        },
+        {
+          "title": "返回值",
+          "content": "<p class=\"text-gray-300 mb-4\">函数可以使用return语句返回一个值，返回到调用函数的地方。</p>"
+        }
+      ],
+      "summary": [
+        {
+          "point": "函数定义",
+          "description": "def关键字"
+        },
+        {
+          "point": "参数",
+          "description": "位置参数、默认参数"
+        },
+        {
+          "point": "返回值",
+          "description": "return语句"
+        }
+      ],
+      "exercises": [
+        {
+          "id": 1,
+          "title": "定义函数",
+          "description": "定义一个计算两个数和的函数"
+        },
+        {
+          "id": 2,
+          "title": "阶乘函数",
+          "description": "计算n的阶乘"
+        },
+        {
+          "id": 3,
+          "title": "斐波那契",
+          "description": "生成斐波那契数列"
+        }
+      ]
+    }
+  ],
+  "problems": {
+    "1": [
+      {
+        "id": 1,
+        "title": "Hello World",
+        "description": "请编写一个程序，输出\"Hello, World!\"。",
+        "input": "无",
+        "output": "Hello, World!",
+        "type": "code",
+        "starterCode": "# 在这里编写代码\n",
+        "solution": "print(\"Hello, World!\")"
+      },
+      {
+        "id": 2,
+        "title": "欢迎语",
+        "description": "请输出\"Welcome to Python Programming!\"",
+        "input": "无",
+        "output": "Welcome to Python Programming!",
+        "type": "code",
+        "starterCode": "# 在这里编写代码\n",
+        "solution": "print(\"Welcome to Python Programming!\")"
+      },
+      {
+        "id": 3,
+        "title": "Python的特点",
+        "description": "Python的设计哲学强调什么？",
+        "input": "无",
+        "output": "代码的可读性",
+        "type": "multiple-choice",
+        "options": [
+          "代码的执行速度",
+          "代码的可读性",
+          "代码的复杂度",
+          "代码的长度"
+        ],
+        "correctAnswer": 1
+      }
+    ],
+    "2": [
+      {
+        "id": 1,
+        "title": "定义变量",
+        "description": "定义三个变量name、age、city，分别赋值，然后用print输出介绍。",
+        "input": "无",
+        "output": "我叫张三，今年25岁，来自北京。",
+        "type": "code",
+        "starterCode": "# 在这里编写代码\nname = \"张三\"\nage = 25\ncity = \"北京\"\n",
+        "solution": "name = \"张三\"\nage = 25\ncity = \"北京\"\nprint(\"我叫\" + name + \"，今年\" + str(age) + \"岁，来自\" + city + \"。\")"
+      },
+      {
+        "id": 2,
+        "title": "数据类型",
+        "description": "Python中，以下哪个不是基本数据类型？",
+        "input": "无",
+        "output": "数组",
+        "type": "multiple-choice",
+        "options": [
+          "整数",
+          "浮点数",
+          "字符串",
+          "数组"
+        ],
+        "correctAnswer": 3
+      },
+      {
+        "id": 3,
+        "title": "类型转换",
+        "description": "将字符串\"123\"和\"456\"转换为整数，相加后输出结果。",
+        "input": "无",
+        "output": "579",
+        "type": "code",
+        "starterCode": "# 在这里编写代码\n",
+        "solution": "num1 = int(\"123\")\nnum2 = int(\"456\")\nprint(num1 + num2)"
+      }
+    ],
+    "3": [
+      {
+        "id": 1,
+        "title": "圆面积",
+        "description": "已知圆的半径r=5，计算并输出圆的面积（π取3.14）。",
+        "input": "无",
+        "output": "78.5",
+        "type": "code",
+        "starterCode": "# 在这里编写代码\nr = 5\npi = 3.14\n",
+        "solution": "r = 5\npi = 3.14\narea = pi * r * r\nprint(area)"
+      },
+      {
+        "id": 2,
+        "title": "运算符优先级",
+        "description": "Python中，以下运算符优先级最高的是？",
+        "input": "无",
+        "output": "幂运算",
+        "type": "multiple-choice",
+        "options": [
+          "加法",
+          "乘法",
+          "幂运算",
+          "比较运算"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "id": 3,
+        "title": "逻辑运算",
+        "description": "以下表达式的结果是什么？ 3 > 2 and 4 < 5",
+        "input": "无",
+        "output": "True",
+        "type": "true-false",
+        "correctAnswer": true
+      }
+    ],
+    "4": [
+      {
+        "id": 1,
+        "title": "判断奇偶",
+        "description": "判断数字123是奇数还是偶数，输出相应提示。",
+        "input": "无",
+        "output": "123是奇数",
+        "type": "code",
+        "starterCode": "# 在这里编写代码\nnum = 123\n",
+        "solution": "num = 123\nif num % 2 == 0:\n    print(str(num) + \"是偶数\")\nelse:\n    print(str(num) + \"是奇数\")"
+      },
+      {
+        "id": 2,
+        "title": "循环类型",
+        "description": "Python中，用于遍历序列的循环是？",
+        "input": "无",
+        "output": "for循环",
+        "type": "multiple-choice",
+        "options": [
+          "if循环",
+          "for循环",
+          "while循环",
+          "do-while循环"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "id": 3,
+        "title": "求和",
+        "description": "使用循环计算1到100的和。",
+        "input": "无",
+        "output": "5050",
+        "type": "code",
+        "starterCode": "# 在这里编写代码\n",
+        "solution": "total = 0\nfor i in range(1, 101):\n    total += i\nprint(total)"
+      }
+    ],
+    "5": [
+      {
+        "id": 1,
+        "title": "加法函数",
+        "description": "定义一个函数add(a, b)，返回两数之和，然后调用并输出结果。",
+        "input": "无",
+        "output": "15",
+        "type": "code",
+        "starterCode": "# 在这里编写代码\n",
+        "solution": "def add(a, b):\n    return a + b\n\nresult = add(7, 8)\nprint(result)"
+      },
+      {
+        "id": 2,
+        "title": "函数定义",
+        "description": "Python中，定义函数使用的关键字是？",
+        "input": "无",
+        "output": "def",
+        "type": "multiple-choice",
+        "options": [
+          "function",
+          "def",
+          "func",
+          "define"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "id": 3,
+        "title": "阶乘函数",
+        "description": "定义一个函数factorial(n)，计算并返回n的阶乘。",
+        "input": "无",
+        "output": "120",
+        "type": "code",
+        "starterCode": "# 在这里编写代码\n",
+        "solution": "def factorial(n):\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * factorial(n-1)\n\nresult = factorial(5)\nprint(result)"
+      }
+    ]
+  }
+}

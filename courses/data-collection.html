@@ -23,43 +23,7 @@
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .glass {
-                background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            .glass-dark {
-                background: rgba(15, 23, 42, 0.8);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.05);
-            }
-            .bg-tech {
-                background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                            radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                            #0F172A;
-            }
-            .text-gradient {
-                background: linear-gradient(90deg, #3B82F6, #10B981);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            .card-hover {
-                transition: all 0.3s ease;
-            }
-            .card-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="bg-tech min-h-screen text-light overflow-x-hidden">
     <!-- 导航栏 -->
@@ -75,12 +39,33 @@
                 <a href="../index.html#about" class="text-light hover:text-accent transition-colors duration-300">关于我</a>
             </div>
             <div class="md:hidden">
-                <button class="text-light hover:text-accent transition-colors duration-300">
+                <button id="mobile-menu-button" class="text-light hover:text-accent transition-colors duration-300">
                     <i class="fa fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden glass-dark border-t border-white/10">
+            <div class="container mx-auto px-4 py-4 space-y-4">
+                <a href="../index.html" class="block text-light hover:text-accent transition-colors duration-300 py-2">首页</a>
+                <a href="../index.html#courses" class="block text-light hover:text-accent transition-colors duration-300 py-2">课程</a>
+                <a href="../index.html#about" class="block text-light hover:text-accent transition-colors duration-300 py-2">关于我</a>
+            </div>
+        </div>
     </nav>
+
+    <!-- 面包屑导航 -->
+    <div class="hidden md:block pt-24 pb-8 px-4">
+        <div class="container mx-auto">
+            <div class="flex items-center space-x-2 text-sm text-gray-400">
+                <a href="../index.html" class="hover:text-accent transition-colors duration-300">首页</a>
+                <i class="fa fa-angle-right"></i>
+                <a href="../index.html#courses" class="hover:text-accent transition-colors duration-300">课程</a>
+                <i class="fa fa-angle-right"></i>
+                <span class="text-light">数据采集与处理</span>
+            </div>
+        </div>
+    </div>
 
     <!-- 课程头部 -->
     <section class="pt-32 pb-20 relative">
@@ -142,78 +127,442 @@
                     
                     <!-- 第1章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第1章 数据采集概述</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(1)">
+                            <h4 class="text-xl font-semibold mb-3">第1章 数据采集概述</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-1"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>1.1 数据采集的概念和重要性</li>
                             <li>1.2 数据采集的方法和技术</li>
                             <li>1.3 数据采集的伦理和法律问题</li>
                             <li>1.4 数据采集的工具和平台</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-1">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.1 数据采集的概念和重要性</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>数据采集的定义：</strong>从各种来源获取结构化或非结构化数据的过程</p>
+                                    <p><strong>数据采集的重要性：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>数据分析的基础</li>
+                                        <li>决定数据质量的关键环节</li>
+                                        <li>获取信息的第一步</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.2 数据采集的方法和技术</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>常见的数据采集方法：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>网络爬虫</li>
+                                        <li>API接口</li>
+                                        <li>数据库查询</li>
+                                        <li>问卷调查</li>
+                                        <li>日志收集</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.3 数据采集的伦理和法律问题</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>遵守robots.txt协议</li>
+                                        <li>注意数据隐私和安全</li>
+                                        <li>尊重版权和知识产权</li>
+                                        <li>合理控制采集频率</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.4 数据采集的工具和平台</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>Python：Requests、BeautifulSoup、Scrapy</li>
+                                        <li>Octoparse、八爪鱼采集器</li>
+                                        <li>Postman：API测试工具</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第2章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第2章 网络爬虫基础</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(2)">
+                            <h4 class="text-xl font-semibold mb-3">第2章 网络爬虫基础</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-2"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>2.1 HTTP协议基础</li>
                             <li>2.2 网页结构分析</li>
                             <li>2.3 爬虫的工作原理</li>
                             <li>2.4 爬虫的开发流程</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-2">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.1 HTTP协议基础</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>HTTP请求方法：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>GET：获取资源</li>
+                                        <li>POST：提交数据</li>
+                                        <li>PUT：更新资源</li>
+                                        <li>DELETE：删除资源</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.2 网页结构分析</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>HTML结构：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>&lt;!DOCTYPE html&gt;</code><br>
+                                        <code>&lt;html&gt;</code><br>
+                                        <code>  &lt;head&gt;</code><br>
+                                        <code>    &lt;title&gt;网页标题&lt;/title&gt;</code><br>
+                                        <code>  &lt;/head&gt;</code><br>
+                                        <code>  &lt;body&gt;</code><br>
+                                        <code>    &lt;div class="content"&gt;内容&lt;/div&gt;</code><br>
+                                        <code>  &lt;/body&gt;</code><br>
+                                        <code>&lt;/html&gt;</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.3 爬虫的工作原理</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <ol class="list-decimal list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>发送HTTP请求</li>
+                                        <li>获取网页内容</li>
+                                        <li>解析HTML</li>
+                                        <li>提取数据</li>
+                                        <li>保存数据</li>
+                                    </ol>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.4 爬虫的开发流程</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <ol class="list-decimal list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>需求分析</li>
+                                        <li>目标网站分析</li>
+                                        <li>选择技术方案</li>
+                                        <li>开发和测试</li>
+                                        <li>部署和维护</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第3章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第3章 Python爬虫开发</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(3)">
+                            <h4 class="text-xl font-semibold mb-3">第3章 Python爬虫开发</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-3"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>3.1 Requests库的使用</li>
                             <li>3.2 BeautifulSoup库的使用</li>
                             <li>3.3 Scrapy框架的使用</li>
                             <li>3.4 动态网页数据采集</li>
                             <li>3.5 爬虫反爬策略</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-3">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.1 Requests库的使用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import requests</code><br>
+                                        <code></code><br>
+                                        <code># 发送GET请求</code><br>
+                                        <code>url = 'https://example.com'</code><br>
+                                        <code>response = requests.get(url)</code><br>
+                                        <code>print(response.status_code)</code><br>
+                                        <code>print(response.text)</code><br>
+                                        <code></code><br>
+                                        <code># 发送POST请求</code><br>
+                                        <code>data = {'key': 'value'}</code><br>
+                                        <code>response = requests.post(url, data=data)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.2 BeautifulSoup库的使用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>from bs4 import BeautifulSoup</code><br>
+                                        <code></code><br>
+                                        <code>html = requests.get(url).text</code><br>
+                                        <code>soup = BeautifulSoup(html, 'html.parser')</code><br>
+                                        <code></code><br>
+                                        <code># 按标签查找</code><br>
+                                        <code>titles = soup.find_all('h1')</code><br>
+                                        <code></code><br>
+                                        <code># 按class查找</code><br>
+                                        <code>items = soup.find_all(class_='product-item')</code><br>
+                                        <code></code><br>
+                                        <code># 按ID查找</code><br>
+                                        <code>content = soup.find(id='main-content')</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.3 Scrapy框架的使用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 创建Scrapy项目</code><br>
+                                        <code># scrapy startproject myproject</code><br>
+                                        <code></code><br>
+                                        <code># 创建爬虫</code><br>
+                                        <code># scrapy genspider myspider example.com</code><br>
+                                        <code></code><br>
+                                        <code># 运行爬虫</code><br>
+                                        <code># scrapy crawl myspider</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.4 动态网页数据采集</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>from selenium import webdriver</code><br>
+                                        <code></code><br>
+                                        <code>driver = webdriver.Chrome()</code><br>
+                                        <code>driver.get('https://example.com')</code><br>
+                                        <code>content = driver.page_source</code><br>
+                                        <code>driver.quit()</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.5 爬虫反爬策略</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>设置User-Agent</li>
+                                        <li>设置请求延迟</li>
+                                        <li>使用代理IP</li>
+                                        <li>处理Cookie</li>
+                                        <li>验证码识别</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第4章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第4章 API数据获取</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(4)">
+                            <h4 class="text-xl font-semibold mb-3">第4章 API数据获取</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-4"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>4.1 API的基本概念</li>
                             <li>4.2 RESTful API的使用</li>
                             <li>4.3 API认证和授权</li>
                             <li>4.4 API数据格式（JSON、XML）</li>
                             <li>4.5 第三方API的调用</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-4">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.1 API的基本概念</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>什么是API：</strong>应用程序接口，是不同软件系统之间进行通信的桥梁</p>
+                                    <p><strong>常见API类型：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>Web API</li>
+                                        <li>RESTful API</li>
+                                        <li>GraphQL</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.2 RESTful API的使用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import requests</code><br>
+                                        <code></code><br>
+                                        <code># 调用GitHub API</code><br>
+                                        <code>url = 'https://api.github.com/users/octocat'</code><br>
+                                        <code>response = requests.get(url)</code><br>
+                                        <code>data = response.json()</code><br>
+                                        <code>print(data)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.3 API认证和授权</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 使用API密钥</code><br>
+                                        <code>headers = {'Authorization': 'Bearer YOUR_TOKEN'}</code><br>
+                                        <code>response = requests.get(url, headers=headers)</code><br>
+                                        <code></code><br>
+                                        <code># 使用查询参数</code><br>
+                                        <code>params = {'api_key': 'YOUR_KEY'}</code><br>
+                                        <code>response = requests.get(url, params=params)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.4 API数据格式</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import json</code><br>
+                                        <code></code><br>
+                                        <code># 解析JSON</code><br>
+                                        <code>json_str = '{"name": "张三", "age": 25}'</code><br>
+                                        <code>data = json.loads(json_str)</code><br>
+                                        <code></code><br>
+                                        <code># 生成JSON</code><br>
+                                        <code>json_str = json.dumps(data)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.5 第三方API的调用</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>常用API：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>天气API</li>
+                                        <li>地图API</li>
+                                        <li>社交平台API</li>
+                                        <li>金融数据API</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第5章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第5章 数据预处理</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(5)">
+                            <h4 class="text-xl font-semibold mb-3">第5章 数据预处理</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-5"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>5.1 数据预处理的重要性</li>
                             <li>5.2 数据清洗技术</li>
                             <li>5.3 数据集成方法</li>
                             <li>5.4 数据变换技术</li>
                             <li>5.5 数据规约方法</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-5">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.1 数据预处理的重要性</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>提高数据质量</li>
+                                        <li>便于后续分析</li>
+                                        <li>节省存储空间</li>
+                                        <li>提升分析效果</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.2 数据清洗技术</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import pandas as pd</code><br>
+                                        <code></code><br>
+                                        <code>df = pd.read_csv('data.csv')</code><br>
+                                        <code></code><br>
+                                        <code># 删除重复行</code><br>
+                                        <code>df = df.drop_duplicates()</code><br>
+                                        <code></code><br>
+                                        <code># 填充缺失值</code><br>
+                                        <code>df['value'] = df['value'].fillna(df['value'].mean())</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.3 数据集成方法</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 合并数据</code><br>
+                                        <code>merged = pd.concat([df1, df2], axis=0)</code><br>
+                                        <code></code><br>
+                                        <code># 按主键连接</code><br>
+                                        <code>joined = pd.merge(df1, df2, on='id')</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.4 数据变换技术</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 数据类型转换</code><br>
+                                        <code>df['date'] = pd.to_datetime(df['date'])</code><br>
+                                        <code></code><br>
+                                        <code># 数值标准化</code><br>
+                                        <code>from sklearn.preprocessing import StandardScaler</code><br>
+                                        <code>scaler = StandardScaler()</code><br>
+                                        <code>df_scaled = scaler.fit_transform(df[['value']])</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.5 数据规约方法</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code># 降采样</code><br>
+                                        <code>df_sampled = df.sample(frac=0.1)</code><br>
+                                        <code></code><br>
+                                        <code># 特征选择</code><br>
+                                        <code>df_selected = df[['col1', 'col2', 'col3']]</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第6章 -->
                     <div class="glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第6章 数据格式处理</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(6)">
+                            <h4 class="text-xl font-semibold mb-3">第6章 数据格式处理</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-6"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>6.1 CSV文件处理</li>
                             <li>6.2 Excel文件处理</li>
                             <li>6.3 JSON文件处理</li>
                             <li>6.4 XML文件处理</li>
                             <li>6.5 数据库操作</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-6">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.1 CSV文件处理</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import pandas as pd</code><br>
+                                        <code></code><br>
+                                        <code># 读取CSV</code><br>
+                                        <code>df = pd.read_csv('data.csv')</code><br>
+                                        <code></code><br>
+                                        <code># 写入CSV</code><br>
+                                        <code>df.to_csv('output.csv', index=False)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.2 Excel文件处理</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 读取Excel</code><br>
+                                        <code>df = pd.read_excel('data.xlsx', sheet_name='Sheet1')</code><br>
+                                        <code></code><br>
+                                        <code># 写入Excel</code><br>
+                                        <code>df.to_excel('output.xlsx', sheet_name='Data', index=False)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.3 JSON文件处理</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import json</code><br>
+                                        <code></code><br>
+                                        <code># 读取JSON文件</code><br>
+                                        <code>with open('data.json', 'r') as f:</code><br>
+                                        <code>    data = json.load(f)</code><br>
+                                        <code></code><br>
+                                        <code># 写入JSON文件</code><br>
+                                        <code>with open('output.json', 'w') as f:</code><br>
+                                        <code>    json.dump(data, f, indent=2)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.4 XML文件处理</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import xml.etree.ElementTree as ET</code><br>
+                                        <code></code><br>
+                                        <code># 解析XML</code><br>
+                                        <code>tree = ET.parse('data.xml')</code><br>
+                                        <code>root = tree.getroot()</code><br>
+                                        <code></code><br>
+                                        <code># 遍历元素</code><br>
+                                        <code>for child in root:</code><br>
+                                        <code>    print(child.tag, child.text)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.5 数据库操作</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code>import sqlite3</code><br>
+                                        <code></code><br>
+                                        <code># 连接数据库</code><br>
+                                        <code>conn = sqlite3.connect('database.db')</code><br>
+                                        <code></code><br>
+                                        <code># 查询数据</code><br>
+                                        <code>df = pd.read_sql('SELECT * FROM table', conn)</code><br>
+                                        <code></code><br>
+                                        <code># 关闭连接</code><br>
+                                        <code>conn.close()</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -348,37 +697,50 @@
         </div>
     </footer>
 
-    <script>
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+    <!-- 粒子背景 -->
+    <div id="particles-js" class="fixed inset-0 z-0"></div>
 
-        // 导航栏滚动效果
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('bg-opacity-95');
-                nav.classList.add('shadow-xl');
-            } else {
-                nav.classList.remove('bg-opacity-95');
-                nav.classList.remove('shadow-xl');
-            }
-        });
+    <!-- 星星背景 -->
+    <div class="fixed inset-0 z-0" id="stars"></div>
+    <div class="fixed inset-0 z-0" id="stars2"></div>
+    <div class="fixed inset-0 z-0" id="stars3"></div>
 
-        // 移动端菜单交互
-        document.querySelector('.md\:hidden button').addEventListener('click', function() {
-            alert('移动端菜单功能后续实现');
-        });
-    </script>
+    <!-- 光标跟随效果 -->
+    <div id="cursor-follower" class="cursor-follower"></div>
+
+    <!-- 回到顶部按钮 -->
+    <button id="back-to-top" class="back-to-top glass rounded-full p-3 shadow-lg">
+        <i class="fa fa-arrow-up text-accent"></i>
+    </button>
+
+    <!-- 滚动进度条 -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+
+    <!-- 邮箱弹窗 -->
+    <div id="email-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content glass rounded-2xl p-8 max-w-md w-full">
+            <div class="modal-header flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-accent">联系我</h3>
+                <button id="close-email-modal" class="text-gray-400 hover:text-light transition-colors duration-300">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-gray-300 mb-4">如果您有任何问题或建议，欢迎通过以下邮箱联系我：</p>
+                <div class="flex items-center bg-secondary rounded-lg p-3 mb-4">
+                    <input type="text" value="1537794404@qq.com" class="bg-transparent border-none text-light flex-grow focus:outline-none" readonly id="email-input">
+                    <button id="copy-email" class="text-accent hover:text-light transition-colors duration-300 ml-2">
+                        <i class="fa fa-copy"></i>
+                    </button>
+                </div>
+                <div id="copy-success" class="hidden text-green-400 text-sm mb-4">
+                    <i class="fa fa-check-circle"></i> 邮箱地址已复制到剪贴板
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script type="module" src="../js/main.js"></script>
 </body>
 </html>

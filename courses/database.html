@@ -23,43 +23,7 @@
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .glass {
-                background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            .glass-dark {
-                background: rgba(15, 23, 42, 0.8);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.05);
-            }
-            .bg-tech {
-                background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                            radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                            #0F172A;
-            }
-            .text-gradient {
-                background: linear-gradient(90deg, #3B82F6, #10B981);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            .card-hover {
-                transition: all 0.3s ease;
-            }
-            .card-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="bg-tech min-h-screen text-light overflow-x-hidden">
     <!-- 导航栏 -->
@@ -75,12 +39,33 @@
                 <a href="../index.html#about" class="text-light hover:text-accent transition-colors duration-300">关于我</a>
             </div>
             <div class="md:hidden">
-                <button class="text-light hover:text-accent transition-colors duration-300">
+                <button id="mobile-menu-button" class="text-light hover:text-accent transition-colors duration-300">
                     <i class="fa fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden glass-dark border-t border-white/10">
+            <div class="container mx-auto px-4 py-4 space-y-4">
+                <a href="../index.html" class="block text-light hover:text-accent transition-colors duration-300 py-2">首页</a>
+                <a href="../index.html#courses" class="block text-light hover:text-accent transition-colors duration-300 py-2">课程</a>
+                <a href="../index.html#about" class="block text-light hover:text-accent transition-colors duration-300 py-2">关于我</a>
+            </div>
+        </div>
     </nav>
+
+    <!-- 面包屑导航 -->
+    <div class="hidden md:block pt-24 pb-8 px-4">
+        <div class="container mx-auto">
+            <div class="flex items-center space-x-2 text-sm text-gray-400">
+                <a href="../index.html" class="hover:text-accent transition-colors duration-300">首页</a>
+                <i class="fa fa-angle-right"></i>
+                <a href="../index.html#courses" class="hover:text-accent transition-colors duration-300">课程</a>
+                <i class="fa fa-angle-right"></i>
+                <span class="text-light">数据库原理与应用</span>
+            </div>
+        </div>
+    </div>
 
     <!-- 课程头部 -->
     <section class="pt-32 pb-20 relative">
@@ -143,34 +128,156 @@
                     
                     <!-- 第1章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第1章 数据库系统概述</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(1)">
+                            <h4 class="text-xl font-semibold mb-3">第1章 数据库系统概述</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-1"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>1.1 数据库的基本概念</li>
                             <li>1.2 数据库系统的组成</li>
                             <li>1.3 数据库管理系统(DBMS)</li>
                             <li>1.4 数据库系统的发展历程</li>
                             <li>1.5 数据库系统的应用领域</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-1">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.1 数据库的基本概念</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>什么是数据库：</strong>长期存储在计算机内的、有组织的、可共享的数据集合</p>
+                                    <p><strong>数据库的特性：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>数据结构化</li>
+                                        <li>数据共享性</li>
+                                        <li>数据独立性</li>
+                                        <li>数据冗余可控</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.2 数据库系统的组成</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>数据库系统组成：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>数据库(DB)</li>
+                                        <li>数据库管理系统(DBMS)</li>
+                                        <li>应用程序</li>
+                                        <li>数据库管理员(DBA)</li>
+                                        <li>用户</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.3 数据库管理系统(DBMS)</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>DBMS的主要功能：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>数据定义功能</li>
+                                        <li>数据操纵功能</li>
+                                        <li>数据库运行管理</li>
+                                        <li>数据库建立与维护</li>
+                                    </ul>
+                                    <p><strong>常用DBMS：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>MySQL</li>
+                                        <li>PostgreSQL</li>
+                                        <li>Oracle</li>
+                                        <li>SQL Server</li>
+                                        <li>SQLite</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.4 数据库系统的发展历程</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>发展阶段：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>人工管理阶段</li>
+                                        <li>文件系统阶段</li>
+                                        <li>数据库系统阶段</li>
+                                        <li>高级数据库阶段</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.5 数据库系统的应用领域</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>企业管理</li>
+                                        <li>电子商务</li>
+                                        <li>金融服务</li>
+                                        <li>物流供应链</li>
+                                        <li>医疗健康</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第2章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第2章 关系数据库基础</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(2)">
+                            <h4 class="text-xl font-semibold mb-3">第2章 关系数据库基础</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-2"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>2.1 关系模型的基本概念</li>
                             <li>2.2 关系代数</li>
                             <li>2.3 关系演算</li>
                             <li>2.4 关系数据库的完整性约束</li>
                             <li>2.5 关系数据库的设计原则</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-2">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.1 关系模型的基本概念</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>关系模型的基本术语：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>关系（表）</li>
+                                        <li>元组（行）</li>
+                                        <li>属性（列）</li>
+                                        <li>域</li>
+                                        <li>码（键）</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.2 关系代数</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>传统集合运算：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>并</li>
+                                        <li>差</li>
+                                        <li>交</li>
+                                        <li>笛卡尔积</li>
+                                    </ul>
+                                    <p><strong>专门的关系运算：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>选择</li>
+                                        <li>投影</li>
+                                        <li>连接</li>
+                                        <li>除</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.4 关系数据库的完整性约束</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>完整性约束类型：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>实体完整性</li>
+                                        <li>参照完整性</li>
+                                        <li>用户定义完整性</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.5 关系数据库的设计原则</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>设计原则：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>原子性</li>
+                                        <li>完整性</li>
+                                        <li>一致性</li>
+                                        <li>规范化</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第3章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第3章 SQL语言</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(3)">
+                            <h4 class="text-xl font-semibold mb-3">第3章 SQL语言</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-3"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>3.1 SQL语言概述</li>
                             <li>3.2 数据定义语言(DDL)</li>
                             <li>3.3 数据操纵语言(DML)</li>
@@ -178,13 +285,110 @@
                             <li>3.5 数据控制语言(DCL)</li>
                             <li>3.6 高级SQL特性</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-3">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.1 SQL语言概述</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>SQL的特点：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>综合统一</li>
+                                        <li>高度非过程化</li>
+                                        <li>面向集合</li>
+                                        <li>两种使用方式</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.2 数据定义语言(DDL)</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>-- 创建数据库</code><br>
+                                        <code>CREATE DATABASE mydb;</code><br>
+                                        <code></code><br>
+                                        <code>-- 创建表</code><br>
+                                        <code>CREATE TABLE students (</code><br>
+                                        <code>    id INT PRIMARY KEY AUTO_INCREMENT,</code><br>
+                                        <code>    name VARCHAR(50) NOT NULL,</code><br>
+                                        <code>    age INT,</code><br>
+                                        <code>    gender CHAR(1),</code><br>
+                                        <code>    department VARCHAR(50)</code><br>
+                                        <code>);</code><br>
+                                        <code></code><br>
+                                        <code>-- 修改表</code><br>
+                                        <code>ALTER TABLE students ADD COLUMN email VARCHAR(100);</code><br>
+                                        <code></code><br>
+                                        <code>-- 删除表</code><br>
+                                        <code>DROP TABLE students;</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.3 数据操纵语言(DML)</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>-- 插入数据</code><br>
+                                        <code>INSERT INTO students (name, age, gender, department) </code><br>
+                                        <code>VALUES ('张三', 20, '男', '计算机');</code><br>
+                                        <code></code><br>
+                                        <code>-- 更新数据</code><br>
+                                        <code>UPDATE students SET age = 21 WHERE name = '张三';</code><br>
+                                        <code></code><br>
+                                        <code>-- 删除数据</code><br>
+                                        <code>DELETE FROM students WHERE id = 1;</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.4 数据查询语言(DQL)</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>-- 基本查询</code><br>
+                                        <code>SELECT * FROM students;</code><br>
+                                        <code>SELECT name, age FROM students WHERE department = '计算机';</code><br>
+                                        <code></code><br>
+                                        <code>-- 排序</code><br>
+                                        <code>SELECT * FROM students ORDER BY age DESC;</code><br>
+                                        <code></code><br>
+                                        <code>-- 分组</code><br>
+                                        <code>SELECT department, COUNT(*) as count FROM students GROUP BY department;</code><br>
+                                        <code></code><br>
+                                        <code>-- 连接查询</code><br>
+                                        <code>SELECT s.name, c.course_name FROM students s</code><br>
+                                        <code>JOIN enrollments e ON s.id = e.student_id</code><br>
+                                        <code>JOIN courses c ON e.course_id = c.id;</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.5 数据控制语言(DCL)</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>-- 授予权限</code><br>
+                                        <code>GRANT SELECT, INSERT ON mydb.* TO 'user'@'localhost';</code><br>
+                                        <code></code><br>
+                                        <code>-- 撤销权限</code><br>
+                                        <code>REVOKE INSERT ON mydb.* FROM 'user'@'localhost';</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.6 高级SQL特性</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code>-- 子查询</code><br>
+                                        <code>SELECT * FROM students WHERE age > (SELECT AVG(age) FROM students);</code><br>
+                                        <code></code><br>
+                                        <code>-- 视图</code><br>
+                                        <code>CREATE VIEW student_view AS SELECT name, age FROM students;</code><br>
+                                        <code></code><br>
+                                        <code>-- 存储过程</code><br>
+                                        <code>CREATE PROCEDURE get_students()</code><br>
+                                        <code>BEGIN</code><br>
+                                        <code>    SELECT * FROM students;</code><br>
+                                        <code>END;</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第4章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第4章 数据库设计</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(4)">
+                            <h4 class="text-xl font-semibold mb-3">第4章 数据库设计</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-4"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>4.1 数据库设计概述</li>
                             <li>4.2 需求分析</li>
                             <li>4.3 概念结构设计</li>
@@ -192,33 +396,198 @@
                             <li>4.5 物理结构设计</li>
                             <li>4.6 数据库实施与维护</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-4">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.1 数据库设计概述</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>数据库设计步骤：</strong></p>
+                                    <ol class="list-decimal list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>需求分析</li>
+                                        <li>概念结构设计</li>
+                                        <li>逻辑结构设计</li>
+                                        <li>物理结构设计</li>
+                                        <li>数据库实施</li>
+                                        <li>数据库运行和维护</li>
+                                    </ol>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.3 概念结构设计</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>E-R模型基本要素：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>实体</li>
+                                        <li>属性</li>
+                                        <li>联系（1:1, 1:n, m:n）</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.4 逻辑结构设计</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>E-R图向关系模型转换：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>实体转换为关系</li>
+                                        <li>属性转换为字段</li>
+                                        <li>联系转换为关系或外键</li>
+                                    </ul>
+                                    <p><strong>范式：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>第一范式（1NF）</li>
+                                        <li>第二范式（2NF）</li>
+                                        <li>第三范式（3NF）</li>
+                                        <li>BC范式（BCNF）</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第5章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第5章 数据库应用开发</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(5)">
+                            <h4 class="text-xl font-semibold mb-3">第5章 数据库应用开发</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-5"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>5.1 数据库应用开发概述</li>
                             <li>5.2 Python与数据库连接</li>
                             <li>5.3 使用SQLAlchemy进行ORM开发</li>
                             <li>5.4 数据库应用的架构设计</li>
                             <li>5.5 数据库应用的性能优化</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-5">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.2 Python与数据库连接</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import sqlite3</code><br>
+                                        <code></code><br>
+                                        <code># 连接数据库</code><br>
+                                        <code>conn = sqlite3.connect('mydb.db')</code><br>
+                                        <code>cursor = conn.cursor()</code><br>
+                                        <code></code><br>
+                                        <code># 执行查询</code><br>
+                                        <code>cursor.execute("SELECT * FROM students")</code><br>
+                                        <code>results = cursor.fetchall()</code><br>
+                                        <code></code><br>
+                                        <code># 提交事务</code><br>
+                                        <code>conn.commit()</code><br>
+                                        <code>conn.close()</code><br>
+                                        <code></code><br>
+                                        <code># 使用MySQL</code><br>
+                                        <code># import pymysql</code><br>
+                                        <code># conn = pymysql.connect(host='localhost', user='root', password='', database='mydb')</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.3 使用SQLAlchemy进行ORM开发</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code>from sqlalchemy import create_engine, Column, Integer, String</code><br>
+                                        <code>from sqlalchemy.ext.declarative import declarative_base</code><br>
+                                        <code>from sqlalchemy.orm import sessionmaker</code><br>
+                                        <code></code><br>
+                                        <code>Base = declarative_base()</code><br>
+                                        <code></code><br>
+                                        <code>class Student(Base):</code><br>
+                                        <code>    __tablename__ = 'students'</code><br>
+                                        <code>    id = Column(Integer, primary_key=True)</code><br>
+                                        <code>    name = Column(String(50))</code><br>
+                                        <code>    age = Column(Integer)</code><br>
+                                        <code></code><br>
+                                        <code>engine = create_engine('sqlite:///mydb.db')</code><br>
+                                        <code>Session = sessionmaker(bind=engine)</code><br>
+                                        <code>session = Session()</code><br>
+                                        <code></code><br>
+                                        <code># 添加数据</code><br>
+                                        <code>student = Student(name='张三', age=20)</code><br>
+                                        <code>session.add(student)</code><br>
+                                        <code>session.commit()</code><br>
+                                        <code></code><br>
+                                        <code># 查询数据</code><br>
+                                        <code>students = session.query(Student).all()</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第6章 -->
                     <div class="glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第6章 数据库管理与优化</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(6)">
+                            <h4 class="text-xl font-semibold mb-3">第6章 数据库管理与优化</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-6"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>6.1 数据库安全管理</li>
                             <li>6.2 数据库备份与恢复</li>
                             <li>6.3 数据库性能优化</li>
                             <li>6.4 数据库并发控制</li>
                             <li>6.5 数据库监控与维护</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-6">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.1 数据库安全管理</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>安全措施：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>用户认证</li>
+                                        <li>访问控制</li>
+                                        <li>数据加密</li>
+                                        <li>审计日志</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.2 数据库备份与恢复</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>-- MySQL备份</code><br>
+                                        <code>mysqldump -u root -p mydb > backup.sql</code><br>
+                                        <code></code><br>
+                                        <code>-- MySQL恢复</code><br>
+                                        <code>mysql -u root -p mydb < backup.sql</code>
+                                    </div>
+                                    <p><strong>备份策略：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>完全备份</li>
+                                        <li>增量备份</li>
+                                        <li>差异备份</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.3 数据库性能优化</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>优化方法：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>索引优化</li>
+                                        <li>查询优化</li>
+                                        <li>表结构优化</li>
+                                        <li>配置优化</li>
+                                    </ul>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>-- 创建索引</code><br>
+                                        <code>CREATE INDEX idx_name ON students(name);</code><br>
+                                        <code></code><br>
+                                        <code>-- 查看查询计划</code><br>
+                                        <code>EXPLAIN SELECT * FROM students WHERE name = '张三';</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.4 数据库并发控制</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>事务特性（ACID）：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>原子性（Atomicity）</li>
+                                        <li>一致性（Consistency）</li>
+                                        <li>隔离性（Isolation）</li>
+                                        <li>持久性（Durability）</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.5 数据库监控与维护</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>监控内容：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>性能指标</li>
+                                        <li>存储空间</li>
+                                        <li>连接数</li>
+                                        <li>慢查询</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -353,37 +722,50 @@
         </div>
     </footer>
 
-    <script>
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+    <!-- 粒子背景 -->
+    <div id="particles-js" class="fixed inset-0 z-0"></div>
 
-        // 导航栏滚动效果
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('bg-opacity-95');
-                nav.classList.add('shadow-xl');
-            } else {
-                nav.classList.remove('bg-opacity-95');
-                nav.classList.remove('shadow-xl');
-            }
-        });
+    <!-- 星星背景 -->
+    <div class="fixed inset-0 z-0" id="stars"></div>
+    <div class="fixed inset-0 z-0" id="stars2"></div>
+    <div class="fixed inset-0 z-0" id="stars3"></div>
 
-        // 移动端菜单交互
-        document.querySelector('.md\:hidden button').addEventListener('click', function() {
-            alert('移动端菜单功能后续实现');
-        });
-    </script>
+    <!-- 光标跟随效果 -->
+    <div id="cursor-follower" class="cursor-follower"></div>
+
+    <!-- 回到顶部按钮 -->
+    <button id="back-to-top" class="back-to-top glass rounded-full p-3 shadow-lg">
+        <i class="fa fa-arrow-up text-accent"></i>
+    </button>
+
+    <!-- 滚动进度条 -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+
+    <!-- 邮箱弹窗 -->
+    <div id="email-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content glass rounded-2xl p-8 max-w-md w-full">
+            <div class="modal-header flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-accent">联系我</h3>
+                <button id="close-email-modal" class="text-gray-400 hover:text-light transition-colors duration-300">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-gray-300 mb-4">如果您有任何问题或建议，欢迎通过以下邮箱联系我：</p>
+                <div class="flex items-center bg-secondary rounded-lg p-3 mb-4">
+                    <input type="text" value="1537794404@qq.com" class="bg-transparent border-none text-light flex-grow focus:outline-none" readonly id="email-input">
+                    <button id="copy-email" class="text-accent hover:text-light transition-colors duration-300 ml-2">
+                        <i class="fa fa-copy"></i>
+                    </button>
+                </div>
+                <div id="copy-success" class="hidden text-green-400 text-sm mb-4">
+                    <i class="fa fa-check-circle"></i> 邮箱地址已复制到剪贴板
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script type="module" src="../js/main.js"></script>
 </body>
 </html>

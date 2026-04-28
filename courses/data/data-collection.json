@@ -1,0 +1,810 @@
+{
+  "course": {
+    "title": "数据采集与处理",
+    "description": "学习数据采集的方法和工具，掌握数据处理的核心技术，从各种数据源获取并处理数据。",
+    "totalChapters": 6
+  },
+  "chapters": [
+    {
+      "id": 1,
+      "title": "数据采集概述",
+      "duration": "25分钟",
+      "difficulty": "入门",
+      "completed": true,
+      "introduction": "本章将介绍数据采集的基本概念、重要性和常见方法，帮助你建立对数据采集的整体认识。",
+      "sections": [
+        {
+          "title": "什么是数据采集？",
+          "content": "<p class=\"text-gray-300 mb-4\">数据采集是指从各种数据源获取数据的过程，是数据分析的第一步。</p>"
+        },
+        {
+          "title": "数据采集的重要性",
+          "content": "<p class=\"text-gray-300 mb-4\">高质量的数据采集是数据分析的基础，直接影响分析结果的准确性和可靠性。</p>"
+        },
+        {
+          "title": "常见的数据采集方法",
+          "content": "<p class=\"text-gray-300 mb-4\">常见的数据采集方法包括网络爬虫、API接口、传感器采集、问卷调查等。</p>"
+        }
+      ],
+      "summary": [
+        { "point": "数据采集定义", "description": "从各种数据源获取数据的过程" },
+        { "point": "重要性", "description": "高质量的数据采集是数据分析的基础" },
+        { "point": "采集方法", "description": "网络爬虫、API接口、传感器采集、问卷调查等" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "数据采集方法", "description": "列举常见的数据采集方法" },
+        { "id": 2, "title": "采集工具", "description": "列举常用的数据采集工具" },
+        { "id": 3, "title": "应用场景", "description": "举例说明数据采集的应用场景" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "网络爬虫基础",
+      "duration": "45分钟",
+      "difficulty": "入门",
+      "completed": false,
+      "introduction": "本章将学习网络爬虫的基本原理和实现方法，使用Python的Requests和BeautifulSoup库进行网页数据抓取。",
+      "sections": [
+        {
+          "title": "网络爬虫原理",
+          "content": "<p class=\"text-gray-300 mb-4\">网络爬虫是一种按照一定规则自动抓取网页信息的程序，通过HTTP请求获取网页内容，然后解析提取所需数据。</p>"
+        },
+        {
+          "title": "Requests库",
+          "content": "<p class=\"text-gray-300 mb-4\">Requests是Python中用于发送HTTP请求的库，可以方便地获取网页内容。</p>"
+        },
+        {
+          "title": "BeautifulSoup库",
+          "content": "<p class=\"text-gray-300 mb-4\">BeautifulSoup是Python中用于解析HTML和XML文档的库，可以方便地提取网页中的数据。</p>"
+        }
+      ],
+      "summary": [
+        { "point": "爬虫原理", "description": "自动抓取网页信息的程序" },
+        { "point": "Requests库", "description": "发送HTTP请求获取网页内容" },
+        { "point": "BeautifulSoup库", "description": "解析HTML和XML文档，提取数据" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "简单爬虫", "description": "使用Requests和BeautifulSoup创建一个简单的爬虫" },
+        { "id": 2, "title": "数据提取", "description": "从网页中提取特定数据" },
+        { "id": 3, "title": "爬虫策略", "description": "设计一个爬虫的抓取策略" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "API数据获取",
+      "duration": "40分钟",
+      "difficulty": "入门",
+      "completed": false,
+      "introduction": "本章将学习如何通过API接口获取数据，包括RESTful API的使用方法和常见的API认证方式。",
+      "sections": [
+        {
+          "title": "RESTful API基础",
+          "content": "<p class=\"text-gray-300 mb-4\">RESTful API是一种基于HTTP协议的API设计风格，通过HTTP请求获取和操作数据。</p>"
+        },
+        { "title": "API认证方式", "content": "<p class=\"text-gray-300 mb-4\">常见的API认证方式包括API Key、OAuth、Basic Auth等。</p>" },
+        { "title": "使用Python请求API", "content": "<p class=\"text-gray-300 mb-4\">使用Python的Requests库发送API请求，获取和处理API返回的数据。</p>" }
+      ],
+      "summary": [
+        { "point": "RESTful API", "description": "基于HTTP协议的API设计风格" },
+        { "point": "认证方式", "description": "API Key、OAuth、Basic Auth等" },
+        { "point": "Python请求", "description": "使用Requests库发送API请求" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "API请求", "description": "使用Python发送API请求获取数据" },
+        { "id": 2, "title": "API认证", "description": "实现API认证获取数据" },
+        { "id": 3, "title": "数据处理", "description": "处理API返回的数据" }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "数据清洗与预处理",
+      "duration": "50分钟",
+      "difficulty": "中级",
+      "completed": false,
+      "introduction": "本章将学习数据清洗和预处理的技术，包括处理缺失值、异常值、重复值，以及数据转换和标准化。",
+      "sections": [
+        { "title": "数据质量评估", "content": "<p class=\"text-gray-300 mb-4\">评估数据的完整性、准确性、一致性和时效性，确定数据清洗的目标。</p>" },
+        { "title": "缺失值处理", "content": "<p class=\"text-gray-300 mb-4\">处理数据中的缺失值，包括删除、填充等方法。</p>" },
+        { "title": "异常值检测与处理", "content": "<p class=\"text-gray-300 mb-4\">检测和处理数据中的异常值，确保数据质量。</p>" }
+      ],
+      "summary": [
+        { "point": "数据质量评估", "description": "评估数据的完整性、准确性、一致性和时效性" },
+        { "point": "缺失值处理", "description": "删除、填充等方法处理缺失值" },
+        { "point": "异常值处理", "description": "检测和处理数据中的异常值" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "缺失值处理", "description": "使用Python处理数据中的缺失值" },
+        { "id": 2, "title": "异常值检测", "description": "检测和处理数据中的异常值" },
+        { "id": 3, "title": "数据标准化", "description": "对数据进行标准化处理" }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "数据存储与管理",
+      "duration": "45分钟",
+      "difficulty": "中级",
+      "completed": false,
+      "introduction": "本章将学习数据存储和管理的方法，包括文件存储、数据库存储等，以及数据版本控制和备份策略。",
+      "sections": [
+        { "title": "文件存储", "content": "<p class=\"text-gray-300 mb-4\">使用CSV、JSON、Excel等文件格式存储数据，适合不同场景的数据存储需求。</p>" },
+        { "title": "数据库存储", "content": "<p class=\"text-gray-300 mb-4\">使用关系型数据库（如MySQL、PostgreSQL）和NoSQL数据库（如MongoDB）存储和管理数据。</p>" },
+        { "title": "数据版本控制", "content": "<p class=\"text-gray-300 mb-4\">使用Git等工具进行数据版本控制，追踪数据的变化历史。</p>" }
+      ],
+      "summary": [
+        { "point": "文件存储", "description": "CSV、JSON、Excel等文件格式" },
+        { "point": "数据库存储", "description": "关系型数据库和NoSQL数据库" },
+        { "point": "版本控制", "description": "使用Git等工具进行数据版本控制" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "文件存储", "description": "将数据存储为CSV和JSON格式" },
+        { "id": 2, "title": "数据库存储", "description": "将数据存储到数据库中" },
+        { "id": 3, "title": "数据备份", "description": "设计数据备份策略" }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "数据采集项目实战",
+      "duration": "60分钟",
+      "difficulty": "中级",
+      "completed": false,
+      "introduction": "本章将通过实际的数据采集项目，展示如何从不同数据源获取数据，进行清洗和处理，最终存储和分析。",
+      "sections": [
+        { "title": "项目规划", "content": "<p class=\"text-gray-300 mb-4\">确定数据采集的目标、范围和方法，制定详细的项目计划。</p>" },
+        { "title": "数据采集实施", "content": "<p class=\"text-gray-300 mb-4\">使用网络爬虫、API接口等方法采集数据，处理采集过程中的各种问题。</p>" },
+        { "title": "数据处理与分析", "content": "<p class=\"text-gray-300 mb-4\">对采集到的数据进行清洗、预处理和分析，提取有价值的信息。</p>" }
+      ],
+      "summary": [
+        { "point": "项目规划", "description": "确定目标、范围和方法，制定计划" },
+        { "point": "采集实施", "description": "使用爬虫、API等方法采集数据" },
+        { "point": "数据处理", "description": "清洗、预处理和分析数据" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "项目规划", "description": "设计一个数据采集项目的计划" },
+        { "id": 2, "title": "数据采集", "description": "实现一个完整的数据采集流程" },
+        { "id": 3, "title": "数据分析", "description": "对采集的数据进行分析" }
+      ]
+    }
+  ],
+  "problems": {
+    "1": [
+      {
+        "id": 1,
+        "title": "数据采集方法",
+        "description": "以下哪些是常见的数据采集方法？（多选）",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "网络爬虫",
+          "API接口",
+          "传感器采集",
+          "问卷调查"
+        ],
+        "correctAnswer": [0, 1, 2, 3]
+      },
+      {
+        "id": 2,
+        "title": "数据采集重要性",
+        "description": "数据采集的质量直接影响什么？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "分析结果的准确性",
+          "数据存储的成本",
+          "数据处理的速度",
+          "数据可视化的效果"
+        ],
+        "correctAnswer": 0
+      },
+      {
+        "id": 3,
+        "title": "数据采集场景",
+        "description": "以下哪个场景不需要数据采集？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "市场调研",
+          "金融风控",
+          "天气预报",
+          "静态网页浏览"
+        ],
+        "correctAnswer": 3
+      }
+    ],
+    "2": [
+      {
+        "id": 1,
+        "title": "简单爬虫",
+        "description": "使用Python的Requests和BeautifulSoup库创建一个简单的爬虫，获取网页标题。",
+        "input": "无",
+        "output": "网页标题",
+        "type": "code",
+        "starterCode": "import requests
+from bs4 import BeautifulSoup
+
+# 目标网页 URL
+url = 'https://www.example.com'
+
+# 发送请求获取网页内容
+
+# 解析网页内容
+
+# 提取网页标题
+",
+        "solution": "import requests
+from bs4 import BeautifulSoup
+
+# 目标网页 URL
+url = 'https://www.example.com'
+
+# 发送请求获取网页内容
+response = requests.get(url)
+response.raise_for_status()  # 检查请求是否成功
+
+# 解析网页内容
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# 提取网页标题
+title = soup.title.string
+print(f'网页标题: {title}')"
+      },
+      {
+        "id": 2,
+        "title": "数据提取",
+        "description": "从网页中提取所有的链接。",
+        "input": "无",
+        "output": "网页中的链接",
+        "type": "code",
+        "starterCode": "import requests
+from bs4 import BeautifulSoup
+
+url = 'https://www.example.com'
+
+# 发送请求获取网页内容
+
+# 解析网页内容
+
+# 提取所有链接
+",
+        "solution": "import requests
+from bs4 import BeautifulSoup
+
+url = 'https://www.example.com'
+
+# 发送请求获取网页内容
+response = requests.get(url)
+response.raise_for_status()
+
+# 解析网页内容
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# 提取所有链接
+links = []
+for a in soup.find_all('a', href=True):
+    links.append(a['href'])
+
+print('网页中的链接:')
+for link in links:
+    print(link)"
+      },
+      {
+        "id": 3,
+        "title": "爬虫策略",
+        "description": "设计一个爬虫的抓取策略，包括如何避免被网站封禁。",
+        "input": "无",
+        "output": "爬虫策略",
+        "type": "multiple-choice",
+        "options": [
+          "设置合理的请求间隔",
+          "使用代理IP",
+          "伪造User-Agent",
+          "以上都是"
+        ],
+        "correctAnswer": 3
+      }
+    ],
+    "3": [
+      {
+        "id": 1,
+        "title": "API请求",
+        "description": "使用Python的Requests库发送API请求，获取数据。",
+        "input": "无",
+        "output": "API返回的数据",
+        "type": "code",
+        "starterCode": "import requests
+import json
+
+# API URL
+api_url = 'https://api.github.com/users/octocat'
+
+# 发送API请求
+
+# 处理响应数据
+",
+        "solution": "import requests
+import json
+
+# API URL
+api_url = 'https://api.github.com/users/octocat'
+
+# 发送API请求
+response = requests.get(api_url)
+response.raise_for_status()
+
+# 处理响应数据
+data = response.json()
+print('用户信息:')
+print(f'用户名: {data.get("login")}')
+print(f'姓名: {data.get("name")}')
+print(f'关注者数: {data.get("followers")}')
+print(f'仓库数: {data.get("public_repos")}')"
+      },
+      {
+        "id": 2,
+        "title": "API认证",
+        "description": "使用API Key进行认证，获取受限的API数据。",
+        "input": "无",
+        "output": "认证后的API数据",
+        "type": "code",
+        "starterCode": "import requests
+
+# API URL和API Key
+api_url = 'https://api.example.com/data'
+api_key = 'your_api_key_here'
+
+# 发送带认证的API请求
+",
+        "solution": "import requests
+
+# API URL和API Key
+api_url = 'https://api.example.com/data'
+api_key = 'your_api_key_here'
+
+# 发送带认证的API请求
+headers = {
+    'Authorization': f'Bearer {api_key}',
+    'Content-Type': 'application/json'
+}
+
+response = requests.get(api_url, headers=headers)
+response.raise_for_status()
+
+# 处理响应数据
+data = response.json()
+print('API返回的数据:')
+print(data)"
+      },
+      {
+        "id": 3,
+        "title": "RESTful API",
+        "description": "以下哪个不是RESTful API的HTTP方法？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "GET",
+          "POST",
+          "UPDATE",
+          "DELETE"
+        ],
+        "correctAnswer": 2
+      }
+    ],
+    "4": [
+      {
+        "id": 1,
+        "title": "缺失值处理",
+        "description": "使用Python处理数据中的缺失值。",
+        "input": "无",
+        "output": "处理后的数据集",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import numpy as np
+
+# 创建包含缺失值的数据集
+data = pd.DataFrame({
+    'A': [1, 2, np.nan, 4, 5],
+    'B': [6, np.nan, 8, 9, 10],
+    'C': [11, 12, 13, np.nan, 15]
+})
+
+print('原始数据:')
+print(data)
+
+# 处理缺失值
+",
+        "solution": "import pandas as pd
+import numpy as np
+
+# 创建包含缺失值的数据集
+data = pd.DataFrame({
+    'A': [1, 2, np.nan, 4, 5],
+    'B': [6, np.nan, 8, 9, 10],
+    'C': [11, 12, 13, np.nan, 15]
+})
+
+print('原始数据:')
+print(data)
+
+# 方法1：删除包含缺失值的行
+print('\n删除缺失值后:')
+print(data.dropna())
+
+# 方法2：用均值填充缺失值
+print('\n用均值填充后:')
+print(data.fillna(data.mean()))
+
+# 方法3：用中位数填充缺失值
+print('\n用中位数填充后:')
+print(data.fillna(data.median()))"
+      },
+      {
+        "id": 2,
+        "title": "异常值检测",
+        "description": "使用Python检测和处理数据中的异常值。",
+        "input": "无",
+        "output": "检测和处理后的数据集",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import numpy as np
+
+# 创建包含异常值的数据集
+np.random.seed(42)
+data = pd.DataFrame({
+    'value': np.concatenate([np.random.normal(100, 10, 95), np.array([50, 150, 200, 250, 300])])
+})
+
+print('原始数据:')
+print(data.describe())
+
+# 检测和处理异常值
+",
+        "solution": "import pandas as pd
+import numpy as np
+
+# 创建包含异常值的数据集
+np.random.seed(42)
+data = pd.DataFrame({
+    'value': np.concatenate([np.random.normal(100, 10, 95), np.array([50, 150, 200, 250, 300])])
+})
+
+print('原始数据:')
+print(data.describe())
+
+# 方法1：使用IQR方法检测异常值
+Q1 = data['value'].quantile(0.25)
+Q3 = data['value'].quantile(0.75)
+IQR = Q3 - Q1
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+print(f'\n异常值边界:')
+print(f'下限: {lower_bound}')
+print(f'上限: {upper_bound}')
+
+# 检测异常值
+outliers = data[(data['value'] < lower_bound) | (data['value'] > upper_bound)]
+print('\n检测到的异常值:')
+print(outliers)
+
+# 处理异常值（替换为上下限）
+data['value'] = np.where(data['value'] < lower_bound, lower_bound, data['value'])
+data['value'] = np.where(data['value'] > upper_bound, upper_bound, data['value'])
+
+print('\n处理后的数据:')
+print(data.describe())"
+      },
+      {
+        "id": 3,
+        "title": "数据标准化",
+        "description": "对数据进行标准化处理。",
+        "input": "无",
+        "output": "标准化后的数据",
+        "type": "code",
+        "starterCode": "import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+# 创建数据
+data = pd.DataFrame({
+    'A': [10, 20, 30, 40, 50],
+    'B': [100, 200, 300, 400, 500],
+    'C': [1, 2, 3, 4, 5]
+})
+
+print('原始数据:')
+print(data)
+
+# 标准化处理
+",
+        "solution": "import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+# 创建数据
+data = pd.DataFrame({
+    'A': [10, 20, 30, 40, 50],
+    'B': [100, 200, 300, 400, 500],
+    'C': [1, 2, 3, 4, 5]
+})
+
+print('原始数据:')
+print(data)
+
+# 标准化处理
+scaler = StandardScaler()
+data_scaled = scaler.fit_transform(data)
+data_scaled_df = pd.DataFrame(data_scaled, columns=data.columns)
+
+print('\n标准化后的数据:')
+print(data_scaled_df)
+print('\n标准化后的数据统计:')
+print(data_scaled_df.describe())"
+      }
+    ],
+    "5": [
+      {
+        "id": 1,
+        "title": "文件存储",
+        "description": "将数据存储为CSV和JSON格式。",
+        "input": "无",
+        "output": "存储的文件",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import json
+
+# 创建数据
+data = {
+    'name': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
+    'age': [25, 30, 35, 40, 45],
+    'city': ['New York', 'London', 'Paris', 'Tokyo', 'Sydney']
+}
+
+df = pd.DataFrame(data)
+
+print('数据:')
+print(df)
+
+# 存储为CSV
+
+# 存储为JSON
+",
+        "solution": "import pandas as pd
+import json
+
+# 创建数据
+data = {
+    'name': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
+    'age': [25, 30, 35, 40, 45],
+    'city': ['New York', 'London', 'Paris', 'Tokyo', 'Sydney']
+}
+
+df = pd.DataFrame(data)
+
+print('数据:')
+print(df)
+
+# 存储为CSV
+csv_file = 'data.csv'
+df.to_csv(csv_file, index=False)
+print(f'\n数据已存储为 {csv_file}')
+
+# 存储为JSON
+json_file = 'data.json'
+df.to_json(json_file, orient='records', indent=2)
+print(f'数据已存储为 {json_file}')
+
+# 读取并验证
+print('\n从CSV读取:')
+print(pd.read_csv(csv_file))
+
+print('\n从JSON读取:')
+with open(json_file, 'r') as f:
+    json_data = json.load(f)
+print(json_data)"
+      },
+      {
+        "id": 2,
+        "title": "数据库存储",
+        "description": "将数据存储到SQLite数据库中。",
+        "input": "无",
+        "output": "存储到数据库的数据",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import sqlite3
+
+# 创建数据
+data = {
+    'name': ['Alice', 'Bob', 'Charlie'],
+    'age': [25, 30, 35],
+    'city': ['New York', 'London', 'Paris']
+}
+
+df = pd.DataFrame(data)
+
+# 连接SQLite数据库
+
+# 创建表并插入数据
+
+# 查询数据
+",
+        "solution": "import pandas as pd
+import sqlite3
+
+# 创建数据
+data = {
+    'name': ['Alice', 'Bob', 'Charlie'],
+    'age': [25, 30, 35],
+    'city': ['New York', 'London', 'Paris']
+}
+
+df = pd.DataFrame(data)
+
+# 连接SQLite数据库
+conn = sqlite3.connect('example.db')
+cursor = conn.cursor()
+
+# 创建表
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    age INTEGER,
+    city TEXT
+)
+''')
+
+# 插入数据
+df.to_sql('users', conn, if_exists='replace', index=False)
+
+# 查询数据
+cursor.execute('SELECT * FROM users')
+rows = cursor.fetchall()
+
+print('数据库中的数据:')
+for row in rows:
+    print(row)
+
+# 关闭连接
+conn.close()"
+      },
+      {
+        "id": 3,
+        "title": "数据版本控制",
+        "description": "以下哪个工具可以用于数据版本控制？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "Git",
+          "Excel",
+          "Notepad",
+          "PowerPoint"
+        ],
+        "correctAnswer": 0
+      }
+    ],
+    "6": [
+      {
+        "id": 1,
+        "title": "项目规划",
+        "description": "设计一个数据采集项目的计划，包括目标、方法和步骤。",
+        "input": "无",
+        "output": "项目计划",
+        "type": "multiple-choice",
+        "options": [
+          "确定目标 → 选择数据源 → 设计采集方法 → 实施采集 → 数据处理 → 分析和应用",
+          "选择数据源 → 确定目标 → 设计采集方法 → 实施采集 → 数据处理 → 分析和应用",
+          "设计采集方法 → 确定目标 → 选择数据源 → 实施采集 → 数据处理 → 分析和应用",
+          "确定目标 → 设计采集方法 → 选择数据源 → 实施采集 → 数据处理 → 分析和应用"
+        ],
+        "correctAnswer": 0
+      },
+      {
+        "id": 2,
+        "title": "数据采集",
+        "description": "实现一个完整的数据采集流程，包括从网站获取数据、清洗和存储。",
+        "input": "无",
+        "output": "采集和处理后的数据",
+        "type": "code",
+        "starterCode": "import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# 目标网站
+url = 'https://www.example.com'
+
+# 1. 采集数据
+
+# 2. 清洗数据
+
+# 3. 存储数据
+",
+        "solution": "import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# 目标网站
+url = 'https://www.example.com'
+
+# 1. 采集数据
+print('正在采集数据...')
+response = requests.get(url)
+response.raise_for_status()
+
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# 提取标题和段落
+ title = soup.title.string if soup.title else 'No title'
+ paragraphs = [p.get_text() for p in soup.find_all('p')]
+
+# 2. 清洗数据
+print('正在清洗数据...')
+# 移除空段落
+clean_paragraphs = [p.strip() for p in paragraphs if p.strip()]
+
+# 3. 存储数据
+print('正在存储数据...')
+data = {
+    'title': [title],
+    'paragraphs': ['\n'.join(clean_paragraphs)]
+}
+
+df = pd.DataFrame(data)
+df.to_csv('example_data.csv', index=False)
+
+print('数据采集和存储完成！')
+print('\n采集的标题:', title)
+print('采集的段落数:', len(clean_paragraphs))"
+      },
+      {
+        "id": 3,
+        "title": "数据分析",
+        "description": "对采集的数据进行分析，提取有价值的信息。",
+        "input": "无",
+        "output": "分析结果",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import matplotlib.pyplot as plt
+
+# 读取数据
+
+df = pd.read_csv('example_data.csv')
+
+# 分析数据
+
+# 可视化结果
+",
+        "solution": "import pandas as pd
+import matplotlib.pyplot as plt
+
+# 读取数据
+df = pd.read_csv('example_data.csv')
+
+print('数据分析结果:')
+print('标题:', df['title'].iloc[0])
+
+# 分析段落长度
+paragraphs = df['paragraphs'].iloc[0].split('\n')
+paragraph_lengths = [len(p) for p in paragraphs]
+
+print('\n段落分析:')
+print(f'段落数量: {len(paragraphs)}')
+print(f'平均长度: {sum(paragraph_lengths) / len(paragraph_lengths):.2f}')
+print(f'最长段落: {max(paragraph_lengths)}')
+print(f'最短段落: {min(paragraph_lengths)}')
+
+# 可视化结果
+plt.figure(figsize=(10, 6))
+plt.hist(paragraph_lengths, bins=10, alpha=0.7, color='blue')
+plt.title('Paragraph Length Distribution')
+plt.xlabel('Length')
+plt.ylabel('Frequency')
+plt.grid(True)
+plt.show()
+
+print('\n分析完成！')"
+      }
+    ]
+  }
+}

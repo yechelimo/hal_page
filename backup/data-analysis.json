@@ -1,0 +1,911 @@
+{
+  "course": {
+    "title": "数据分析技术",
+    "description": "掌握数据分析的基本方法和工具，学习如何从数据中提取有价值的信息。",
+    "totalChapters": 6
+  },
+  "chapters": [
+    {
+      "id": 1,
+      "title": "数据分析概述",
+      "duration": "30分钟",
+      "difficulty": "入门",
+      "completed": true,
+      "introduction": "本章将介绍数据分析的基本概念、流程和应用领域，帮助你建立对数据分析的整体认识。",
+      "sections": [
+        {
+          "title": "什么是数据分析？",
+          "content": "<p class=\"text-gray-300 mb-4\">数据分析是指通过收集、处理、分析和解释数据，以发现有价值的信息、支持决策制定的过程。</p>"
+        },
+        {
+          "title": "数据分析的流程",
+          "content": "<p class=\"text-gray-300 mb-4\">数据分析的典型流程包括：问题定义、数据收集、数据清洗、数据探索、模型构建、结果解释和报告生成。</p>"
+        },
+        {
+          "title": "数据分析的应用领域",
+          "content": "<p class=\"text-gray-300 mb-4\">数据分析广泛应用于商业决策、市场营销、金融风控、医疗健康、教育等多个领域。</p>"
+        }
+      ],
+      "summary": [
+        { "point": "数据分析定义", "description": "通过数据发现价值的过程" },
+        { "point": "分析流程", "description": "问题定义→数据收集→数据清洗→数据探索→模型构建→结果解释→报告生成" },
+        { "point": "应用领域", "description": "商业、营销、金融、医疗、教育等" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "数据分析流程", "description": "描述数据分析的基本流程" },
+        { "id": 2, "title": "应用场景", "description": "举例说明数据分析在某个领域的应用" },
+        { "id": 3, "title": "工具选择", "description": "列出常用的数据分析工具" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "数据预处理",
+      "duration": "45分钟",
+      "difficulty": "入门",
+      "completed": false,
+      "introduction": "本章将学习数据预处理的基本技术，包括数据清洗、数据转换、特征工程等，这些是数据分析的基础步骤。",
+      "sections": [
+        {
+          "title": "数据清洗",
+          "content": "<p class=\"text-gray-300 mb-4\">数据清洗是指处理缺失值、异常值、重复值等问题，确保数据质量的过程。</p>"
+        },
+        {
+          "title": "数据转换",
+          "content": "<p class=\"text-gray-300 mb-4\">数据转换包括数据标准化、归一化、编码等操作，使数据更适合分析。</p>"
+        },
+        {
+          "title": "特征工程",
+          "content": "<p class=\"text-gray-300 mb-4\">特征工程是指创建、选择和变换特征，以提高模型性能的过程。</p>"
+        }
+      ],
+      "summary": [
+        { "point": "数据清洗", "description": "处理缺失值、异常值、重复值" },
+        { "point": "数据转换", "description": "标准化、归一化、编码" },
+        { "point": "特征工程", "description": "创建、选择和变换特征" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "缺失值处理", "description": "使用Python处理数据中的缺失值" },
+        { "id": 2, "title": "数据标准化", "description": "对数据进行标准化处理" },
+        { "id": 3, "title": "特征选择", "description": "选择重要的特征进行分析" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "数据可视化",
+      "duration": "40分钟",
+      "difficulty": "入门",
+      "completed": false,
+      "introduction": "本章将学习数据可视化的基本原理和方法，使用Python的Matplotlib、Seaborn等库创建各种图表。",
+      "sections": [
+        {
+          "title": "数据可视化基础",
+          "content": "<p class=\"text-gray-300 mb-4\">数据可视化是通过图表、图形等方式直观展示数据的过程，帮助人们理解数据中的模式和趋势。</p>"
+        },
+        {
+          "title": "Matplotlib库",
+          "content": "<p class=\"text-gray-300 mb-4\">Matplotlib是Python中最常用的数据可视化库，可以创建线图、散点图、柱状图等多种图表。</p>"
+        },
+        {
+          "title": "Seaborn库",
+          "content": "<p class=\"text-gray-300 mb-4\">Seaborn是基于Matplotlib的高级可视化库，提供了更美观、更复杂的图表类型。</p>"
+        }
+      ],
+      "summary": [
+        { "point": "可视化目的", "description": "直观展示数据，发现模式和趋势" },
+        { "point": "Matplotlib", "description": "基础可视化库，支持多种图表类型" },
+        { "point": "Seaborn", "description": "高级可视化库，提供美观的统计图表" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "折线图", "description": "使用Matplotlib创建折线图" },
+        { "id": 2, "title": "柱状图", "description": "使用Seaborn创建柱状图" },
+        { "id": 3, "title": "热力图", "description": "使用Seaborn创建热力图" }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "统计分析",
+      "duration": "50分钟",
+      "difficulty": "中级",
+      "completed": false,
+      "introduction": "本章将学习基本的统计分析方法，包括描述性统计、假设检验、相关性分析等，这些是数据分析的核心内容。",
+      "sections": [
+        {
+          "title": "描述性统计",
+          "content": "<p class=\"text-gray-300 mb-4\">描述性统计包括均值、中位数、众数、标准差等指标，用于描述数据的基本特征。</p>"
+        },
+        {
+          "title": "假设检验",
+          "content": "<p class=\"text-gray-300 mb-4\">假设检验是通过样本数据推断总体特征的方法，包括t检验、方差分析等。</p>"
+        },
+        {
+          "title": "相关性分析",
+          "content": "<p class=\"text-gray-300 mb-4\">相关性分析用于研究变量之间的关系强度和方向，常用的方法包括皮尔逊相关系数、斯皮尔曼等级相关等。</p>"
+        }
+      ],
+      "summary": [
+        { "point": "描述性统计", "description": "均值、中位数、众数、标准差等" },
+        { "point": "假设检验", "description": "t检验、方差分析等" },
+        { "point": "相关性分析", "description": "皮尔逊相关系数、斯皮尔曼等级相关等" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "描述性统计", "description": "计算数据的基本统计量" },
+        { "id": 2, "title": "假设检验", "description": "进行t检验分析" },
+        { "id": 3, "title": "相关性分析", "description": "计算变量之间的相关系数" }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "机器学习基础",
+      "duration": "60分钟",
+      "difficulty": "中级",
+      "completed": false,
+      "introduction": "本章将介绍机器学习的基本概念和常用算法，包括监督学习、无监督学习等，为数据分析提供更强大的工具。",
+      "sections": [
+        {
+          "title": "机器学习概述",
+          "content": "<p class=\"text-gray-300 mb-4\">机器学习是让计算机从数据中学习规律，从而对新数据进行预测或决策的技术。</p>"
+        },
+        {
+          "title": "监督学习",
+          "content": "<p class=\"text-gray-300 mb-4\">监督学习是使用标记数据进行训练的机器学习方法，包括分类和回归任务。</p>"
+        },
+        {
+          "title": "无监督学习",
+          "content": "<p class=\"text-gray-300 mb-4\">无监督学习是使用未标记数据进行训练的机器学习方法，包括聚类和降维任务。</p>"
+        }
+      ],
+      "summary": [
+        { "point": "机器学习定义", "description": "让计算机从数据中学习规律" },
+        { "point": "监督学习", "description": "使用标记数据，包括分类和回归" },
+        { "point": "无监督学习", "description": "使用未标记数据，包括聚类和降维" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "线性回归", "description": "使用线性回归模型预测数据" },
+        { "id": 2, "title": "分类算法", "description": "使用分类算法对数据进行分类" },
+        { "id": 3, "title": "聚类分析", "description": "使用聚类算法对数据进行聚类" }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "商务数据分析案例",
+      "duration": "45分钟",
+      "difficulty": "中级",
+      "completed": false,
+      "introduction": "本章将通过实际的商务数据分析案例，展示如何将数据分析技术应用到实际业务中，解决真实的商业问题。",
+      "sections": [
+        {
+          "title": "销售数据分析",
+          "content": "<p class=\"text-gray-300 mb-4\">通过分析销售数据，了解销售趋势、产品表现、客户行为等，为销售策略提供支持。</p>"
+        },
+        {
+          "title": "客户分析",
+          "content": "<p class=\"text-gray-300 mb-4\">通过分析客户数据，了解客户特征、购买行为、忠诚度等，为客户关系管理提供支持。</p>"
+        },
+        {
+          "title": "市场分析",
+          "content": "<p class=\"text-gray-300 mb-4\">通过分析市场数据，了解市场趋势、竞争对手、消费者需求等，为市场策略提供支持。</p>"
+        }
+      ],
+      "summary": [
+        { "point": "销售数据分析", "description": "分析销售趋势、产品表现、客户行为" },
+        { "point": "客户分析", "description": "分析客户特征、购买行为、忠诚度" },
+        { "point": "市场分析", "description": "分析市场趋势、竞争对手、消费者需求" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "销售趋势分析", "description": "分析销售数据的时间趋势" },
+        { "id": 2, "title": "客户分群", "description": "对客户进行分群分析" },
+        { "id": 3, "title": "产品分析", "description": "分析产品的销售表现" }
+      ]
+    }
+  ],
+  "problems": {
+    "1": [
+      {
+        "id": 1,
+        "title": "数据分析流程",
+        "description": "请描述数据分析的基本流程，并解释每个步骤的作用。",
+        "input": "无",
+        "output": "数据分析的基本流程及各步骤作用",
+        "type": "multiple-choice",
+        "options": [
+          "问题定义→数据收集→数据清洗→数据探索→模型构建→结果解释→报告生成",
+          "数据收集→数据清洗→数据探索→模型构建→结果解释→报告生成",
+          "问题定义→数据收集→数据探索→模型构建→结果解释→报告生成",
+          "数据收集→数据清洗→模型构建→结果解释→报告生成"
+        ],
+        "correctAnswer": 0
+      },
+      {
+        "id": 2,
+        "title": "数据分析工具",
+        "description": "以下哪个不是常用的数据分析工具？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "Python",
+          "R",
+          "Excel",
+          "Photoshop"
+        ],
+        "correctAnswer": 3
+      },
+      {
+        "id": 3,
+        "title": "数据分析应用",
+        "description": "数据分析可以应用于哪些领域？（多选）",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "商业决策",
+          "市场营销",
+          "金融风控",
+          "医疗健康"
+        ],
+        "correctAnswer": [0, 1, 2, 3]
+      }
+    ],
+    "2": [
+      {
+        "id": 1,
+        "title": "缺失值处理",
+        "description": "使用Python处理数据中的缺失值，创建一个包含缺失值的数据集并处理它。",
+        "input": "无",
+        "output": "处理后的数据集",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import numpy as np
+
+# 创建包含缺失值的数据集
+data = pd.DataFrame({
+    'A': [1, 2, np.nan, 4, 5],
+    'B': [6, np.nan, 8, 9, 10],
+    'C': [11, 12, 13, np.nan, 15]
+})
+
+# 处理缺失值
+# 方法1：删除包含缺失值的行
+# 方法2：用均值填充缺失值
+",
+        "solution": "import pandas as pd
+import numpy as np
+
+# 创建包含缺失值的数据集
+data = pd.DataFrame({
+    'A': [1, 2, np.nan, 4, 5],
+    'B': [6, np.nan, 8, 9, 10],
+    'C': [11, 12, 13, np.nan, 15]
+})
+
+print("原始数据:")
+print(data)
+
+# 方法1：删除包含缺失值的行
+data_dropna = data.dropna()
+print("\n删除缺失值后:")
+print(data_dropna)
+
+# 方法2：用均值填充缺失值
+data_fillna = data.fillna(data.mean())
+print("\n用均值填充后:")
+print(data_fillna)"
+      },
+      {
+        "id": 2,
+        "title": "数据标准化",
+        "description": "对数据进行标准化处理，使用Python实现。",
+        "input": "无",
+        "output": "标准化后的数据",
+        "type": "code",
+        "starterCode": "import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+# 创建数据
+data = pd.DataFrame({
+    'A': [10, 20, 30, 40, 50],
+    'B': [100, 200, 300, 400, 500]
+})
+
+# 标准化处理
+",
+        "solution": "import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+# 创建数据
+data = pd.DataFrame({
+    'A': [10, 20, 30, 40, 50],
+    'B': [100, 200, 300, 400, 500]
+})
+
+print("原始数据:")
+print(data)
+
+# 标准化处理
+scaler = StandardScaler()
+data_scaled = scaler.fit_transform(data)
+data_scaled_df = pd.DataFrame(data_scaled, columns=data.columns)
+
+print("\n标准化后:")
+print(data_scaled_df)"
+      },
+      {
+        "id": 3,
+        "title": "特征选择",
+        "description": "使用Python进行特征选择，选择重要的特征。",
+        "input": "无",
+        "output": "选择后的特征",
+        "type": "code",
+        "starterCode": "import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.feature_selection import SelectKBest, f_classif
+
+# 加载数据
+iris = load_iris()
+data = pd.DataFrame(iris.data, columns=iris.feature_names)
+target = iris.target
+
+# 特征选择
+",
+        "solution": "import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.feature_selection import SelectKBest, f_classif
+
+# 加载数据
+iris = load_iris()
+data = pd.DataFrame(iris.data, columns=iris.feature_names)
+target = iris.target
+
+print("原始特征:")
+print(data.columns)
+
+# 特征选择
+selector = SelectKBest(f_classif, k=2)
+X_new = selector.fit_transform(data, target)
+
+# 获取选择的特征
+selected_features = data.columns[selector.get_support()]
+print("\n选择的特征:")
+print(selected_features)"
+      }
+    ],
+    "3": [
+      {
+        "id": 1,
+        "title": "折线图",
+        "description": "使用Matplotlib创建折线图，展示数据的趋势。",
+        "input": "无",
+        "output": "折线图",
+        "type": "code",
+        "starterCode": "import matplotlib.pyplot as plt
+import numpy as np
+
+# 创建数据
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+# 创建折线图
+",
+        "solution": "import matplotlib.pyplot as plt
+import numpy as np
+
+# 创建数据
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+# 创建折线图
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, label='sin(x)', color='blue', linewidth=2)
+plt.title('Sin Function')
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.grid(True)
+plt.legend()
+plt.show()"
+      },
+      {
+        "id": 2,
+        "title": "柱状图",
+        "description": "使用Seaborn创建柱状图，展示分类数据。",
+        "input": "无",
+        "output": "柱状图",
+        "type": "code",
+        "starterCode": "import seaborn as sns
+import pandas as pd
+
+# 创建数据
+data = pd.DataFrame({
+    'category': ['A', 'B', 'C', 'D', 'E'],
+    'value': [10, 20, 15, 25, 30]
+})
+
+# 创建柱状图
+",
+        "solution": "import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# 创建数据
+data = pd.DataFrame({
+    'category': ['A', 'B', 'C', 'D', 'E'],
+    'value': [10, 20, 15, 25, 30]
+})
+
+# 创建柱状图
+plt.figure(figsize=(10, 6))
+sns.barplot(x='category', y='value', data=data, palette='viridis')
+plt.title('Category Values')
+plt.xlabel('Category')
+plt.ylabel('Value')
+plt.show()"
+      },
+      {
+        "id": 3,
+        "title": "热力图",
+        "description": "使用Seaborn创建热力图，展示数据的相关性。",
+        "input": "无",
+        "output": "热力图",
+        "type": "code",
+        "starterCode": "import seaborn as sns
+import pandas as pd
+import numpy as np
+
+# 创建数据
+np.random.seed(42)
+data = pd.DataFrame(np.random.rand(10, 10))
+
+# 创建热力图
+",
+        "solution": "import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+# 创建数据
+np.random.seed(42)
+data = pd.DataFrame(np.random.rand(10, 10))
+
+# 创建热力图
+plt.figure(figsize=(10, 8))
+sns.heatmap(data, annot=True, cmap='coolwarm')
+plt.title('Correlation Heatmap')
+plt.show()"
+      }
+    ],
+    "4": [
+      {
+        "id": 1,
+        "title": "描述性统计",
+        "description": "计算数据的基本统计量，包括均值、中位数、标准差等。",
+        "input": "无",
+        "output": "统计量",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import numpy as np
+
+# 创建数据
+np.random.seed(42)
+data = pd.DataFrame({
+    'A': np.random.normal(100, 10, 100),
+    'B': np.random.normal(50, 5, 100),
+    'C': np.random.normal(20, 2, 100)
+})
+
+# 计算基本统计量
+",
+        "solution": "import pandas as pd
+import numpy as np
+
+# 创建数据
+np.random.seed(42)
+data = pd.DataFrame({
+    'A': np.random.normal(100, 10, 100),
+    'B': np.random.normal(50, 5, 100),
+    'C': np.random.normal(20, 2, 100)
+})
+
+# 计算基本统计量
+print("基本统计量:")
+print(data.describe())
+
+# 计算中位数
+print("\n中位数:")
+print(data.median())
+
+# 计算标准差
+print("\n标准差:")
+print(data.std())"
+      },
+      {
+        "id": 2,
+        "title": "假设检验",
+        "description": "进行t检验，比较两个样本的均值是否有显著差异。",
+        "input": "无",
+        "output": "检验结果",
+        "type": "code",
+        "starterCode": "import numpy as np
+from scipy import stats
+
+# 创建两个样本
+np.random.seed(42)
+sample1 = np.random.normal(100, 10, 100)
+sample2 = np.random.normal(105, 10, 100)
+
+# 进行t检验
+",
+        "solution": "import numpy as np
+from scipy import stats
+
+# 创建两个样本
+np.random.seed(42)
+sample1 = np.random.normal(100, 10, 100)
+sample2 = np.random.normal(105, 10, 100)
+
+# 进行t检验
+t_stat, p_value = stats.ttest_ind(sample1, sample2)
+
+print(f"t统计量: {t_stat:.4f}")
+print(f"p值: {p_value:.4f}")
+
+if p_value < 0.05:
+    print("两个样本的均值有显著差异")
+else:
+    print("两个样本的均值没有显著差异")"
+      },
+      {
+        "id": 3,
+        "title": "相关性分析",
+        "description": "计算变量之间的相关系数，分析它们的关系。",
+        "input": "无",
+        "output": "相关系数矩阵",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import numpy as np
+
+# 创建数据
+np.random.seed(42)
+x = np.random.normal(100, 10, 100)
+y = x + np.random.normal(0, 5, 100)
+z = np.random.normal(50, 5, 100)
+
+data = pd.DataFrame({'x': x, 'y': y, 'z': z})
+
+# 计算相关系数
+",
+        "solution": "import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# 创建数据
+np.random.seed(42)
+x = np.random.normal(100, 10, 100)
+y = x + np.random.normal(0, 5, 100)
+z = np.random.normal(50, 5, 100)
+
+data = pd.DataFrame({'x': x, 'y': y, 'z': z})
+
+# 计算相关系数
+correlation_matrix = data.corr()
+print("相关系数矩阵:")
+print(correlation_matrix)
+
+# 可视化相关系数
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+plt.title('Correlation Matrix')
+plt.show()"
+      }
+    ],
+    "5": [
+      {
+        "id": 1,
+        "title": "线性回归",
+        "description": "使用线性回归模型预测数据，分析变量之间的线性关系。",
+        "input": "无",
+        "output": "回归模型和预测结果",
+        "type": "code",
+        "starterCode": "import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+
+# 创建数据
+np.random.seed(42)
+x = np.linspace(0, 10, 100).reshape(-1, 1)
+y = 2 * x + 1 + np.random.normal(0, 1, 100).reshape(-1, 1)
+
+# 训练线性回归模型
+",
+        "solution": "import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+
+# 创建数据
+np.random.seed(42)
+x = np.linspace(0, 10, 100).reshape(-1, 1)
+y = 2 * x + 1 + np.random.normal(0, 1, 100).reshape(-1, 1)
+
+# 训练线性回归模型
+model = LinearRegression()
+model.fit(x, y)
+
+# 预测
+y_pred = model.predict(x)
+
+# 输出模型参数
+print(f"斜率: {model.coef_[0][0]:.4f}")
+print(f"截距: {model.intercept_[0]:.4f}")
+
+# 可视化
+plt.figure(figsize=(10, 6))
+plt.scatter(x, y, label='实际数据')
+plt.plot(x, y_pred, color='red', linewidth=2, label='预测线')
+plt.title('线性回归')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()"
+      },
+      {
+        "id": 2,
+        "title": "分类算法",
+        "description": "使用分类算法对数据进行分类，评估模型性能。",
+        "input": "无",
+        "output": "分类模型和评估结果",
+        "type": "code",
+        "starterCode": "import numpy as np
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+# 加载数据
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# 划分训练集和测试集
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 训练分类模型
+",
+        "solution": "import numpy as np
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+# 加载数据
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# 划分训练集和测试集
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 训练分类模型
+model = DecisionTreeClassifier()
+model.fit(X_train, y_train)
+
+# 预测
+y_pred = model.predict(X_test)
+
+# 评估模型
+accuracy = accuracy_score(y_test, y_pred)
+print(f"模型准确率: {accuracy:.4f}")
+
+# 输出分类结果
+print("\n测试集预测结果:")
+print(y_pred)
+print("\n测试集实际结果:")
+print(y_test)"
+      },
+      {
+        "id": 3,
+        "title": "聚类分析",
+        "description": "使用聚类算法对数据进行聚类，分析数据的分布情况。",
+        "input": "无",
+        "output": "聚类结果",
+        "type": "code",
+        "starterCode": "import numpy as np
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# 创建数据
+np.random.seed(42)
+data1 = np.random.normal(0, 1, (100, 2))
+data2 = np.random.normal(3, 1, (100, 2))
+data = np.vstack([data1, data2])
+
+# 训练聚类模型
+",
+        "solution": "import numpy as np
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# 创建数据
+np.random.seed(42)
+data1 = np.random.normal(0, 1, (100, 2))
+data2 = np.random.normal(3, 1, (100, 2))
+data = np.vstack([data1, data2])
+
+# 训练聚类模型
+kmeans = KMeans(n_clusters=2, random_state=42)
+clusters = kmeans.fit_predict(data)
+
+# 可视化
+plt.figure(figsize=(10, 6))
+plt.scatter(data[:, 0], data[:, 1], c=clusters, cmap='viridis')
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=200, c='red', marker='X')
+plt.title('K-means聚类')
+plt.xlabel('特征1')
+plt.ylabel('特征2')
+plt.show()"
+      }
+    ],
+    "6": [
+      {
+        "id": 1,
+        "title": "销售趋势分析",
+        "description": "分析销售数据的时间趋势，了解销售变化情况。",
+        "input": "无",
+        "output": "销售趋势分析结果",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 创建销售数据
+dates = pd.date_range('2023-01-01', '2023-12-31', freq='M')
+sales = np.random.randint(1000, 5000, len(dates)) + np.sin(np.arange(len(dates))) * 500
+
+data = pd.DataFrame({'date': dates, 'sales': sales})
+
+# 分析销售趋势
+",
+        "solution": "import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 创建销售数据
+dates = pd.date_range('2023-01-01', '2023-12-31', freq='M')
+sales = np.random.randint(1000, 5000, len(dates)) + np.sin(np.arange(len(dates))) * 500
+
+data = pd.DataFrame({'date': dates, 'sales': sales})
+
+# 分析销售趋势
+plt.figure(figsize=(12, 6))
+sns.lineplot(x='date', y='sales', data=data)
+plt.title('2023年销售趋势')
+plt.xlabel('日期')
+plt.ylabel('销售额')
+plt.grid(True)
+plt.show()
+
+# 计算月度销售统计
+data['month'] = data['date'].dt.month
+monthly_stats = data.groupby('month')['sales'].agg(['mean', 'std', 'min', 'max'])
+print("月度销售统计:")
+print(monthly_stats)"
+      },
+      {
+        "id": 2,
+        "title": "客户分群",
+        "description": "对客户进行分群分析，了解不同客户群体的特征。",
+        "input": "无",
+        "output": "客户分群结果",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# 创建客户数据
+np.random.seed(42)
+data = pd.DataFrame({
+    'age': np.random.randint(18, 70, 200),
+    'annual_income': np.random.randint(20000, 150000, 200),
+    'spending_score': np.random.randint(1, 100, 200)
+})
+
+# 客户分群
+",
+        "solution": "import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 创建客户数据
+np.random.seed(42)
+data = pd.DataFrame({
+    'age': np.random.randint(18, 70, 200),
+    'annual_income': np.random.randint(20000, 150000, 200),
+    'spending_score': np.random.randint(1, 100, 200)
+})
+
+# 客户分群
+kmeans = KMeans(n_clusters=4, random_state=42)
+data['cluster'] = kmeans.fit_predict(data)
+
+# 可视化
+plt.figure(figsize=(12, 8))
+sns.scatterplot(x='annual_income', y='spending_score', hue='cluster', data=data, palette='viridis', s=100)
+plt.title('客户分群分析')
+plt.xlabel('年收入')
+plt.ylabel('消费评分')
+plt.show()
+
+# 分析各群客户特征
+cluster_stats = data.groupby('cluster').agg({
+    'age': ['mean', 'std'],
+    'annual_income': ['mean', 'std'],
+    'spending_score': ['mean', 'std']
+})
+print("各群客户特征:")
+print(cluster_stats)"
+      },
+      {
+        "id": 3,
+        "title": "产品分析",
+        "description": "分析产品的销售表现，了解产品的受欢迎程度。",
+        "input": "无",
+        "output": "产品分析结果",
+        "type": "code",
+        "starterCode": "import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 创建产品销售数据
+products = ['产品A', '产品B', '产品C', '产品D', '产品E']
+sales = np.random.randint(1000, 10000, len(products))
+profit = sales * np.random.uniform(0.1, 0.3, len(products))
+
+data = pd.DataFrame({'product': products, 'sales': sales, 'profit': profit})
+
+# 产品分析
+",
+        "solution": "import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 创建产品销售数据
+products = ['产品A', '产品B', '产品C', '产品D', '产品E']
+sales = np.random.randint(1000, 10000, len(products))
+profit = sales * np.random.uniform(0.1, 0.3, len(products))
+
+data = pd.DataFrame({'product': products, 'sales': sales, 'profit': profit})
+
+# 计算利润率
+data['profit_margin'] = (data['profit'] / data['sales']) * 100
+
+# 可视化销售情况
+plt.figure(figsize=(12, 6))
+sns.barplot(x='product', y='sales', data=data, palette='viridis')
+plt.title('产品销售情况')
+plt.xlabel('产品')
+plt.ylabel('销售额')
+plt.show()
+
+# 可视化利润率
+plt.figure(figsize=(12, 6))
+sns.barplot(x='product', y='profit_margin', data=data, palette='magma')
+plt.title('产品利润率')
+plt.xlabel('产品')
+plt.ylabel('利润率(%)')
+plt.show()
+
+# 输出产品分析结果
+print("产品分析结果:")
+print(data.sort_values('sales', ascending=False))"
+      }
+    ]
+  }
+}

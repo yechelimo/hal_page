@@ -1,0 +1,410 @@
+{
+  "course": {
+    "title": "供应链数据分析",
+    "description": "学习供应链数据分析的方法和工具，掌握如何通过数据分析优化供应链运营，提高供应链效率和降低成本。",
+    "totalChapters": 6
+  },
+  "chapters": [
+    {
+      "id": 1,
+      "title": "供应链分析概述",
+      "duration": "30分钟",
+      "difficulty": "入门",
+      "completed": true,
+      "introduction": "本章将介绍供应链分析的基本概念、重要性和应用领域，帮助你建立对供应链分析的整体认识。",
+      "sections": [
+        {
+          "title": "什么是供应链分析？",
+          "content": "<p class=\"text-gray-300 mb-4\">供应链分析是指通过收集、分析和解释供应链相关数据，以优化供应链运营、降低成本、提高效率的过程。</p>"
+        },
+        {
+          "title": "供应链分析的重要性",
+          "content": "<p class=\"text-gray-300 mb-4\">供应链分析可以帮助企业识别供应链中的瓶颈、优化库存管理、提高预测准确性、降低运营成本。</p>"
+        },
+        {
+          "title": "供应链分析的应用领域",
+          "content": "<p class=\"text-gray-300 mb-4\">供应链分析广泛应用于需求预测、库存管理、供应商管理、物流优化、风险管理等领域。</p>"
+        }
+      ],
+      "summary": [
+        { "point": "供应链分析定义", "description": "通过数据分析优化供应链运营的过程" },
+        { "point": "重要性", "description": "识别瓶颈、优化库存、提高预测准确性、降低成本" },
+        { "point": "应用领域", "description": "需求预测、库存管理、供应商管理、物流优化、风险管理" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "供应链分析目的", "description": "描述供应链分析的主要目的", "type": "text" },
+        { "id": 2, "title": "应用场景", "description": "举例说明供应链分析的应用场景", "type": "text" },
+        { "id": 3, "title": "分析指标", "description": "列出常用的供应链分析指标", "type": "text" },
+        { "id": 4, "title": "供应链分析工具", "type": "multiple-choice", "options": ["Excel", "Python", "SAP", "Tableau"], "correctAnswer": [0, 1, 3] },
+        { "id": 5, "title": "供应链分析价值", "type": "true-false", "statement": "供应链分析可以帮助企业降低运营成本", "correctAnswer": true }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "供应链数据采集",
+      "duration": "45分钟",
+      "difficulty": "入门",
+      "completed": false,
+      "introduction": "本章将学习供应链数据的采集方法和工具，包括内部数据和外部数据的获取，为供应链分析提供数据基础。",
+      "sections": [
+        {
+          "title": "供应链数据类型",
+          "content": "<p class=\"text-gray-300 mb-4\">供应链数据包括订单数据、库存数据、物流数据、供应商数据、销售数据等多种类型。</p>"
+        },
+        { "title": "内部数据采集", "content": "<p class=\"text-gray-300 mb-4\">内部数据采集包括从ERP、WMS、TMS等系统中获取数据，以及从企业内部数据库中提取数据。</p>" },
+        { "title": "外部数据采集", "content": "<p class=\"text-gray-300 mb-4\">外部数据采集包括从供应商、客户、市场等渠道获取数据，以及使用公开数据源和第三方数据服务。</p>" }
+      ],
+      "summary": [
+        { "point": "数据类型", "description": "订单数据、库存数据、物流数据、供应商数据、销售数据等" },
+        { "point": "内部数据", "description": "从ERP、WMS、TMS等系统获取数据" },
+        { "point": "外部数据", "description": "从供应商、客户、市场等渠道获取数据" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "数据类型", "description": "列举供应链分析中常用的数据类型", "type": "text" },
+        { "id": 2, "title": "数据来源", "description": "描述供应链数据的主要来源", "type": "text" },
+        { "id": 3, "title": "数据质量", "description": "讨论如何保证供应链数据的质量", "type": "text" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "供应链关键指标分析",
+      "duration": "50分钟",
+      "difficulty": "中级",
+      "completed": false,
+      "introduction": "本章将学习供应链分析中的关键指标，包括库存周转率、订单履行率、供应商绩效等，以及如何通过这些指标评估供应链绩效。",
+      "sections": [
+        { "title": "库存指标", "content": "<p class=\"text-gray-300 mb-4\">库存指标包括库存周转率、库存天数、安全库存水平等，用于评估库存管理效率。</p>" },
+        { "title": "物流指标", "content": "<p class=\"text-gray-300 mb-4\">物流指标包括运输成本、配送时间、准时交付率等，用于评估物流运营效率。</p>" },
+        { "title": "供应商指标", "content": "<p class=\"text-gray-300 mb-4\">供应商指标包括供应商准时交付率、质量合格率、成本等，用于评估供应商绩效。</p>" }
+      ],
+      "summary": [
+        { "point": "库存指标", "description": "库存周转率、库存天数、安全库存水平等" },
+        { "point": "物流指标", "description": "运输成本、配送时间、准时交付率等" },
+        { "point": "供应商指标", "description": "准时交付率、质量合格率、成本等" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "库存周转率", "description": "计算库存周转率并分析其意义", "type": "text" },
+        { "id": 2, "title": "物流成本", "description": "分析物流成本的构成和优化方法", "type": "text" },
+        { "id": 3, "title": "供应商评估", "description": "设计供应商绩效评估体系", "type": "text" }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "供应链预测分析",
+      "duration": "55分钟",
+      "difficulty": "中级",
+      "completed": false,
+      "introduction": "本章将学习供应链预测分析的方法和工具，包括需求预测、库存预测等，提高供应链的预测准确性和响应能力。",
+      "sections": [
+        { "title": "需求预测方法", "content": "<p class=\"text-gray-300 mb-4\">需求预测方法包括时间序列分析、回归分析、机器学习等，用于预测未来的需求趋势。</p>" },
+        { "title": "库存预测", "content": "<p class=\"text-gray-300 mb-4\">库存预测是基于需求预测和库存政策，预测未来的库存水平和库存需求。</p>" },
+        { "title": "预测准确性评估", "content": "<p class=\"text-gray-300 mb-4\">预测准确性评估包括平均绝对误差(MAE)、均方根误差(RMSE)、平均绝对百分比误差(MAPE)等指标。</p>" }
+      ],
+      "summary": [
+        { "point": "需求预测", "description": "时间序列分析、回归分析、机器学习等方法" },
+        { "point": "库存预测", "description": "基于需求预测和库存政策预测库存水平" },
+        { "point": "准确性评估", "description": "MAE、RMSE、MAPE等评估指标" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "需求预测", "description": "使用时间序列分析进行需求预测", "type": "text" },
+        { "id": 2, "title": "库存预测", "description": "基于需求预测进行库存预测", "type": "text" },
+        { "id": 3, "title": "预测评估", "description": "评估预测模型的准确性", "type": "text" }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "供应链优化分析",
+      "duration": "60分钟",
+      "difficulty": "中级",
+      "completed": false,
+      "introduction": "本章将学习供应链优化分析的方法和工具，包括网络优化、库存优化、运输优化等，提高供应链的整体效率和降低成本。",
+      "sections": [
+        { "title": "网络优化", "content": "<p class=\"text-gray-300 mb-4\">网络优化包括设施选址、配送网络设计等，优化供应链网络结构。</p>" },
+        { "title": "库存优化", "content": "<p class=\"text-gray-300 mb-4\">库存优化包括安全库存设置、库存分类管理、库存策略优化等，提高库存管理效率。</p>" },
+        { "title": "运输优化", "content": "<p class=\"text-gray-300 mb-4\">运输优化包括路线优化、运输模式选择、负载优化等，降低运输成本和提高配送效率。</p>" }
+      ],
+      "summary": [
+        { "point": "网络优化", "description": "设施选址、配送网络设计等" },
+        { "point": "库存优化", "description": "安全库存设置、库存分类管理、库存策略优化等" },
+        { "point": "运输优化", "description": "路线优化、运输模式选择、负载优化等" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "网络优化", "description": "分析供应链网络结构并提出优化方案", "type": "text" },
+        { "id": 2, "title": "库存优化", "description": "设计库存优化策略", "type": "text" },
+        { "id": 3, "title": "运输优化", "description": "优化运输路线和模式", "type": "text" }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "供应链风险管理",
+      "duration": "45分钟",
+      "difficulty": "中级",
+      "completed": false,
+      "introduction": "本章将学习供应链风险管理的方法和工具，包括风险识别、风险评估、风险缓解等，提高供应链的韧性和应对风险的能力。",
+      "sections": [
+        { "title": "供应链风险类型", "content": "<p class=\"text-gray-300 mb-4\">供应链风险包括供应风险、需求风险、运营风险、财务风险、自然风险等多种类型。</p>" },
+        { "title": "风险识别与评估", "content": "<p class=\"text-gray-300 mb-4\">风险识别与评估包括使用风险矩阵、故障树分析、情景分析等方法识别和评估供应链风险。</p>" },
+        { "title": "风险缓解策略", "content": "<p class=\"text-gray-300 mb-4\">风险缓解策略包括供应商多元化、库存缓冲、合同管理、保险等，降低供应链风险的影响。</p>" }
+      ],
+      "summary": [
+        { "point": "风险类型", "description": "供应风险、需求风险、运营风险、财务风险、自然风险等" },
+        { "point": "风险评估", "description": "风险矩阵、故障树分析、情景分析等方法" },
+        { "point": "风险缓解", "description": "供应商多元化、库存缓冲、合同管理、保险等策略" }
+      ],
+      "exercises": [
+        { "id": 1, "title": "风险识别", "description": "识别供应链中的主要风险", "type": "text" },
+        { "id": 2, "title": "风险评估", "description": "评估供应链风险的影响和可能性", "type": "text" },
+        { "id": 3, "title": "风险缓解", "description": "设计供应链风险缓解策略", "type": "text" }
+      ]
+    }
+  ],
+  "problems": {
+    "1": [
+      {
+        "id": 1,
+        "title": "供应链分析目的",
+        "description": "供应链分析的主要目的是什么？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "提高供应链效率和降低成本",
+          "增加库存水平",
+          "减少供应商数量",
+          "提高产品价格"
+        ],
+        "correctAnswer": 0
+      },
+      {
+        "id": 2,
+        "title": "供应链分析应用场景",
+        "description": "以下哪些是供应链分析的应用场景？（多选）",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "需求预测",
+          "库存管理",
+          "供应商管理",
+          "物流优化"
+        ],
+        "correctAnswer": [0, 1, 2, 3]
+      },
+      {
+        "id": 3,
+        "title": "供应链分析重要性",
+        "description": "供应链分析对企业的重要性体现在哪些方面？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "提高决策准确性",
+          "降低运营成本",
+          "提高客户满意度",
+          "以上都是"
+        ],
+        "correctAnswer": 3
+      }
+    ],
+    "2": [
+      {
+        "id": 1,
+        "title": "数据类型",
+        "description": "供应链分析中常用的数据类型有哪些？（多选）",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "订单数据",
+          "库存数据",
+          "物流数据",
+          "供应商数据"
+        ],
+        "correctAnswer": [0, 1, 2, 3]
+      },
+      {
+        "id": 2,
+        "title": "数据来源",
+        "description": "以下哪个不是供应链数据的内部来源？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "ERP系统",
+          "WMS系统",
+          "供应商系统",
+          "TMS系统"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "id": 3,
+        "title": "数据质量",
+        "description": "保证供应链数据质量的方法有哪些？（多选）",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "数据清洗",
+          "数据标准化",
+          "数据验证",
+          "数据备份"
+        ],
+        "correctAnswer": [0, 1, 2]
+      }
+    ],
+    "3": [
+      {
+        "id": 1,
+        "title": "库存周转率",
+        "description": "计算库存周转率，公式为：库存周转率 = 销售成本 / 平均库存。假设销售成本为100万元，平均库存为20万元，计算库存周转率。",
+        "input": "销售成本=100万元，平均库存=20万元",
+        "output": "库存周转率",
+        "type": "code",
+        "starterCode": "# 计算库存周转率\nsales_cost = 100  # 销售成本（万元）\navg_inventory = 20  # 平均库存（万元）\n\n# 计算库存周转率\ninventory_turnover = \n\nprint(f\"库存周转率: {inventory_turnover}\")\n",
+        "solution": "# 计算库存周转率\nsales_cost = 100  # 销售成本（万元）\navg_inventory = 20  # 平均库存（万元）\n\n# 计算库存周转率\ninventory_turnover = sales_cost / avg_inventory\n\nprint(f\"库存周转率: {inventory_turnover}\")\nprint(f\"库存天数: {365 / inventory_turnover:.2f} 天\")"
+      },
+      {
+        "id": 2,
+        "title": "物流成本分析",
+        "description": "分析物流成本的构成，计算各项成本占比。",
+        "input": "运输成本=50万元，仓储成本=30万元，包装成本=10万元，其他成本=10万元",
+        "output": "成本构成和占比",
+        "type": "code",
+        "starterCode": "# 物流成本分析\ntransportation_cost = 50  # 运输成本（万元）\nwarehousing_cost = 30  # 仓储成本（万元）\npackaging_cost = 10  # 包装成本（万元）\nother_cost = 10  # 其他成本（万元）\n\n# 计算总成本\ntotal_cost = \n\n# 计算各项成本占比\ntransportation_ratio = \nwarehousing_ratio = \npackaging_ratio = \nother_ratio = \n\nprint(f\"总成本: {total_cost} 万元\")\nprint(f\"运输成本占比: {transportation_ratio:.2f}%\")\nprint(f\"仓储成本占比: {warehousing_ratio:.2f}%\")\nprint(f\"包装成本占比: {packaging_ratio:.2f}%\")\nprint(f\"其他成本占比: {other_ratio:.2f}%\")\n",
+        "solution": "# 物流成本分析\ntransportation_cost = 50  # 运输成本（万元）\nwarehousing_cost = 30  # 仓储成本（万元）\npackaging_cost = 10  # 包装成本（万元）\nother_cost = 10  # 其他成本（万元）\n\n# 计算总成本\ntotal_cost = transportation_cost + warehousing_cost + packaging_cost + other_cost\n\n# 计算各项成本占比\ntransportation_ratio = (transportation_cost / total_cost) * 100\nwarehousing_ratio = (warehousing_cost / total_cost) * 100\npackaging_ratio = (packaging_cost / total_cost) * 100\nother_ratio = (other_cost / total_cost) * 100\n\nprint(f\"总成本: {total_cost} 万元\")\nprint(f\"运输成本占比: {transportation_ratio:.2f}%\")\nprint(f\"仓储成本占比: {warehousing_ratio:.2f}%\")\nprint(f\"包装成本占比: {packaging_ratio:.2f}%\")\nprint(f\"其他成本占比: {other_ratio:.2f}%\")"
+      },
+      {
+        "id": 3,
+        "title": "供应商评估",
+        "description": "设计一个供应商绩效评估体系，包括评估指标和权重。",
+        "input": "无",
+        "output": "供应商评估体系",
+        "type": "multiple-choice",
+        "options": [
+          "准时交付率(40%)、质量合格率(30%)、成本(20%)、服务(10%)",
+          "准时交付率(20%)、质量合格率(20%)、成本(40%)、服务(20%)",
+          "准时交付率(30%)、质量合格率(40%)、成本(20%)、服务(10%)",
+          "准时交付率(25%)、质量合格率(25%)、成本(25%)、服务(25%)"
+        ],
+        "correctAnswer": 0
+      }
+    ],
+    "4": [
+      {
+        "id": 1,
+        "title": "需求预测",
+        "description": "使用移动平均法进行需求预测，计算最近3个月的移动平均值。",
+        "input": "1月需求=100，2月需求=120，3月需求=110，4月需求=130",
+        "output": "移动平均值",
+        "type": "code",
+        "starterCode": "# 需求预测 - 移动平均法\ndemand = [100, 120, 110, 130]  # 1-4月需求\n\n# 计算3个月移动平均值\nmoving_average = []\n\nfor i in range(2, len(demand)):\n    avg = \n    moving_average.append(avg)\n\nprint(f\"3个月移动平均值: {moving_average}\")\nprint(f\"5月预测需求: {moving_average[-1]:.0f}\")\n",
+        "solution": "# 需求预测 - 移动平均法\ndemand = [100, 120, 110, 130]  # 1-4月需求\n\n# 计算3个月移动平均值\nmoving_average = []\n\nfor i in range(2, len(demand)):\n    avg = (demand[i-2] + demand[i-1] + demand[i]) / 3\n    moving_average.append(avg)\n\nprint(f\"3个月移动平均值: {moving_average}\")\nprint(f\"5月预测需求: {moving_average[-1]:.0f}\")"
+      },
+      {
+        "id": 2,
+        "title": "预测准确性评估",
+        "description": "计算预测准确性指标，包括MAE、RMSE和MAPE。",
+        "input": "实际需求=[100, 120, 110, 130]，预测需求=[95, 125, 105, 135]",
+        "output": "预测准确性指标",
+        "type": "code",
+        "starterCode": "# 预测准确性评估\nactual = [100, 120, 110, 130]  # 实际需求\npredicted = [95, 125, 105, 135]  # 预测需求\n\nimport numpy as np\n\n# 计算MAE\nmae = \n\n# 计算RMSE\nrmse = \n\n# 计算MAPE\nmape = \n\nprint(f\"MAE: {mae:.2f}\")\nprint(f\"RMSE: {rmse:.2f}\")\nprint(f\"MAPE: {mape:.2f}%\")\n",
+        "solution": "# 预测准确性评估\nactual = [100, 120, 110, 130]  # 实际需求\npredicted = [95, 125, 105, 135]  # 预测需求\n\nimport numpy as np\n\n# 计算MAE\nerrors = np.abs(np.array(actual) - np.array(predicted))\nmae = np.mean(errors)\n\n# 计算RMSE\nmse = np.mean(np.square(errors))\nrmse = np.sqrt(mse)\n\n# 计算MAPE\npercentage_errors = np.abs((np.array(actual) - np.array(predicted)) / np.array(actual)) * 100\nmape = np.mean(percentage_errors)\n\nprint(f\"MAE: {mae:.2f}\")\nprint(f\"RMSE: {rmse:.2f}\")\nprint(f\"MAPE: {mape:.2f}%\")"
+      },
+      {
+        "id": 3,
+        "title": "预测方法",
+        "description": "以下哪个不是常用的需求预测方法？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "时间序列分析",
+          "回归分析",
+          "机器学习",
+          "随机猜测"
+        ],
+        "correctAnswer": 3
+      }
+    ],
+    "5": [
+      {
+        "id": 1,
+        "title": "库存优化",
+        "description": "计算经济订货批量(EOQ)，公式为：EOQ = √(2DS/H)，其中D为年需求量，S为订货成本，H为单位持有成本。",
+        "input": "年需求量=10000件，订货成本=100元/次，单位持有成本=2元/件/年",
+        "output": "经济订货批量",
+        "type": "code",
+        "starterCode": "# 计算经济订货批量(EOQ)\nD = 10000  # 年需求量（件）\nS = 100    # 订货成本（元/次）\nH = 2      # 单位持有成本（元/件/年）\n\nimport math\n\n# 计算EOQ\neoq = \n\nprint(f\"经济订货批量: {eoq:.0f} 件\")\nprint(f\"年订货次数: {D/eoq:.2f} 次\")\nprint(f\"年库存成本: {eoq/2*H + D/eoq*S:.2f} 元\")\n",
+        "solution": "# 计算经济订货批量(EOQ)\nD = 10000  # 年需求量（件）\nS = 100    # 订货成本（元/次）\nH = 2      # 单位持有成本（元/件/年）\n\nimport math\n\n# 计算EOQ\neoq = math.sqrt(2 * D * S / H)\n\nprint(f\"经济订货批量: {eoq:.0f} 件\")\nprint(f\"年订货次数: {D/eoq:.2f} 次\")\nprint(f\"年库存成本: {eoq/2*H + D/eoq*S:.2f} 元\")"
+      },
+      {
+        "id": 2,
+        "title": "运输优化",
+        "description": "比较不同运输模式的成本，选择最优运输模式。",
+        "input": "铁路运输：固定成本=1000元，单位变动成本=0.5元/公里；公路运输：固定成本=500元，单位变动成本=1元/公里；运输距离=2000公里",
+        "output": "最优运输模式",
+        "type": "code",
+        "starterCode": "# 运输模式选择\ndistance = 2000  # 运输距离（公里）\n\n# 铁路运输\nrail_fixed = 1000  # 固定成本（元）\nrail_variable = 0.5  # 单位变动成本（元/公里）\nrail_total = \n\n# 公路运输\nroad_fixed = 500  # 固定成本（元）\nroad_variable = 1  # 单位变动成本（元/公里）\nroad_total = \n\nprint(f\"铁路运输总成本: {rail_total:.2f} 元\")\nprint(f\"公路运输总成本: {road_total:.2f} 元\")\n\nif rail_total < road_total:\n    print(\"推荐使用铁路运输\")\nelse:\n    print(\"推荐使用公路运输\")\n",
+        "solution": "# 运输模式选择\ndistance = 2000  # 运输距离（公里）\n\n# 铁路运输\nrail_fixed = 1000  # 固定成本（元）\nrail_variable = 0.5  # 单位变动成本（元/公里）\nrail_total = rail_fixed + rail_variable * distance\n\n# 公路运输\nroad_fixed = 500  # 固定成本（元）\nroad_variable = 1  # 单位变动成本（元/公里）\nroad_total = road_fixed + road_variable * distance\n\nprint(f\"铁路运输总成本: {rail_total:.2f} 元\")\nprint(f\"公路运输总成本: {road_total:.2f} 元\")\n\nif rail_total < road_total:\n    print(\"推荐使用铁路运输\")\nelse:\n    print(\"推荐使用公路运输\")"
+      },
+      {
+        "id": 3,
+        "title": "网络优化",
+        "description": "供应链网络优化的目标是什么？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "最小化总成本",
+          "最大化服务水平",
+          "平衡成本和服务水平",
+          "以上都是"
+        ],
+        "correctAnswer": 3
+      }
+    ],
+    "6": [
+      {
+        "id": 1,
+        "title": "风险识别",
+        "description": "识别供应链中的主要风险类型。",
+        "input": "无",
+        "output": "供应链风险类型",
+        "type": "multiple-choice",
+        "options": [
+          "供应风险",
+          "需求风险",
+          "运营风险",
+          "以上都是"
+        ],
+        "correctAnswer": 3
+      },
+      {
+        "id": 2,
+        "title": "风险评估",
+        "description": "使用风险矩阵评估供应链风险，根据影响程度和发生可能性对风险进行分类。",
+        "input": "无",
+        "output": "风险评估结果",
+        "type": "code",
+        "starterCode": "# 风险矩阵评估\nrisks = [\n    {\"name\": \"供应商违约\", \"impact\": 4, \"probability\": 3},\n    {\"name\": \"需求波动\", \"impact\": 3, \"probability\": 4},\n    {\"name\": \"运输延迟\", \"impact\": 3, \"probability\": 3},\n    {\"name\": \"自然灾害\", \"impact\": 5, \"probability\": 1}\n]\n\n# 计算风险评分并分类\nfor risk in risks:\n    score = risk[\"impact\"] * risk[\"probability\"]\n    risk[\"score\"] = score\n    \n    # 分类风险\n    if score >= 12:\n        risk[\"category\"] = \"高风险\"\n    elif score >= 6:\n        risk[\"category\"] = \"中风险\"\n    else:\n        risk[\"category\"] = \"低风险\"\n\nprint(\"风险评估结果:\")\nfor risk in risks:\n    print(f\"{risk['name']}: 评分={risk['score']}, 分类={risk['category']}\")\n",
+        "solution": "# 风险矩阵评估\nrisks = [\n    {\"name\": \"供应商违约\", \"impact\": 4, \"probability\": 3},\n    {\"name\": \"需求波动\", \"impact\": 3, \"probability\": 4},\n    {\"name\": \"运输延迟\", \"impact\": 3, \"probability\": 3},\n    {\"name\": \"自然灾害\", \"impact\": 5, \"probability\": 1}\n]\n\n# 计算风险评分并分类\nfor risk in risks:\n    score = risk[\"impact\"] * risk[\"probability\"]\n    risk[\"score\"] = score\n    \n    # 分类风险\n    if score >= 12:\n        risk[\"category\"] = \"高风险\"\n    elif score >= 6:\n        risk[\"category\"] = \"中风险\"\n    else:\n        risk[\"category\"] = \"低风险\"\n\nprint(\"风险评估结果:\")\nfor risk in risks:\n    print(f\"{risk['name']}: 评分={risk['score']}, 分类={risk['category']}\")\n\n# 按风险评分排序\nsorted_risks = sorted(risks, key=lambda x: x[\"score\"], reverse=True)\nprint(\"\n风险优先级排序:\")\nfor i, risk in enumerate(sorted_risks, 1):\n    print(f\"{i}. {risk['name']} (评分: {risk['score']})\")"
+      },
+      {
+        "id": 3,
+        "title": "风险缓解",
+        "description": "以下哪个不是供应链风险缓解策略？",
+        "input": "无",
+        "output": "正确答案",
+        "type": "multiple-choice",
+        "options": [
+          "供应商多元化",
+          "库存缓冲",
+          "减少供应商数量",
+          "合同管理"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

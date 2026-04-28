@@ -23,43 +23,7 @@
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .glass {
-                background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            .glass-dark {
-                background: rgba(15, 23, 42, 0.8);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.05);
-            }
-            .bg-tech {
-                background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                            radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                            #0F172A;
-            }
-            .text-gradient {
-                background: linear-gradient(90deg, #3B82F6, #10B981);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            .card-hover {
-                transition: all 0.3s ease;
-            }
-            .card-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="bg-tech min-h-screen text-light overflow-x-hidden">
     <!-- 导航栏 -->
@@ -75,12 +39,33 @@
                 <a href="../index.html#about" class="text-light hover:text-accent transition-colors duration-300">关于我</a>
             </div>
             <div class="md:hidden">
-                <button class="text-light hover:text-accent transition-colors duration-300">
+                <button id="mobile-menu-button" class="text-light hover:text-accent transition-colors duration-300">
                     <i class="fa fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden glass-dark border-t border-white/10">
+            <div class="container mx-auto px-4 py-4 space-y-4">
+                <a href="../index.html" class="block text-light hover:text-accent transition-colors duration-300 py-2">首页</a>
+                <a href="../index.html#courses" class="block text-light hover:text-accent transition-colors duration-300 py-2">课程</a>
+                <a href="../index.html#about" class="block text-light hover:text-accent transition-colors duration-300 py-2">关于我</a>
+            </div>
+        </div>
     </nav>
+
+    <!-- 面包屑导航 -->
+    <div class="hidden md:block pt-24 pb-8 px-4">
+        <div class="container mx-auto">
+            <div class="flex items-center space-x-2 text-sm text-gray-400">
+                <a href="../index.html" class="hover:text-accent transition-colors duration-300">首页</a>
+                <i class="fa fa-angle-right"></i>
+                <a href="../index.html#courses" class="hover:text-accent transition-colors duration-300">课程</a>
+                <i class="fa fa-angle-right"></i>
+                <span class="text-light">供应链数据分析</span>
+            </div>
+        </div>
+    </div>
 
     <!-- 课程头部 -->
     <section class="pt-32 pb-20 relative">
@@ -143,78 +128,437 @@
                     
                     <!-- 第1章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第1章 供应链管理概述</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(1)">
+                            <h4 class="text-xl font-semibold mb-3">第1章 供应链管理概述</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-1"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>1.1 供应链的概念和特点</li>
                             <li>1.2 供应链管理的目标和挑战</li>
                             <li>1.3 供应链管理的发展趋势</li>
                             <li>1.4 供应链管理的关键指标</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-1">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.1 供应链的概念和特点</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>什么是供应链：</strong>从原材料采购到最终产品交付给客户的整个网络</p>
+                                    <p><strong>供应链主要环节：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>供应商</li>
+                                        <li>制造商</li>
+                                        <li>分销商</li>
+                                        <li>零售商</li>
+                                        <li>最终客户</li>
+                                    </ul>
+                                    <p><strong>供应链的特点：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>复杂性</li>
+                                        <li>动态性</li>
+                                        <li>交叉性</li>
+                                        <li>增值性</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.2 供应链管理的目标和挑战</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>供应链管理的主要目标：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>提高客户满意度</li>
+                                        <li>降低运营成本</li>
+                                        <li>提高响应速度</li>
+                                        <li>提高供应链弹性</li>
+                                    </ul>
+                                    <p><strong>主要挑战：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>需求不确定性</li>
+                                        <li>供应风险</li>
+                                        <li>信息不对称</li>
+                                        <li>成本控制</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.3 供应链管理的发展趋势</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>数字化转型</li>
+                                        <li>绿色供应链</li>
+                                        <li>供应链弹性</li>
+                                        <li>智能供应链</li>
+                                        <li>协同供应链</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.4 供应链管理的关键指标</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>库存周转率</li>
+                                        <li>准时交货率</li>
+                                        <li>订单履行率</li>
+                                        <li>供应链总成本</li>
+                                        <li>资产回报率</li>
+                                        <li>客户满意度</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第2章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第2章 供应链数据管理</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(2)">
+                            <h4 class="text-xl font-semibold mb-3">第2章 供应链数据管理</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-2"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>2.1 供应链数据的类型和来源</li>
                             <li>2.2 供应链数据的采集方法</li>
                             <li>2.3 供应链数据的存储和管理</li>
                             <li>2.4 供应链数据的质量控制</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-2">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.1 供应链数据的类型和来源</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>供应链数据类型：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>销售数据</li>
+                                        <li>库存数据</li>
+                                        <li>采购数据</li>
+                                        <li>物流数据</li>
+                                        <li>生产数据</li>
+                                    </ul>
+                                    <p><strong>数据来源：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>ERP系统</li>
+                                        <li>SCM系统</li>
+                                        <li>WMS系统</li>
+                                        <li>TMS系统</li>
+                                        <li>POS系统</li>
+                                        <li>外部数据源</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.2 供应链数据的采集方法</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>数据采集技术：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>条形码扫描</li>
+                                        <li>RFID技术</li>
+                                        <li>传感器网络</li>
+                                        <li>GPS定位</li>
+                                        <li>EDI电子数据交换</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.3 供应链数据的存储和管理</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>数据存储方式：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>关系型数据库</li>
+                                        <li>数据仓库</li>
+                                        <li>数据湖</li>
+                                        <li>云存储</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.4 供应链数据的质量控制</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>数据质量维度：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>准确性</li>
+                                        <li>完整性</li>
+                                        <li>一致性</li>
+                                        <li>及时性</li>
+                                        <li>唯一性</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第3章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第3章 供应链数据分析方法</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(3)">
+                            <h4 class="text-xl font-semibold mb-3">第3章 供应链数据分析方法</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-3"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>3.1 描述性分析方法</li>
                             <li>3.2 预测性分析方法</li>
                             <li>3.3 规范性分析方法</li>
                             <li>3.4 供应链网络分析</li>
                             <li>3.5 供应链风险分析</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-3">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.1 描述性分析方法</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import pandas as pd</code><br>
+                                        <code></code><br>
+                                        <code>df = pd.read_csv('supply_chain_data.csv')</code><br>
+                                        <code>print(df.describe())</code><br>
+                                        <code>print(df.groupby('category')['sales'].sum())</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.2 预测性分析方法</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>from statsmodels.tsa.arima.model import ARIMA</code><br>
+                                        <code></code><br>
+                                        <code># 时间序列预测</code><br>
+                                        <code>model = ARIMA(ts_data, order=(1,1,1))</code><br>
+                                        <code>results = model.fit()</code><br>
+                                        <code>forecast = results.forecast(steps=30)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.3 规范性分析方法</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>优化方法：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>线性规划</li>
+                                        <li>整数规划</li>
+                                        <li>目标规划</li>
+                                        <li>启发式算法</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.4 供应链网络分析</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>网络分析内容：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>节点分析</li>
+                                        <li>链路分析</li>
+                                        <li>网络结构分析</li>
+                                        <li>脆弱性分析</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.5 供应链风险分析</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>风险分析方法：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>风险识别</li>
+                                        <li>风险评估</li>
+                                        <li>风险量化</li>
+                                        <li>风险应对策略</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第4章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第4章 供应链优化技术</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(4)">
+                            <h4 class="text-xl font-semibold mb-3">第4章 供应链优化技术</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-4"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>4.1 库存优化</li>
                             <li>4.2 运输路径优化</li>
                             <li>4.3 生产计划优化</li>
                             <li>4.4 供应商选择与管理</li>
                             <li>4.5 供应链协同优化</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-4">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.1 库存优化</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>库存优化方法：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>ABC分类法</li>
+                                        <li>EOQ经济订货量</li>
+                                        <li>安全库存计算</li>
+                                        <li>再订货点确定</li>
+                                    </ul>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># EOQ计算示例</code><br>
+                                        <code>import math</code><br>
+                                        <code>D = 1000  # 年需求量</code><br>
+                                        <code>S = 50    # 每次订货成本</code><br>
+                                        <code>H = 10    # 单位年持有成本</code><br>
+                                        <code>EOQ = math.sqrt(2 * D * S / H)</code><br>
+                                        <code>print(f'经济订货量: {EOQ}')</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.2 运输路径优化</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>VRP车辆路径问题：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>单配送中心</li>
+                                        <li>多配送中心</li>
+                                        <li>带时间窗的VRP</li>
+                                        <li>动态VRP</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.3 生产计划优化</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>生产计划优化内容：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>生产排程</li>
+                                        <li>物料需求计划</li>
+                                        <li>产能规划</li>
+                                        <li>生产与库存协同</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.4 供应商选择与管理</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>供应商评估指标：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>成本</li>
+                                        <li>质量</li>
+                                        <li>交货期</li>
+                                        <li>柔性</li>
+                                        <li>风险</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.5 供应链协同优化</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>协同策略：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>信息共享</li>
+                                        <li>联合计划</li>
+                                        <li>风险共担</li>
+                                        <li>利益分配</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第5章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第5章 供应链数据分析工具</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(5)">
+                            <h4 class="text-xl font-semibold mb-3">第5章 供应链数据分析工具</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-5"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>5.1 Excel在供应链分析中的应用</li>
                             <li>5.2 Python在供应链分析中的应用</li>
                             <li>5.3 专业供应链分析软件</li>
                             <li>5.4 供应链可视化工具</li>
                             <li>5.5 供应链分析工具的综合应用</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-5">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.1 Excel在供应链分析中的应用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>数据透视表</li>
+                                        <li>图表可视化</li>
+                                        <li>规划求解</li>
+                                        <li>模拟分析</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.2 Python在供应链分析中的应用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import pandas as pd</code><br>
+                                        <code>import numpy as np</code><br>
+                                        <code>import matplotlib.pyplot as plt</code><br>
+                                        <code>import seaborn as sns</code><br>
+                                        <code></code><br>
+                                        <code># 库存分析</code><br>
+                                        <code>inventory_data = pd.read_csv('inventory.csv')</code><br>
+                                        <code>inventory_trend = inventory_data.groupby('date')['quantity'].sum()</code><br>
+                                        <code>inventory_trend.plot()</code><br>
+                                        <code>plt.show()</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.3 专业供应链分析软件</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>Oracle SCM</li>
+                                        <li>SAP IBP</li>
+                                        <li>Manhattan</li>
+                                        <li>JDA</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.4 供应链可视化工具</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>Tableau</li>
+                                        <li>Power BI</li>
+                                        <li>Gephi</li>
+                                        <li>Cytoscape</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.5 供应链分析工具的综合应用</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>工作流程：</strong></p>
+                                    <ol class="list-decimal list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>数据收集和清洗</li>
+                                        <li>探索性数据分析</li>
+                                        <li>建模和优化</li>
+                                        <li>结果可视化</li>
+                                        <li>报告和决策支持</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第6章 -->
                     <div class="glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第6章 供应链数据分析案例</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(6)">
+                            <h4 class="text-xl font-semibold mb-3">第6章 供应链数据分析案例</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-6"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>6.1 制造业供应链分析案例</li>
                             <li>6.2 零售业供应链分析案例</li>
                             <li>6.3 电商平台供应链分析案例</li>
                             <li>6.4 物流企业供应链分析案例</li>
                             <li>6.5 综合供应链优化案例</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-6">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.1 制造业供应链分析案例</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>案例内容：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>生产计划优化</li>
+                                        <li>库存优化</li>
+                                        <li>供应商管理</li>
+                                        <li>物流配送优化</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.2 零售业供应链分析案例</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>案例内容：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>需求预测</li>
+                                        <li>库存管理</li>
+                                        <li>商品调拨优化</li>
+                                        <li>促销分析</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.3 电商平台供应链分析案例</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>案例内容：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>仓储网络优化</li>
+                                        <li>订单分配策略</li>
+                                        <li>物流配送优化</li>
+                                        <li>库存调拨</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.4 物流企业供应链分析案例</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>案例内容：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>路线优化</li>
+                                        <li>车辆调度</li>
+                                        <li>网络规划</li>
+                                        <li>资源配置</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.5 综合供应链优化案例</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>案例内容：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>端到端供应链优化</li>
+                                        <li>多目标优化</li>
+                                        <li>风险与效益平衡</li>
+                                        <li>持续改进机制</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -349,37 +693,50 @@
         </div>
     </footer>
 
-    <script>
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+    <!-- 粒子背景 -->
+    <div id="particles-js" class="fixed inset-0 z-0"></div>
 
-        // 导航栏滚动效果
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('bg-opacity-95');
-                nav.classList.add('shadow-xl');
-            } else {
-                nav.classList.remove('bg-opacity-95');
-                nav.classList.remove('shadow-xl');
-            }
-        });
+    <!-- 星星背景 -->
+    <div class="fixed inset-0 z-0" id="stars"></div>
+    <div class="fixed inset-0 z-0" id="stars2"></div>
+    <div class="fixed inset-0 z-0" id="stars3"></div>
 
-        // 移动端菜单交互
-        document.querySelector('.md\:hidden button').addEventListener('click', function() {
-            alert('移动端菜单功能后续实现');
-        });
-    </script>
+    <!-- 光标跟随效果 -->
+    <div id="cursor-follower" class="cursor-follower"></div>
+
+    <!-- 回到顶部按钮 -->
+    <button id="back-to-top" class="back-to-top glass rounded-full p-3 shadow-lg">
+        <i class="fa fa-arrow-up text-accent"></i>
+    </button>
+
+    <!-- 滚动进度条 -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+
+    <!-- 邮箱弹窗 -->
+    <div id="email-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content glass rounded-2xl p-8 max-w-md w-full">
+            <div class="modal-header flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-accent">联系我</h3>
+                <button id="close-email-modal" class="text-gray-400 hover:text-light transition-colors duration-300">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-gray-300 mb-4">如果您有任何问题或建议，欢迎通过以下邮箱联系我：</p>
+                <div class="flex items-center bg-secondary rounded-lg p-3 mb-4">
+                    <input type="text" value="1537794404@qq.com" class="bg-transparent border-none text-light flex-grow focus:outline-none" readonly id="email-input">
+                    <button id="copy-email" class="text-accent hover:text-light transition-colors duration-300 ml-2">
+                        <i class="fa fa-copy"></i>
+                    </button>
+                </div>
+                <div id="copy-success" class="hidden text-green-400 text-sm mb-4">
+                    <i class="fa fa-check-circle"></i> 邮箱地址已复制到剪贴板
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script type="module" src="../js/main.js"></script>
 </body>
 </html>

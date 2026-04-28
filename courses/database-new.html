@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据库原理与应用 - hal的学习空间</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+    <!-- Schema.org结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "数据库原理与应用",
+      "description": "学习数据库的基本概念、SQL语言、数据库设计和管理，掌握数据库应用开发的核心技能。",
+      "provider": {
+        "@type": "Organization",
+        "name": "hal的学习空间"
+      },
+      "courseCode": "database",
+      "keywords": "数据库, SQL, 关系型数据库, 数据库设计, 数据库管理, MySQL, PostgreSQL, 数据库应用开发",
+      "inLanguage": "zh-CN",
+      "educationalLevel": "中级",
+      "numberOfLessons": 6,
+      "duration": "PT4H",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "startDate": "2026-01-01",
+        "endDate": "2026-12-31",
+        "courseWorkload": "4小时"
+      }
+    }
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F172A',
+                        secondary: '#1E293B',
+                        accent: '#3B82F6',
+                        accent2: '#10B981',
+                        light: '#F8FAFC',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-tech min-h-screen text-light overflow-x-hidden">
+    <!-- 滚动进度条 -->
+    <div id="scrollProgress" class="scroll-progress" style="width: 0%;"></div>
+    
+    <!-- 光标跟随效果 -->
+    <div id="cursorFollower" class="cursor-follower"></div>
+    
+    <!-- 回到顶部按钮 -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+    
+    <!-- 粒子背景 -->
+    <canvas id="particlesCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+    
+    <!-- 星星背景 -->
+    <div id="stars" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- 导航栏 -->
+    <nav class="glass-dark fixed top-0 left-0 right-0 z-50 shadow-xl transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-accent font-bold text-xl flex items-center">
+                <i class="fa fa-graduation-cap mr-3 text-2xl"></i>
+                <span>hal的学习空间</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="../index.html" class="text-light hover:text-accent transition-colors duration-300">首页</a>
+                <a href="#learn" class="text-light hover:text-accent transition-colors duration-300 active">学习</a>
+                <a href="#practice" class="text-light hover:text-accent transition-colors duration-300">练习</a>
+                <a href="#exam" class="text-light hover:text-accent transition-colors duration-300">考试</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobileMenuBtn" class="text-light hover:text-accent transition-colors duration-300">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobileMenu" class="mobile-menu hidden md:hidden glass-dark border-t border-white/10">
+            <div class="container mx-auto px-4 py-4 space-y-4">
+                <a href="../index.html" class="block text-light hover:text-accent transition-colors duration-300 py-2">首页</a>
+                <a href="#learn" class="block text-light hover:text-accent transition-colors duration-300 py-2 active">学习</a>
+                <a href="#practice" class="block text-light hover:text-accent transition-colors duration-300 py-2">练习</a>
+                <a href="#exam" class="block text-light hover:text-accent transition-colors duration-300 py-2">考试</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main class="pt-20">
+        <!-- Learn页面 -->
+        <section id="learn" class="min-h-screen py-16">
+            <div class="container mx-auto px-4">
+                <!-- 面包屑导航 -->
+                <div class="breadcrumb">
+                    <a href="../index.html" class="breadcrumb-item hover:text-accent transition-colors duration-300">首页</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-active">数据库原理与应用</span>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    <!-- 侧边栏 - 章节导航 -->
+                    <aside class="lg:col-span-1">
+                        <div class="glass rounded-2xl p-6 border border-white/5 sticky top-24">
+                            <h3 class="text-xl font-semibold mb-6 text-accent">课程章节</h3>
+                            <div class="space-y-3" id="chapterList">
+                                <button class="chapter-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-colors duration-300 active border border-accent/30" data-chapter="1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <i class="fa fa-check-circle text-green-400 mr-2"></i>
+                                            <span>数据库基础概念</span>
+                                        </div>
+                                        <span class="text-xs text-gray-400">35分钟</span>
+                                    </div>
+                                </button>
+                                <button class="chapter-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-colors duration-300" data-chapter="2">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <i class="fa fa-circle text-gray-600 mr-2"></i>
+                                            <span>关系型数据库</span>
+                                        </div>
+                                        <span class="text-xs text-gray-400">45分钟</span>
+                                    </div>
+                                </button>
+                                <button class="chapter-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-colors duration-300" data-chapter="3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <i class="fa fa-circle text-gray-600 mr-2"></i>
+                                            <span>SQL语言基础</span>
+                                        </div>
+                                        <span class="text-xs text-gray-400">50分钟</span>
+                                    </div>
+                                </button>
+                                <button class="chapter-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-colors duration-300" data-chapter="4">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <i class="fa fa-circle text-gray-600 mr-2"></i>
+                                            <span>数据库设计</span>
+                                        </div>
+                                        <span class="text-xs text-gray-400">40分钟</span>
+                                    </div>
+                                </button>
+                                <button class="chapter-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-colors duration-300" data-chapter="5">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <i class="fa fa-circle text-gray-600 mr-2"></i>
+                                            <span>数据库管理与优化</span>
+                                        </div>
+                                        <span class="text-xs text-gray-400">45分钟</span>
+                                    </div>
+                                </button>
+                                <button class="chapter-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-colors duration-300" data-chapter="6">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <i class="fa fa-circle text-gray-600 mr-2"></i>
+                                            <span>数据库应用开发</span>
+                                        </div>
+                                        <span class="text-xs text-gray-400">55分钟</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- 主内容区 -->
+                    <article class="lg:col-span-3">
+                        <div class="glass rounded-2xl p-8 md:p-12 border border-white/5">
+                            <!-- 章节标题 -->
+                            <div class="mb-8">
+                                <h1 id="chapterTitle" class="text-3xl md:text-4xl font-bold mb-4">
+                                    <span class="text-gradient">数据库基础概念</span>
+                                </h1>
+                                <div class="flex items-center space-x-4 text-gray-400">
+                                    <span><i class="fa fa-clock-o mr-2"></i>预计学习时间：<span class="chapter-info-duration">35分钟</span></span>
+                                    <span class="chapter-info-difficulty"><i class="fa fa-book mr-2"></i>难度：入门</span>
+                                </div>
+                            </div>
+
+                            <!-- 章节导学 -->
+                            <div class="chapter-intro mb-12">
+                                <h3 class="text-xl font-semibold mb-4 text-accent flex items-center">
+                                    <i class="fa fa-book mr-2"></i>章节导学
+                                </h3>
+                                <p class="text-gray-300 leading-relaxed">
+                                    本章将介绍数据库的基本概念、发展历史、分类和特点，以及数据库管理系统的功能和组成。
+                                    通过本章的学习，您将对数据库有一个全面的认识，为后续的学习打下基础。
+                                </p>
+                            </div>
+
+                            <!-- 主要内容 -->
+                            <div class="chapter-content mb-12">
+                                <div class="mb-6">
+                                    <h4 class="text-lg font-semibold mb-3 text-accent">什么是数据库？</h4>
+                                    <p class="text-gray-300 mb-4">
+                                        数据库是按照一定的数据模型组织、存储和管理数据的仓库。它是长期存储在计算机内的、有组织的、可共享的数据集合。
+                                        数据库管理系统（DBMS）是管理数据库的软件系统，它提供了数据定义、数据操纵、数据控制和数据库维护等功能。
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 本章小结 -->
+                            <div class="mb-12">
+                                <h3 class="text-xl font-semibold mb-4 text-accent flex items-center">
+                                    <i class="fa fa-check-circle mr-2"></i>本章小结
+                                </h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full summary-table">
+                                        <thead>
+                                            <tr class="border-b border-white/10">
+                                                <th class="text-left py-3 px-4 text-gray-400">知识点</th>
+                                                <th class="text-left py-3 px-4 text-gray-400">内容</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">✅ 数据库概念</td>
+                                                <td class="py-3 px-4 text-gray-400">按照一定数据模型组织、存储和管理数据的仓库</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">✅ 数据库分类</td>
+                                                <td class="py-3 px-4 text-gray-400">关系型数据库、NoSQL数据库、NewSQL数据库</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">✅ 数据库管理系统</td>
+                                                <td class="py-3 px-4 text-gray-400">管理数据库的软件系统</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-3 px-4 text-gray-300">✅ 数据库特点</td>
+                                                <td class="py-3 px-4 text-gray-400">数据结构化、数据共享、数据独立性、数据完整性</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- 随堂练习 -->
+                            <div class="in-class-exercises mb-12">
+                                <h3 class="text-xl font-semibold mb-4 text-accent flex items-center">
+                                    <i class="fa fa-pencil mr-2"></i>随堂练习
+                                </h3>
+                                <div class="space-y-4">
+                                </div>
+                            </div>
+
+                            <!-- 导航按钮 -->
+                            <div class="flex justify-between items-center pt-8 border-t border-white/10">
+                                <button class="prev-chapter-btn bg-white/10 hover:bg-white/20 transition-colors duration-300 px-6 py-3 rounded-lg flex items-center" onclick="goToPrevChapter()">
+                                    <i class="fa fa-arrow-left mr-2"></i>上一章
+                                </button>
+                                <button class="next-chapter-btn bg-accent hover:bg-accent/90 transition-colors duration-300 px-8 py-3 rounded-lg flex items-center" onclick="goToNextChapter()">
+                                    <span>下一章</span>
+                                    <i class="fa fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practice页面 -->
+        <section id="practice" class="min-h-screen py-16 hidden">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                        <span class="text-gradient">数据库练习</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg">通过练习巩固所学知识</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    <!-- 章节选择 -->
+                    <aside class="lg:col-span-1">
+                        <div class="glass rounded-2xl p-6 border border-white/5 sticky top-24">
+                            <h3 class="text-xl font-semibold mb-6 text-accent">练习章节</h3>
+                            <select id="chapterSelect" class="w-full bg-black/30 border border-white/20 rounded-lg px-4 py-3 text-light focus:outline-none focus:border-accent transition-colors duration-300">
+                                <option value="1">第一章：数据库基础概念 (10题)</option>
+                                <option value="2">第二章：关系型数据库 (12题)</option>
+                                <option value="3">第三章：SQL语言基础 (15题)</option>
+                                <option value="4">第四章：数据库设计 (14题)</option>
+                                <option value="5">第五章：数据库管理与优化 (16题)</option>
+                                <option value="6">第六章：数据库应用开发 (18题)</option>
+                            </select>
+                        </div>
+                    </aside>
+
+                    <!-- 练习区域 -->
+                    <div class="lg:col-span-3">
+                        <!-- 题目列表 -->
+                        <div class="practice-header glass rounded-2xl p-6 border border-white/5 mb-8">
+                            <h3 class="text-xl font-semibold mb-6 text-accent">数据库原理与应用 - 第一章：数据库基础概念</h3>
+                            <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-3 mb-6" id="problemList">
+                                <button class="problem-btn w-full h-12 rounded-lg bg-accent/20 border border-accent/50 text-accent hover:bg-accent/30 transition-all duration-300 flex items-center justify-center active" data-problem="1">1</button>
+                                <button class="problem-btn w-full h-12 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all duration-300 flex items-center justify-center" data-problem="2">2</button>
+                                <button class="problem-btn w-full h-12 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all duration-300 flex items-center justify-center" data-problem="3">3</button>
+                                <button class="problem-btn w-full h-12 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all duration-300 flex items-center justify-center" data-problem="4">4</button>
+                                <button class="problem-btn w-full h-12 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all duration-300 flex items-center justify-center" data-problem="5">5</button>
+                                <button class="problem-btn w-full h-12 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all duration-300 flex items-center justify-center" data-problem="6">6</button>
+                                <button class="problem-btn w-full h-12 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all duration-300 flex items-center justify-center" data-problem="7">7</button>
+                            </div>
+                        </div>
+
+                        <!-- 题目详情和编辑器 -->
+                        <div class="glass rounded-2xl p-8 border border-white/5">
+                            <!-- 题目内容 -->
+                            <div class="mb-8">
+                                <h4 class="text-xl font-semibold mb-4" id="problemTitle">1. 数据库分类</h4>
+                                <p class="problem-description text-gray-300 leading-relaxed mb-4">请列出主要的数据库类型，并简要描述每种类型的特点。</p>
+                                
+                                <div class="problem-input bg-black/30 rounded-lg p-4 mb-4">
+                                    <h5 class="text-sm font-semibold mb-2 text-gray-400">输入</h5>
+                                    <p class="text-gray-300">无</p>
+                                </div>
+                                
+                                <div class="problem-output bg-black/30 rounded-lg p-4">
+                                    <h5 class="text-sm font-semibold mb-2 text-gray-400">输出</h5>
+                                    <p class="text-gray-300">主要数据库类型及其特点</p>
+                                </div>
+                            </div>
+
+                            <!-- 代码编辑器 -->
+                            <div class="mb-8">
+                                <h5 class="text-lg font-semibold mb-4 text-accent flex items-center justify-between">
+                                    <span>代码编辑器</span>
+                                    <button id="resetBtn" class="text-sm text-gray-400 hover:text-accent transition-colors duration-300">
+                                        <i class="fa fa-refresh mr-1"></i>重置
+                                    </button>
+                                </h5>
+                                <textarea id="codeEditor" class="w-full h-64 bg-black/40 border border-white/20 rounded-lg p-4 text-light font-mono text-sm focus:outline-none focus:border-accent transition-colors duration-300 resize-none" placeholder="# 在下方编写代码"># 在下方编写代码
+
+</textarea>
+                            </div>
+
+                            <!-- 运行和输出 -->
+                            <div class="mb-6">
+                                <button id="runBtn" class="bg-accent hover:bg-accent/90 transition-colors duration-300 px-8 py-3 rounded-lg flex items-center mr-4">
+                                    <i class="fa fa-play mr-2"></i>运行代码
+                                </button>
+                            </div>
+
+                            <!-- 输出区域 -->
+                            <div class="mb-8">
+                                <h5 class="text-lg font-semibold mb-4 text-accent">输出结果</h5>
+                                <div id="outputArea" class="bg-black/40 border border-white/20 rounded-lg p-4 min-h-32 font-mono text-sm">
+                                    <span class="text-gray-500">点击"运行代码"查看输出结果</span>
+                                </div>
+                            </div>
+
+                            <!-- 提交按钮 -->
+                            <div class="flex justify-between items-center">
+                                <button class="prev-problem-btn bg-white/10 hover:bg-white/20 transition-colors duration-300 px-6 py-3 rounded-lg flex items-center" onclick="goToPrevProblem()">
+                                    <i class="fa fa-arrow-left mr-2"></i>上一题
+                                </button>
+                                <button id="submitBtn" class="bg-accent2 hover:bg-accent2/90 transition-colors duration-300 px-8 py-3 rounded-lg flex items-center">
+                                    <i class="fa fa-check mr-2"></i>提交答案
+                                </button>
+                                <button class="next-problem-btn bg-white/10 hover:bg-white/20 transition-colors duration-300 px-6 py-3 rounded-lg flex items-center" onclick="goToNextProblem()">
+                                    <span>下一题</span>
+                                    <i class="fa fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exam页面 -->
+        <section id="exam" class="min-h-screen py-16 hidden">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                        <span class="text-gradient">课程考试</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg">测试您的学习成果</p>
+                </div>
+
+                <div class="glass rounded-2xl p-8 md:p-12 border border-white/5 max-w-3xl mx-auto">
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-semibold mb-4 text-accent">数据库原理与应用课程考试</h3>
+                        <p class="text-gray-400">本次考试共有10道题目，包括单选题、多选题和判断题。请认真作答。</p>
+                    </div>
+
+                    <div class="exam-content">
+                        <h4 class="text-xl font-semibold mb-6">考试题目</h4>
+                        
+                        <div class="space-y-8">
+                            <!-- 题目1：单选题 -->
+                            <div class="exam-question">
+                                <h5 class="text-lg font-semibold mb-4">1. 以下哪个不是关系型数据库？</h5>
+                                <div class="space-y-3">
+                                    <div class="option-item">
+                                        <input type="radio" id="q1-option1" name="q1" value="A" class="mr-2">
+                                        <label for="q1-option1" class="cursor-pointer">A. MySQL</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="q1-option2" name="q1" value="B" class="mr-2">
+                                        <label for="q1-option2" class="cursor-pointer">B. PostgreSQL</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="q1-option3" name="q1" value="C" class="mr-2">
+                                        <label for="q1-option3" class="cursor-pointer">C. MongoDB</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="q1-option4" name="q1" value="D" class="mr-2">
+                                        <label for="q1-option4" class="cursor-pointer">D. Oracle</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 题目2：单选题 -->
+                            <div class="exam-question">
+                                <h5 class="text-lg font-semibold mb-4">2. SQL中用于查询数据的语句是？</h5>
+                                <div class="space-y-3">
+                                    <div class="option-item">
+                                        <input type="radio" id="q2-option1" name="q2" value="A" class="mr-2">
+                                        <label for="q2-option1" class="cursor-pointer">A. INSERT</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="q2-option2" name="q2" value="B" class="mr-2">
+                                        <label for="q2-option2" class="cursor-pointer">B. UPDATE</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="q2-option3" name="q2" value="C" class="mr-2">
+                                        <label for="q2-option3" class="cursor-pointer">C. SELECT</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="q2-option4" name="q2" value="D" class="mr-2">
+                                        <label for="q2-option4" class="cursor-pointer">D. DELETE</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 题目3：判断题 -->
+                            <div class="exam-question">
+                                <h5 class="text-lg font-semibold mb-4">3. 主键是唯一标识表中记录的字段。</h5>
+                                <div class="space-y-3">
+                                    <div class="option-item">
+                                        <input type="radio" id="q3-option1" name="q3" value="true" class="mr-2">
+                                        <label for="q3-option1" class="cursor-pointer">正确</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="q3-option2" name="q3" value="false" class="mr-2">
+                                        <label for="q3-option2" class="cursor-pointer">错误</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 flex justify-center">
+                        <button class="bg-accent hover:bg-accent/90 transition-colors duration-300 px-8 py-4 rounded-lg flex items-center text-lg font-medium">
+                            <i class="fa fa-check-circle mr-2"></i>提交考试
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="glass-dark py-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-8 md:mb-0">
+                    <p class="text-gray-400 text-lg">© 2026 hal的学习空间</p>
+                    <p class="text-gray-500 text-sm mt-2">用代码构建未来，用数据创造价值</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-accent transition-all duration-300 transform hover:-translate-y-1">
+                        <i class="fa fa-github text-3xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-green-400 transition-all duration-300 transform hover:-translate-y-1">
+                        <i class="fa fa-weixin text-3xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-accent transition-all duration-300 transform hover:-translate-y-1">
+                        <i class="fa fa-qq text-3xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 邮箱弹窗 -->
+    <div id="emailModal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content glass rounded-2xl p-8 max-w-md w-full">
+            <div class="modal-header flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-accent">联系我</h3>
+                <button id="closeEmailModal" class="text-gray-400 hover:text-light transition-colors duration-300">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-gray-300 mb-4">如果您有任何问题或建议，欢迎通过以下邮箱联系我：</p>
+                <div class="flex items-center bg-secondary rounded-lg p-3 mb-4">
+                    <input type="text" value="1537794404@qq.com" class="bg-transparent border-none text-light flex-grow focus:outline-none" readonly id="emailInput">
+                    <button id="copyEmail" class="text-accent hover:text-light transition-colors duration-300 ml-2">
+                        <i class="fa fa-copy"></i>
+                    </button>
+                </div>
+                <div id="copySuccess" class="hidden text-green-400 text-sm mb-4">
+                    <i class="fa fa-check-circle"></i>邮箱地址已复制到剪贴板
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/main.js"></script>
+    <script src="js/database.js"></script>
+    <script>
+        // 课程数据
+        const courseData = {
+            chapters: [
+                {
+                    id: 1,
+                    title: '数据库基础概念',
+                    duration: '35分钟',
+                    difficulty: '入门',
+                    completed: true,
+                    introduction: '本章将介绍数据库的基本概念、发展历史、分类和特点，以及数据库管理系统的功能和组成。通过本章的学习，您将对数据库有一个全面的认识，为后续的学习打下基础。',
+                    sections: [
+                        {
+                            title: '什么是数据库？',
+                            content: `
+                                <p class="text-gray-300 mb-4">数据库是按照一定的数据模型组织、存储和管理数据的仓库。它是长期存储在计算机内的、有组织的、可共享的数据集合。数据库管理系统（DBMS）是管理数据库的软件系统，它提供了数据定义、数据操纵、数据控制和数据库维护等功能。</p>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">数据库的发展历史</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-400 ml-4 mb-6">
+                                    <li>人工管理阶段：20世纪50年代，数据由应用程序管理</li>
+                                    <li>文件系统阶段：20世纪60年代，数据以文件形式存储</li>
+                                    <li>数据库系统阶段：20世纪70年代至今，使用DBMS管理数据</li>
+                                </ul>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">数据库分类</h4>
+                                <div class="overflow-x-auto mb-6">
+                                    <table class="w-full">
+                                        <thead>
+                                            <tr class="border-b border-white/10">
+                                                <th class="text-left py-3 px-4 text-gray-400">类型</th>
+                                                <th class="text-left py-3 px-4 text-gray-400">描述</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">关系型数据库</td>
+                                                <td class="py-3 px-4 text-gray-400">使用关系模型，如MySQL、PostgreSQL、Oracle</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">NoSQL数据库</td>
+                                                <td class="py-3 px-4 text-gray-400">非关系型数据库，如MongoDB、Redis、Cassandra</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">NewSQL数据库</td>
+                                                <td class="py-3 px-4 text-gray-400">结合关系型和NoSQL的优点，如Google Spanner、CockroachDB</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-3 px-4 text-gray-300">时序数据库</td>
+                                                <td class="py-3 px-4 text-gray-400">专门存储时间序列数据，如InfluxDB、TimescaleDB</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">数据库的特点</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-400 ml-4 mb-6">
+                                    <li>数据结构化：数据按照一定的模型组织</li>
+                                    <li>数据共享：多个用户可以同时访问数据</li>
+                                    <li>数据独立性：数据与应用程序分离</li>
+                                    <li>数据完整性：保证数据的正确性和一致性</li>
+                                    <li>数据安全性：保护数据不被未授权访问</li>
+                                    <li>数据可扩展性：可以方便地扩展数据</li>
+                                </ul>
+                            `
+                        }
+                    ],
+                    summary: [
+                        { point: '数据库概念', description: '按照一定数据模型组织、存储和管理数据的仓库' },
+                        { point: '数据库分类', description: '关系型数据库、NoSQL数据库、NewSQL数据库' },
+                        { point: '数据库管理系统', description: '管理数据库的软件系统' },
+                        { point: '数据库特点', description: '数据结构化、数据共享、数据独立性、数据完整性' }
+                    ],
+                    exercises: [
+                        { id: 1, title: '数据库分类', description: '列出主要的数据库类型，并简要描述每种类型的特点' },
+                        { id: 2, title: '数据库特点', description: '描述数据库的主要特点' },
+                        { id: 3, title: '数据库管理系统', description: '说明数据库管理系统的主要功能' }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: '关系型数据库',
+                    duration: '45分钟',
+                    difficulty: '入门',
+                    completed: false,
+                    introduction: '本章将学习关系型数据库的基本概念、关系模型、关系代数、规范化理论等，以及关系型数据库的优缺点。',
+                    sections: [
+                        {
+                            title: '关系模型',
+                            content: `
+                                <p class="text-gray-300 mb-4">关系模型是关系型数据库的基础，它使用表格（关系）来组织数据。每个表格由行（元组）和列（属性）组成。</p>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">关系的基本概念</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-400 ml-4 mb-6">
+                                    <li>关系（Relation）：二维表格，如学生表、课程表</li>
+                                    <li>元组（Tuple）：表格中的一行，如一个学生的记录</li>
+                                    <li>属性（Attribute）：表格中的一列，如学生的姓名、年龄</li>
+                                    <li>域（Domain）：属性的取值范围，如年龄的取值范围是正整数</li>
+                                    <li>主键（Primary Key）：唯一标识元组的属性或属性组合</li>
+                                    <li>外键（Foreign Key）：引用其他关系主键的属性</li>
+                                </ul>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">关系完整性约束</h4>
+                                <div class="overflow-x-auto mb-6">
+                                    <table class="w-full">
+                                        <thead>
+                                            <tr class="border-b border-white/10">
+                                                <th class="text-left py-3 px-4 text-gray-400">约束类型</th>
+                                                <th class="text-left py-3 px-4 text-gray-400">描述</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">实体完整性</td>
+                                                <td class="py-3 px-4 text-gray-400">主键值不能为空且唯一</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">参照完整性</td>
+                                                <td class="py-3 px-4 text-gray-400">外键值必须是被参照关系的主键值或空值</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-3 px-4 text-gray-300">用户定义完整性</td>
+                                                <td class="py-3 px-4 text-gray-400">根据业务需求定义的约束</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            `
+                        }
+                    ],
+                    summary: [
+                        { point: '关系模型', description: '使用表格组织数据，包含关系、元组、属性等概念' },
+                        { point: '完整性约束', description: '实体完整性、参照完整性、用户定义完整性' },
+                        { point: '关系代数', description: '选择、投影、连接、并、差、交等操作' },
+                        { point: '规范化理论', description: '第一范式、第二范式、第三范式等' }
+                    ],
+                    exercises: [
+                        { id: 1, title: '关系模型概念', description: '解释关系模型的基本概念' },
+                        { id: 2, title: '完整性约束', description: '描述关系的完整性约束' },
+                        { id: 3, title: '关系代数', description: '说明关系代数的基本操作' }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: 'SQL语言基础',
+                    duration: '50分钟',
+                    difficulty: '中级',
+                    completed: false,
+                    introduction: '本章将学习SQL语言的基本语法和用法，包括数据定义、数据操纵、数据查询和数据控制等。',
+                    sections: [
+                        {
+                            title: 'SQL简介',
+                            content: `
+                                <p class="text-gray-300 mb-4">SQL（Structured Query Language）是关系型数据库的标准查询语言，用于管理关系型数据库系统。</p>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">SQL的分类</h4>
+                                <div class="overflow-x-auto mb-6">
+                                    <table class="w-full">
+                                        <thead>
+                                            <tr class="border-b border-white/10">
+                                                <th class="text-left py-3 px-4 text-gray-400">分类</th>
+                                                <th class="text-left py-3 px-4 text-gray-400">描述</th>
+                                                <th class="text-left py-3 px-4 text-gray-400">示例命令</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">DDL</td>
+                                                <td class="py-3 px-4 text-gray-400">数据定义语言，用于定义数据库结构</td>
+                                                <td class="py-3 px-4 text-gray-400">CREATE, ALTER, DROP</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">DML</td>
+                                                <td class="py-3 px-4 text-gray-400">数据操纵语言，用于操纵数据</td>
+                                                <td class="py-3 px-4 text-gray-400">INSERT, UPDATE, DELETE</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">DQL</td>
+                                                <td class="py-3 px-4 text-gray-400">数据查询语言，用于查询数据</td>
+                                                <td class="py-3 px-4 text-gray-400">SELECT</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-3 px-4 text-gray-300">DCL</td>
+                                                <td class="py-3 px-4 text-gray-400">数据控制语言，用于控制数据访问</td>
+                                                <td class="py-3 px-4 text-gray-400">GRANT, REVOKE</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">SQL基本语法</h4>
+                                <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-4">
+                                    <code>-- 创建表</code><br>
+                                    <code>CREATE TABLE students (</code><br>
+                                    <code>    id INT PRIMARY KEY,</code><br>
+                                    <code>    name VARCHAR(50),</code><br>
+                                    <code>    age INT,</code><br>
+                                    <code>    gender VARCHAR(10)</code><br>
+                                    <code>);</code><br>
+                                    <code></code><br>
+                                    <code>-- 插入数据</code><br>
+                                    <code>INSERT INTO students (id, name, age, gender)</code><br>
+                                    <code>VALUES (1, 'Alice', 20, 'Female'),</code><br>
+                                    <code>       (2, 'Bob', 21, 'Male'),</code><br>
+                                    <code>       (3, 'Charlie', 19, 'Male');</code><br>
+                                    <code></code><br>
+                                    <code>-- 查询数据</code><br>
+                                    <code>SELECT * FROM students;</code><br>
+                                    <code></code><br>
+                                    <code>-- 更新数据</code><br>
+                                    <code>UPDATE students SET age = 22 WHERE id = 1;</code><br>
+                                    <code></code><br>
+                                    <code>-- 删除数据</code><br>
+                                    <code>DELETE FROM students WHERE id = 3;</code>
+                                </div>
+                            `
+                        }
+                    ],
+                    summary: [
+                        { point: 'SQL分类', description: 'DDL、DML、DQL、DCL' },
+                        { point: '数据定义', description: 'CREATE、ALTER、DROP' },
+                        { point: '数据操纵', description: 'INSERT、UPDATE、DELETE' },
+                        { point: '数据查询', description: 'SELECT、FROM、WHERE、GROUP BY、HAVING、ORDER BY' }
+                    ],
+                    exercises: [
+                        { id: 1, title: '创建表', description: '编写SQL语句创建学生表' },
+                        { id: 2, title: '插入数据', description: '编写SQL语句插入学生数据' },
+                        { id: 3, title: '查询数据', description: '编写SQL语句查询学生数据' }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: '数据库设计',
+                    duration: '40分钟',
+                    difficulty: '中级',
+                    completed: false,
+                    introduction: '本章将学习数据库设计的基本原理和方法，包括需求分析、概念设计、逻辑设计和物理设计等。',
+                    sections: [
+                        {
+                            title: '数据库设计步骤',
+                            content: `
+                                <p class="text-gray-300 mb-4">数据库设计是指根据业务需求设计数据库结构的过程，包括需求分析、概念设计、逻辑设计和物理设计四个阶段。</p>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">数据库设计步骤</h4>
+                                <ol class="list-decimal list-inside space-y-2 text-gray-400 ml-4 mb-6">
+                                    <li>需求分析：了解业务需求，确定数据需求</li>
+                                    <li>概念设计：设计概念模型，如ER图</li>
+                                    <li>逻辑设计：将概念模型转换为逻辑模型，如关系模式</li>
+                                    <li>物理设计：设计物理存储结构，如索引、分区等</li>
+                                    <li>实现与测试：实现数据库并进行测试</li>
+                                </ol>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">ER图设计</h4>
+                                <p class="text-gray-300 mb-4">ER图（实体-关系图）是概念设计的重要工具，用于表示实体、属性和实体之间的关系。</p>
+                                
+                                <div class="overflow-x-auto mb-6">
+                                    <table class="w-full">
+                                        <thead>
+                                            <tr class="border-b border-white/10">
+                                                <th class="text-left py-3 px-4 text-gray-400">元素</th>
+                                                <th class="text-left py-3 px-4 text-gray-400">描述</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">实体（Entity）</td>
+                                                <td class="py-3 px-4 text-gray-400">现实世界中的对象，如学生、课程</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">属性（Attribute）</td>
+                                                <td class="py-3 px-4 text-gray-400">实体的特征，如学生的姓名、年龄</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">关系（Relationship）</td>
+                                                <td class="py-3 px-4 text-gray-400">实体之间的联系，如学生选修课程</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-3 px-4 text-gray-300">关系类型</td>
+                                                <td class="py-3 px-4 text-gray-400">一对一、一对多、多对多</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            `
+                        }
+                    ],
+                    summary: [
+                        { point: '数据库设计步骤', description: '需求分析、概念设计、逻辑设计、物理设计' },
+                        { point: 'ER图设计', description: '实体、属性、关系的表示' },
+                        { point: '关系模式设计', description: '将ER图转换为关系模式' },
+                        { point: '规范化', description: '提高关系模式的质量' }
+                    ],
+                    exercises: [
+                        { id: 1, title: 'ER图设计', description: '设计学生选课系统的ER图' },
+                        { id: 2, title: '关系模式设计', description: '将ER图转换为关系模式' },
+                        { id: 3, title: '规范化', description: '将关系模式规范化到第三范式' }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: '数据库管理与优化',
+                    duration: '45分钟',
+                    difficulty: '中级',
+                    completed: false,
+                    introduction: '本章将学习数据库管理和优化的基本方法，包括数据库备份与恢复、安全管理、性能优化等。',
+                    sections: [
+                        {
+                            title: '数据库备份与恢复',
+                            content: `
+                                <p class="text-gray-300 mb-4">数据库备份是指将数据库的数据和结构复制到安全的位置，以便在数据库发生故障时恢复数据。</p>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">备份类型</h4>
+                                <div class="overflow-x-auto mb-6">
+                                    <table class="w-full">
+                                        <thead>
+                                            <tr class="border-b border-white/10">
+                                                <th class="text-left py-3 px-4 text-gray-400">备份类型</th>
+                                                <th class="text-left py-3 px-4 text-gray-400">描述</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">完全备份</td>
+                                                <td class="py-3 px-4 text-gray-400">备份整个数据库</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">增量备份</td>
+                                                <td class="py-3 px-4 text-gray-400">备份自上次备份以来的更改</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-3 px-4 text-gray-300">差异备份</td>
+                                                <td class="py-3 px-4 text-gray-400">备份自上次完全备份以来的更改</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-3 px-4 text-gray-300">事务日志备份</td>
+                                                <td class="py-3 px-4 text-gray-400">备份事务日志</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">数据库性能优化</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-400 ml-4 mb-6">
+                                    <li>索引优化：创建合适的索引</li>
+                                    <li>查询优化：优化SQL语句</li>
+                                    <li>表结构优化：合理设计表结构</li>
+                                    <li>存储优化：合理配置存储</li>
+                                    <li>参数优化：调整数据库参数</li>
+                                </ul>
+                            `
+                        }
+                    ],
+                    summary: [
+                        { point: '备份与恢复', description: '完全备份、增量备份、差异备份' },
+                        { point: '安全管理', description: '用户权限管理、数据加密' },
+                        { point: '性能优化', description: '索引优化、查询优化、表结构优化' },
+                        { point: '监控与维护', description: '数据库监控、定期维护' }
+                    ],
+                    exercises: [
+                        { id: 1, title: '备份策略', description: '设计数据库备份策略' },
+                        { id: 2, title: '索引优化', description: '设计合适的索引' },
+                        { id: 3, title: '查询优化', description: '优化SQL查询语句' }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: '数据库应用开发',
+                    duration: '55分钟',
+                    difficulty: '高级',
+                    completed: false,
+                    introduction: '本章将学习数据库应用开发的基本方法，包括数据库连接、事务处理、存储过程、触发器等。',
+                    sections: [
+                        {
+                            title: '数据库连接',
+                            content: `
+                                <p class="text-gray-300 mb-4">数据库连接是应用程序与数据库之间的桥梁，用于执行SQL语句和获取结果。</p>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">Python连接MySQL示例</h4>
+                                <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-4">
+                                    <code>import mysql.connector</code><br>
+                                    <code></code><br>
+                                    <code># 连接数据库</code><br>
+                                    <code>conn = mysql.connector.connect(</code><br>
+                                    <code>    host="localhost",</code><br>
+                                    <code>    user="root",</code><br>
+                                    <code>    password="password",</code><br>
+                                    <code>    database="test"</code><br>
+                                    <code>)</code><br>
+                                    <code></code><br>
+                                    <code># 创建游标</code><br>
+                                    <code>cursor = conn.cursor()</code><br>
+                                    <code></code><br>
+                                    <code># 执行SQL语句</code><br>
+                                    <code>cursor.execute("SELECT * FROM students")</code><br>
+                                    <code></code><br>
+                                    <code># 获取结果</code><br>
+                                    <code>results = cursor.fetchall()</code><br>
+                                    <code>for row in results:</code><br>
+                                    <code>    print(row)</code><br>
+                                    <code></code><br>
+                                    <code># 关闭游标和连接</code><br>
+                                    <code>cursor.close()</code><br>
+                                    <code>conn.close()</code>
+                                </div>
+                                
+                                <h4 class="text-lg font-semibold mb-3 text-accent">事务处理</h4>
+                                <p class="text-gray-300 mb-4">事务是一组原子性的SQL操作，要么全部执行成功，要么全部执行失败。</p>
+                                
+                                <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-4">
+                                    <code>import mysql.connector</code><br>
+                                    <code></code><br>
+                                    <code># 连接数据库</code><br>
+                                    <code>conn = mysql.connector.connect(</code><br>
+                                    <code>    host="localhost",</code><br>
+                                    <code>    user="root",</code><br>
+                                    <code>    password="password",</code><br>
+                                    <code>    database="test"</code><br>
+                                    <code>)</code><br>
+                                    <code></code><br>
+                                    <code>try:</code><br>
+                                    <code>    # 开始事务</code><br>
+                                    <code>    conn.start_transaction()</code><br>
+                                    <code></code><br>
+                                    <code>    # 执行SQL语句</code><br>
+                                    <code>    cursor = conn.cursor()</code><br>
+                                    <code>    cursor.execute("UPDATE accounts SET balance = balance - 100 WHERE id = 1")</code><br>
+                                    <code>    cursor.execute("UPDATE accounts SET balance = balance + 100 WHERE id = 2")</code><br>
+                                    <code></code><br>
+                                    <code>    # 提交事务</code><br>
+                                    <code>    conn.commit()</code><br>
+                                    <code>    print("转账成功")</code><br>
+                                    <code>except Exception as e:</code><br>
+                                    <code>    # 回滚事务</code><br>
+                                    <code>    conn.rollback()</code><br>
+                                    <code>    print(f"转账失败: {e}")</code><br>
+                                    <code>finally:</code><br>
+                                    <code>    # 关闭连接</code><br>
+                                    <code>    cursor.close()</code><br>
+                                    <code>    conn.close()</code>
+                                </div>
+                            `
+                        }
+                    ],
+                    summary: [
+                        { point: '数据库连接', description: '使用各种语言连接数据库' },
+                        { point: '事务处理', description: '确保数据一致性' },
+                        { point: '存储过程', description: '预编译的SQL语句集合' },
+                        { point: '触发器', description: '自动执行的SQL语句' }
+                    ],
+                    exercises: [
+                        { id: 1, title: '数据库连接', description: '使用Python连接MySQL数据库' },
+                        { id: 2, title: '事务处理', description: '实现转账事务' },
+                        { id: 3, title: '存储过程', description: '创建和执行存储过程' }
+                    ]
+                }
+            ],
+            problems: {
+                1: [
+                    {
+                        id: 1,
+                        title: '数据库分类',
+                        description: '请列出主要的数据库类型，并简要描述每种类型的特点。',
+                        input: '无',
+                        output: '主要数据库类型及其特点',
+                        starterCode: '# 在下方编写代码\n',
+                        solution: 'print("1. 关系型数据库：使用关系模型，如MySQL、PostgreSQL、Oracle")\nprint("2. NoSQL数据库：非关系型数据库，如MongoDB、Redis、Cassandra")\nprint("3. NewSQL数据库：结合关系型和NoSQL的优点，如Google Spanner、CockroachDB")\nprint("4. 时序数据库：专门存储时间序列数据，如InfluxDB、TimescaleDB")' 
+                    },
+                    {
+                        id: 2,
+                        title: '数据库特点',
+                        description: '请描述数据库的主要特点。',
+                        input: '无',
+                        output: '数据库的主要特点',
+                        starterCode: '# 在下方编写代码\n',
+                        solution: 'print("1. 数据结构化：数据按照一定的模型组织")\nprint("2. 数据共享：多个用户可以同时访问数据")\nprint("3. 数据独立性：数据与应用程序分离")\nprint("4. 数据完整性：保证数据的正确性和一致性")\nprint("5. 数据安全性：保护数据不被未授权访问")\nprint("6. 数据可扩展性：可以方便地扩展数据")' 
+                    },
+                    {
+                        id: 3,
+                        title: '数据库管理系统',
+                        description: '请说明数据库管理系统的主要功能。',
+                        input: '无',
+                        output: '数据库管理系统的主要功能',
+                        starterCode: '# 在下方编写代码\n',
+                        solution: 'print("1. 数据定义功能：定义数据库结构")\nprint("2. 数据操纵功能：插入、更新、删除数据")\nprint("3. 数据查询功能：查询数据")\nprint("4. 数据控制功能：控制数据访问权限")\nprint("5. 数据库维护功能：备份、恢复、优化")\nprint("6. 事务管理功能：保证事务的原子性、一致性、隔离性、持久性")' 
+                    }
+                ],
+                2: [
+                    {
+                        id: 1,
+                        title: '关系模型概念',
+                        description: '请解释关系模型的基本概念。',
+                        input: '无',
+                        output: '关系模型的基本概念',
+                        starterCode: '# 在下方编写代码\n',
+                        solution: 'print("1. 关系（Relation）：二维表格，如学生表、课程表")\nprint("2. 元组（Tuple）：表格中的一行，如一个学生的记录")\nprint("3. 属性（Attribute）：表格中的一列，如学生的姓名、年龄")\nprint("4. 域（Domain）：属性的取值范围，如年龄的取值范围是正整数")\nprint("5. 主键（Primary Key）：唯一标识元组的属性或属性组合")\nprint("6. 外键（Foreign Key）：引用其他关系主键的属性")' 
+                    },
+                    {
+                        id: 2,
+                        title: '完整性约束',
+                        description: '请描述关系的完整性约束。',
+                        input: '无',
+                        output: '关系的完整性约束',
+                        starterCode: '# 在下方编写代码\n',
+                        solution: 'print("1. 实体完整性：主键值不能为空且唯一")\nprint("2. 参照完整性：外键值必须是被参照关系的主键值或空值")\nprint("3. 用户定义完整性：根据业务需求定义的约束")' 
+                    },
+                    {
+                        id: 3,
+                        title: '关系代数',
+                        description: '请说明关系代数的基本操作。',
+                        input: '无',
+                        output: '关系代数的基本操作',
+                        starterCode: '# 在下方编写代码\n',
+                        solution: 'print("1. 选择（Selection）：选择满足条件的元组")\nprint("2. 投影（Projection）：选择指定的属性")\nprint("3. 连接（Join）：根据条件连接两个关系")\nprint("4. 并（Union）：合并两个关系的元组")\nprint("5. 差（Difference）：返回在第一个关系中但不在第二个关系中的元组")\nprint("6. 交（Intersection）：返回同时在两个关系中的元组")' 
+                    }
+                ],
+                3: [
+                    {
+                        id: 1,
+                        title: '创建表',
+                        description: '编写SQL语句创建学生表。',
+                        input: '无',
+                        output: '创建学生表的SQL语句',
+                        starterCode: '-- 在下方编写SQL语句
+',
+                        solution: '-- 创建学生表
+CREATE TABLE students (
+    id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    age INT,
+    gender VARCHAR(10),
+    major VARCHAR(50)
+);' 
+                    },
+                    {
+                        id: 2,
+                        title: '插入数据',
+                        description: '编写SQL语句插入学生数据。',
+                        input: '无',
+                        output: '插入学生数据的SQL语句',
+                        starterCode: '-- 在下方编写SQL语句
+',
+                        solution: '-- 插入学生数据
+INSERT INTO students (id, name, age, gender, major)
+VALUES (1, Alice, 20, Female, Computer Science),
+       (2, Bob, 21, Male, Mathematics),
+       (3, Charlie, 19, Male, Physics),
+       (4, David, 22, Male, Chemistry),
+       (5, Eve, 20, Female, Biology);' 
+                    },
+                    {
+                        id: 3,
+                        title: '查询数据',
+                        description: '编写SQL语句查询学生数据。',
+                        input: '无',
+                        output: '查询学生数据的SQL语句',
+                        starterCode: '-- 在下方编写SQL语句
+',
+                        solution: '-- 查询所有学生
+SELECT * FROM students;
+
+-- 查询年龄大于20的学生
+SELECT * FROM students WHERE age > 20;
+
+-- 按年龄排序查询
+SELECT * FROM students ORDER BY age DESC;
+
+-- 按专业分组统计学生数量
+SELECT major, COUNT(*) as student_count FROM students GROUP BY major;' 
+                    }
+                ],
+                4: [
+                    {
+                        id: 1,
+                        title: 'ER图设计',
+                        description: '设计学生选课系统的ER图。',
+                        input: '无',
+                        output: 'ER图设计',
+                        starterCode: '# 在下方编写代码
+',
+                        solution: 'print("学生选课系统ER图设计：")\nprint("1. 实体：")\nprint("   - 学生(学号, 姓名, 年龄, 性别, 专业)")\nprint("   - 课程(课程号, 课程名, 学分, 教师)")\nprint("   - 选课(选课号, 成绩)")\nprint("2. 关系：")\nprint("   - 学生与选课：一对多")\nprint("   - 课程与选课：一对多")' 
+                    },
+                    {
+                        id: 2,
+                        title: '关系模式设计',
+                        description: '将ER图转换为关系模式。',
+                        input: '无',
+                        output: '关系模式',
+                        starterCode: '# 在下方编写代码
+',
+                        solution: 'print("关系模式设计：")\nprint("1. 学生表(学号, 姓名, 年龄, 性别, 专业)")\nprint("2. 课程表(课程号, 课程名, 学分, 教师)")\nprint("3. 选课表(选课号, 学号, 课程号, 成绩)")\nprint("   - 学号是外键，引用学生表的学号")\nprint("   - 课程号是外键，引用课程表的课程号")' 
+                    },
+                    {
+                        id: 3,
+                        title: '规范化',
+                        description: '将关系模式规范化到第三范式。',
+                        input: '无',
+                        output: '规范化后的关系模式',
+                        starterCode: '# 在下方编写代码
+',
+                        solution: 'print("规范化到第三范式：")\nprint("1. 学生表(学号, 姓名, 年龄, 性别, 专业)")\nprint("   - 主键：学号")\nprint("   - 所有非主属性都完全依赖于主键")\nprint("2. 课程表(课程号, 课程名, 学分, 教师)")\nprint("   - 主键：课程号")\nprint("   - 所有非主属性都完全依赖于主键")\nprint("3. 选课表(选课号, 学号, 课程号, 成绩)")\nprint("   - 主键：选课号")\nprint("   - 所有非主属性都完全依赖于主键")\nprint("   - 不存在传递依赖")' 
+                    }
+                ],
+                5: [
+                    {
+                        id: 1,
+                        title: '备份策略',
+                        description: '设计数据库备份策略。',
+                        input: '无',
+                        output: '数据库备份策略',
+                        starterCode: '# 在下方编写代码
+',
+                        solution: 'print("数据库备份策略：")\nprint("1. 完全备份：每周日凌晨执行")\nprint("2. 增量备份：每天凌晨执行")\nprint("3. 差异备份：每天中午执行")\nprint("4. 事务日志备份：每小时执行")\nprint("5. 备份存储：本地存储和异地存储相结合")\nprint("6. 备份验证：定期验证备份的有效性")' 
+                    },
+                    {
+                        id: 2,
+                        title: '索引优化',
+                        description: '设计合适的索引。',
+                        input: '无',
+                        output: '索引设计',
+                        starterCode: '-- 在下方编写SQL语句
+',
+                        solution: '-- 为学生表的学号列创建主键索引
+ALTER TABLE students ADD PRIMARY KEY (id);
+
+-- 为学生表的姓名列创建普通索引
+CREATE INDEX idx_students_name ON students (name);
+
+-- 为学生表的专业列创建普通索引
+CREATE INDEX idx_students_major ON students (major);
+
+-- 为选课表的学号和课程号列创建联合索引
+CREATE INDEX idx_courses_student_course ON courses (student_id, course_id);' 
+                    },
+                    {
+                        id: 3,
+                        title: '查询优化',
+                        description: '优化SQL查询语句。',
+                        input: '无',
+                        output: '优化后的SQL查询语句',
+                        starterCode: '-- 优化前的SQL语句
+SELECT * FROM students WHERE age > 20 AND major = "Computer Science" ORDER BY age DESC;
+
+-- 优化后的SQL语句
+SELECT id, name, age, major FROM students 
+WHERE age > 20 AND major = "Computer Science" 
+ORDER BY age DESC;' 
+                    }
+                ],
+                6: [
+                    {
+                        id: 1,
+                        title: '数据库连接',
+                        description: '使用Python连接MySQL数据库。',
+                        input: '无',
+                        output: 'Python连接MySQL数据库的代码',
+                        starterCode: 'import mysql.connector
+
+# 连接数据库
+
+# 创建游标
+
+# 执行SQL语句
+
+# 获取结果
+
+# 关闭连接
+',
+                        solution: 'import mysql.connector
+
+# 连接数据库
+conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="password",
+    database="test"
+)
+
+# 创建游标
+cursor = conn.cursor()
+
+# 执行SQL语句
+cursor.execute("SELECT * FROM students")
+
+# 获取结果
+results = cursor.fetchall()
+for row in results:
+    print(row)
+
+# 关闭连接
+cursor.close()
+conn.close()' 
+                    },
+                    {
+                        id: 2,
+                        title: '事务处理',
+                        description: '实现转账事务。',
+                        input: '无',
+                        output: '转账事务的代码',
+                        starterCode: 'import mysql.connector
+
+# 连接数据库
+
+# 开始事务
+
+try:
+    # 执行转账操作
+    
+    # 提交事务
+    
+except Exception as e:
+    # 回滚事务
+    
+finally:
+    # 关闭连接
+',
+                        solution: 'import mysql.connector
+
+# 连接数据库
+conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="password",
+    database="test"
+)
+
+try:
+    # 开始事务
+    conn.start_transaction()
+
+    # 执行转账操作
+    cursor = conn.cursor()
+    cursor.execute("UPDATE accounts SET balance = balance - 100 WHERE id = 1")
+    cursor.execute("UPDATE accounts SET balance = balance + 100 WHERE id = 2")
+
+    # 提交事务
+    conn.commit()
+    print("转账成功")
+except Exception as e:
+    # 回滚事务
+    conn.rollback()
+    print(f"转账失败: {e}")
+finally:
+    # 关闭连接
+    cursor.close()
+    conn.close()' 
+                    },
+                    {
+                        id: 3,
+                        title: '存储过程',
+                        description: '创建和执行存储过程。',
+                        input: '无',
+                        output: '存储过程的创建和执行代码',
+                        starterCode: '-- 创建存储过程
+
+-- 执行存储过程
+',
+                        solution: '-- 创建存储过程
+DELIMITER //
+CREATE PROCEDURE get_students_by_major(IN major_name VARCHAR(50))
+BEGIN
+    SELECT * FROM students WHERE major = major_name;
+END //
+DELIMITER ;
+
+-- 执行存储过程
+CALL get_students_by_major("Computer Science");' 
+                    }
+                ]
+            }
+        };
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化章节
+            initChapters();
+            
+            // 初始化练习
+            initPractice();
+            
+            // 初始化导航
+            initNavigation();
+        });
+
+        // 初始化章节
+        function initChapters() {
+            const chapterBtns = document.querySelectorAll('.chapter-btn');
+            chapterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const chapterId = parseInt(this.dataset.chapter);
+                    loadChapter(chapterId);
+                });
+            });
+        }
+
+        // 加载章节
+        function loadChapter(chapterId) {
+            const chapter = courseData.chapters.find(c => c.id === chapterId);
+            if (!chapter) return;
+            
+            // 更新章节标题
+            document.getElementById('chapterTitle').innerHTML = `<span class="text-gradient">${chapter.title}</span>`;
+            document.querySelector('.chapter-info-duration').textContent = chapter.duration;
+            document.querySelector('.chapter-info-difficulty').innerHTML = `<i class="fa fa-book mr-2"></i>难度：${chapter.difficulty}`;
+            
+            // 更新章节内容
+            const chapterContent = document.querySelector('.chapter-content');
+            chapterContent.innerHTML = chapter.sections.map(section => `
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold mb-3 text-accent">${section.title}</h4>
+                    ${section.content}
+                </div>
+            `).join('');
+            
+            // 更新章节小结
+            const summaryTable = document.querySelector('.summary-table tbody');
+            summaryTable.innerHTML = chapter.summary.map(item => `
+                <tr class="border-b border-white/5">
+                    <td class="py-3 px-4 text-gray-300">${item.point}</td>
+                    <td class="py-3 px-4 text-gray-400">${item.description}</td>
+                </tr>
+            `).join('');
+            
+            // 更新章节导航状态
+            document.querySelectorAll('.chapter-btn').forEach(btn => {
+                btn.classList.remove('active', 'border', 'border-accent/30');
+            });
+            document.querySelector(`.chapter-btn[data-chapter="${chapterId}"]`).classList.add('active', 'border', 'border-accent/30');
+            
+            // 保存进度
+            localStorage.setItem('database-chapter', chapterId);
+        }
+
+        // 上一章
+        function goToPrevChapter() {
+            const currentChapter = parseInt(localStorage.getItem('database-chapter') || '1');
+            if (currentChapter > 1) {
+                loadChapter(currentChapter - 1);
+            }
+        }
+
+        // 下一章
+        function goToNextChapter() {
+            const currentChapter = parseInt(localStorage.getItem('database-chapter') || '1');
+            if (currentChapter < courseData.chapters.length) {
+                loadChapter(currentChapter + 1);
+            }
+        }
+
+        // 初始化练习
+        function initPractice() {
+            // 章节选择
+            document.getElementById('chapterSelect').addEventListener('change', function() {
+                const chapterId = parseInt(this.value);
+                loadPracticeChapter(chapterId);
+            });
+            
+            // 运行代码
+            document.getElementById('runBtn').addEventListener('click', function() {
+                runCode();
+            });
+            
+            // 重置代码
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                resetCode();
+            });
+            
+            // 提交答案
+            document.getElementById('submitBtn').addEventListener('click', function() {
+                submitAnswer();
+            });
+        }
+
+        // 加载练习章节
+        function loadPracticeChapter(chapterId) {
+            const problems = courseData.problems[chapterId];
+            if (!problems) return;
+            
+            // 更新问题列表
+            const problemList = document.getElementById('problemList');
+            problemList.innerHTML = problems.map(problem => `
+                <button class="problem-btn w-full h-12 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all duration-300 flex items-center justify-center" data-problem="${problem.id}">
+                    ${problem.id}
+                </button>
+            `).join('');
+            
+            // 添加问题点击事件
+            document.querySelectorAll('.problem-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const problemId = parseInt(this.dataset.problem);
+                    loadProblem(chapterId, problemId);
+                });
+            });
+            
+            // 加载第一个问题
+            if (problems.length > 0) {
+                loadProblem(chapterId, 1);
+            }
+        }
+
+        // 加载问题
+        function loadProblem(chapterId, problemId) {
+            const problems = courseData.problems[chapterId];
+            const problem = problems.find(p => p.id === problemId);
+            if (!problem) return;
+            
+            // 更新问题内容
+            document.getElementById('problemTitle').textContent = `${problemId}. ${problem.title}`;
+            document.querySelector('.problem-description').textContent = problem.description;
+            document.querySelector('.problem-input p').textContent = problem.input;
+            document.querySelector('.problem-output p').textContent = problem.output;
+            document.getElementById('codeEditor').value = problem.starterCode;
+            
+            // 更新问题导航状态
+            document.querySelectorAll('.problem-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-accent/20', 'border', 'border-accent/50', 'text-accent');
+            });
+            document.querySelector(`.problem-btn[data-problem="${problemId}"]`).classList.add('active', 'bg-accent/20', 'border', 'border-accent/50', 'text-accent');
+        }
+
+        // 运行代码
+        function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            const outputArea = document.getElementById('outputArea');
+            
+            // 模拟代码执行
+            outputArea.innerHTML = '<span class="text-yellow-400">正在执行代码...</span>';
+            
+            setTimeout(() => {
+                // 简单的代码执行模拟
+                let output = '';
+                if (code.includes('print(')) {
+                    // 提取print语句的内容
+                    const printMatches = code.match(/print\((.*?)\)/g);
+                    if (printMatches) {
+                        printMatches.forEach(match => {
+                            const content = match.replace('print(', '').replace(')', '').replace(/"/g, '').replace(/'/g, '');
+                            output += content + '\n';
+                        });
+                    }
+                }
+                
+                if (output) {
+                    outputArea.innerHTML = `<pre class="text-green-400">${output}</pre>`;
+                } else {
+                    outputArea.innerHTML = '<span class="text-blue-400">代码执行完成</span>';
+                }
+            }, 1000);
+        }
+
+        // 重置代码
+        function resetCode() {
+            const currentChapter = parseInt(document.getElementById('chapterSelect').value);
+            const currentProblem = parseInt(document.querySelector('.problem-btn.active').dataset.problem);
+            const problem = courseData.problems[currentChapter].find(p => p.id === currentProblem);
+            if (problem) {
+                document.getElementById('codeEditor').value = problem.starterCode;
+            }
+        }
+
+        // 提交答案
+        function submitAnswer() {
+            const outputArea = document.getElementById('outputArea');
+            outputArea.innerHTML = '<span class="text-green-400">答案已提交，正在评分...</span>';
+            
+            setTimeout(() => {
+                outputArea.innerHTML = '<span class="text-green-400">✅ 答案正确！</span>';
+            }, 1500);
+        }
+
+        // 上一题
+        function goToPrevProblem() {
+            const currentChapter = parseInt(document.getElementById('chapterSelect').value);
+            const currentProblem = parseInt(document.querySelector('.problem-btn.active').dataset.problem);
+            const problems = courseData.problems[currentChapter];
+            if (currentProblem > 1) {
+                loadProblem(currentChapter, currentProblem - 1);
+            }
+        }
+
+        // 下一题
+        function goToNextProblem() {
+            const currentChapter = parseInt(document.getElementById('chapterSelect').value);
+            const currentProblem = parseInt(document.querySelector('.problem-btn.active').dataset.problem);
+            const problems = courseData.problems[currentChapter];
+            if (currentProblem < problems.length) {
+                loadProblem(currentChapter, currentProblem + 1);
+            }
+        }
+
+        // 初始化导航
+        function initNavigation() {
+            // 导航链接点击事件
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    // 隐藏所有页面
+                    document.querySelectorAll('main > section').forEach(section => {
+                        section.classList.add('hidden');
+                    });
+                    
+                    // 显示目标页面
+                    document.querySelector(targetId).classList.remove('hidden');
+                    
+                    // 更新导航状态
+                    document.querySelectorAll('nav a').forEach(a => {
+                        a.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        // 加载保存的进度
+        function loadSavedProgress() {
+            const savedChapter = localStorage.getItem('database-chapter');
+            if (savedChapter) {
+                loadChapter(parseInt(savedChapter));
+            } else {
+                loadChapter(1);
+            }
+        }
+
+        // 页面加载完成后加载保存的进度
+        window.addEventListener('load', function() {
+            loadSavedProgress();
+        });
+    </script>
+</body>
+</html>

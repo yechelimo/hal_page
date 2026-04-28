@@ -23,47 +23,11 @@
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .glass {
-                background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            .glass-dark {
-                background: rgba(15, 23, 42, 0.8);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.05);
-            }
-            .bg-tech {
-                background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                            radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                            #0F172A;
-            }
-            .text-gradient {
-                background: linear-gradient(90deg, #3B82F6, #10B981);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            .card-hover {
-                transition: all 0.3s ease;
-            }
-            .card-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="bg-tech min-h-screen text-light overflow-x-hidden">
     <!-- 导航栏 -->
-    <nav class="glass-dark fixed top-0 left-0 right-0 z-50 shadow-lg">
+    <nav class="glass-dark fixed top-0 left-0 right-0 z-50 shadow-xl transition-all duration-300">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="text-accent font-bold text-xl flex items-center">
                 <i class="fa fa-graduation-cap mr-3 text-2xl"></i>
@@ -143,90 +107,735 @@
                     
                     <!-- 第1章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第1章 Python概述</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(1)">
+                            <h4 class="text-xl font-semibold mb-3">第1章 Python概述</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-1"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>1.1 Python的历史和特点</li>
                             <li>1.2 Python的安装和环境配置</li>
                             <li>1.3 Python的开发工具</li>
                             <li>1.4 第一个Python程序</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-1">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.1 Python的历史和特点</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>Python的历史：</strong>由Guido van Rossum于1991年创建，命名来自Monty Python喜剧团而非蛇。</p>
+                                    <p><strong>Python的特点：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>简单易学：语法简洁清晰</li>
+                                        <li>免费开源：可以自由使用和修改</li>
+                                        <li>高级语言：无需关注底层细节</li>
+                                        <li>可移植性：可在多种操作系统运行</li>
+                                        <li>丰富的库：拥有庞大的标准库和第三方库</li>
+                                        <li>面向对象：支持面向对象编程</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.2 Python的安装和环境配置</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>下载地址：</strong>https://www.python.org/downloads/</p>
+                                    <p><strong>安装注意事项：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>勾选"Add Python to PATH"选项</li>
+                                        <li>选择"Install Now"或自定义安装</li>
+                                        <li>验证安装：在命令行输入 python --version</li>
+                                    </ul>
+                                    <p><strong>推荐的Python版本：</strong>Python 3.8或更高版本</p>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.3 Python的开发工具</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>常用开发环境：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>IDLE：Python自带的集成开发环境</li>
+                                        <li>PyCharm：功能强大的商业IDE</li>
+                                        <li>VS Code：轻量级编辑器，配合Python插件</li>
+                                        <li>Jupyter Notebook：交互式笔记本</li>
+                                        <li>Spyder：适合科学计算的IDE</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.4 第一个Python程序</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>Hello World程序：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>print("Hello, World!")</code>
+                                    </div>
+                                    <p><strong>运行方式：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>交互式模式：在命令行输入python，然后输入代码</li>
+                                        <li>脚本模式：保存为.py文件，使用python filename.py运行</li>
+                                        <li>IDE中运行：使用PyCharm、VS Code等直接运行</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第2章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第2章 Python基础语法</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(2)">
+                            <h4 class="text-xl font-semibold mb-3">第2章 Python基础语法</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-2"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>2.1 变量和数据类型</li>
                             <li>2.2 运算符和表达式</li>
                             <li>2.3 输入和输出</li>
                             <li>2.4 注释和文档字符串</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-2">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.1 变量和数据类型</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>变量命名规则：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>只能包含字母、数字和下划线</li>
+                                        <li>不能以数字开头</li>
+                                        <li>不能使用Python关键字</li>
+                                        <li>区分大小写</li>
+                                    </ul>
+                                    <p><strong>基本数据类型：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>整型(int)：如 42, -100</li>
+                                        <li>浮点型(float)：如 3.14, 2.718</li>
+                                        <li>字符串(str)：如 "Hello", 'World'</li>
+                                        <li>布尔型(bool)：True, False</li>
+                                    </ul>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>x = 10</code><br>
+                                        <code>y = 3.14</code><br>
+                                        <code>name = "Python"</code><br>
+                                        <code>is_valid = True</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.2 运算符和表达式</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>算术运算符：</strong>+, -, *, /, //, %, **</p>
+                                    <p><strong>比较运算符：</strong>==, !=, <, >, <=, >=</p>
+                                    <p><strong>逻辑运算符：</strong>and, or, not</p>
+                                    <p><strong>赋值运算符：</strong>=, +=, -=, *=, /=</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>a = 10 + 5</code><br>
+                                        <code>b = a * 2</code><br>
+                                        <code>c = b > 20</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.3 输入和输出</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>输出 - print函数：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>print("Hello, World!")</code><br>
+                                        <code>print("Age:", 25)</code><br>
+                                        <code>print("Name: {}, Age: {}".format(name, age))</code><br>
+                                        <code>print(f"Name: {name}, Age: {age}")</code>
+                                    </div>
+                                    <p><strong>输入 - input函数：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>name = input("请输入您的名字：")</code><br>
+                                        <code>age = int(input("请输入您的年龄："))</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.4 注释和文档字符串</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>单行注释：</strong>用 # 开头</p>
+                                    <p><strong>多行注释：</strong>用 ''' 或 """ 包裹</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 这是一个单行注释</code><br>
+                                        <code>'''</code><br>
+                                        <code>这是一个多行注释</code><br>
+                                        <code>可以写多行内容</code><br>
+                                        <code>'''</code>
+                                    </div>
+                                    <p><strong>文档字符串：</strong>用于函数、类、模块的说明</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code>def greet(name):</code><br>
+                                        <code>    """向指定的人打招呼"""</code><br>
+                                        <code>    print(f"Hello, {name}!")</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第3章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第3章 控制结构</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(3)">
+                            <h4 class="text-xl font-semibold mb-3">第3章 控制结构</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-3"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>3.1 条件语句（if-elif-else）</li>
                             <li>3.2 循环语句（for和while）</li>
                             <li>3.3 循环控制（break和continue）</li>
                             <li>3.4 嵌套循环</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-3">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.1 条件语句</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>if语句：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>age = 18</code><br>
+                                        <code>if age >= 18:</code><br>
+                                        <code>    print("成年人")</code>
+                                    </div>
+                                    <p><strong>if-else语句：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>if age >= 18:</code><br>
+                                        <code>    print("成年人")</code><br>
+                                        <code>else:</code><br>
+                                        <code>    print("未成年人")</code>
+                                    </div>
+                                    <p><strong>if-elif-else语句：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>score = 85</code><br>
+                                        <code>if score >= 90:</code><br>
+                                        <code>    print("优秀")</code><br>
+                                        <code>elif score >= 80:</code><br>
+                                        <code>    print("良好")</code><br>
+                                        <code>elif score >= 60:</code><br>
+                                        <code>    print("及格")</code><br>
+                                        <code>else:</code><br>
+                                        <code>    print("不及格")</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.2 循环语句</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>for循环：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>for i in range(1, 6):</code><br>
+                                        <code>    print(i)</code><br>
+                                        <code>    </code><br>
+                                        <code>fruits = ["apple", "banana", "orange"]</code><br>
+                                        <code>for fruit in fruits:</code><br>
+                                        <code>    print(fruit)</code>
+                                    </div>
+                                    <p><strong>while循环：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>count = 0</code><br>
+                                        <code>while count < 5:</code><br>
+                                        <code>    print(count)</code><br>
+                                        <code>    count += 1</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.3 循环控制</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>break：</strong>立即退出循环</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>for i in range(10):</code><br>
+                                        <code>    if i == 5:</code><br>
+                                        <code>        break</code><br>
+                                        <code>    print(i)  # 输出 0-4</code>
+                                    </div>
+                                    <p><strong>continue：</strong>跳过本次循环，继续下一次</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>for i in range(10):</code><br>
+                                        <code>    if i % 2 == 0:</code><br>
+                                        <code>        continue</code><br>
+                                        <code>    print(i)  # 输出奇数 1,3,5,7,9</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.4 嵌套循环</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>例子 - 九九乘法表：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code>for i in range(1, 10):</code><br>
+                                        <code>    for j in range(1, i + 1):</code><br>
+                                        <code>        print(f"{j}×{i}={i*j}", end="  ")</code><br>
+                                        <code>    print()</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第4章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第4章 数据结构</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(4)">
+                            <h4 class="text-xl font-semibold mb-3">第4章 数据结构</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-4"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>4.1 列表（List）</li>
                             <li>4.2 元组（Tuple）</li>
                             <li>4.3 字典（Dictionary）</li>
                             <li>4.4 集合（Set）</li>
                             <li>4.5 数据结构的应用</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-4">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.1 列表（List）</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>列表特点：</strong>有序、可变、允许重复元素</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 创建列表</code><br>
+                                        <code>fruits = ["apple", "banana", "orange"]</code><br>
+                                        <code>numbers = [1, 2, 3, 4, 5]</code><br>
+                                        <code>mixed = [1, "hello", 3.14, True]</code>
+                                    </div>
+                                    <p><strong>常用操作：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 索引访问</code><br>
+                                        <code>print(fruits[0])  # apple</code><br>
+                                        <code>print(fruits[-1])  # orange</code><br>
+                                        <code></code><br>
+                                        <code># 切片</code><br>
+                                        <code>print(numbers[1:4])  # [2,3,4]</code><br>
+                                        <code></code><br>
+                                        <code># 添加元素</code><br>
+                                        <code>fruits.append("grape")</code><br>
+                                        <code>fruits.insert(1, "pear")</code><br>
+                                        <code></code><br>
+                                        <code># 删除元素</code><br>
+                                        <code>fruits.remove("banana")</code><br>
+                                        <code>del fruits[0]</code><br>
+                                        <code></code><br>
+                                        <code># 列表方法</code><br>
+                                        <code>numbers.sort()  # 排序</code><br>
+                                        <code>numbers.reverse()  # 反转</code><br>
+                                        <code>print(len(fruits))  # 长度</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.2 元组（Tuple）</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>元组特点：</strong>有序、不可变、允许重复元素</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 创建元组</code><br>
+                                        <code>t1 = (1, 2, 3)</code><br>
+                                        <code>t2 = ("apple", "banana")</code><br>
+                                        <code>t3 = (1,)</code>
+                                    </div>
+                                    <p><strong>元组操作：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 索引和切片</code><br>
+                                        <code>print(t1[0])  # 1</code><br>
+                                        <code></code><br>
+                                        <code># 元组解包</code><br>
+                                        <code>a, b, c = t1</code><br>
+                                        <code>print(a, b, c)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.3 字典（Dictionary）</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>字典特点：</strong>键值对、无序、键唯一、可变</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 创建字典</code><br>
+                                        <code>student = {</code><br>
+                                        <code>    "name": "张三",</code><br>
+                                        <code>    "age": 20,</code><br>
+                                        <code>    "major": "计算机"</code><br>
+                                        <code>}</code>
+                                    </div>
+                                    <p><strong>字典操作：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 访问值</code><br>
+                                        <code>print(student["name"])</code><br>
+                                        <code>print(student.get("age", 18))</code><br>
+                                        <code></code><br>
+                                        <code># 添加/修改</code><br>
+                                        <code>student["grade"] = 3</code><br>
+                                        <code>student["age"] = 21</code><br>
+                                        <code></code><br>
+                                        <code># 删除</code><br>
+                                        <code>del student["major"]</code><br>
+                                        <code></code><br>
+                                        <code># 遍历</code><br>
+                                        <code>for key, value in student.items():</code><br>
+                                        <code>    print(key, value)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.4 集合（Set）</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>集合特点：</strong>无序、不重复、可变</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 创建集合</code><br>
+                                        <code>s1 = {1, 2, 3, 4}</code><br>
+                                        <code>s2 = set([1, 2, 2, 3, 3, 3])</code>
+                                    </div>
+                                    <p><strong>集合操作：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 添加/删除</code><br>
+                                        <code>s1.add(5)</code><br>
+                                        <code>s1.remove(1)</code><br>
+                                        <code></code><br>
+                                        <code># 集合运算</code><br>
+                                        <code>print(s1 & s2)  # 交集</code><br>
+                                        <code>print(s1 | s2)  # 并集</code><br>
+                                        <code>print(s1 - s2)  # 差集</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.5 数据结构的应用</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>列表推导式：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code># 生成1-10的平方</code><br>
+                                        <code>squares = [x**2 for x in range(1, 11)]</code><br>
+                                        <code></code><br>
+                                        <code># 过滤偶数</code><br>
+                                        <code>evens = [x for x in range(1, 11) if x % 2 == 0]</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第5章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第5章 函数</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(5)">
+                            <h4 class="text-xl font-semibold mb-3">第5章 函数</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-5"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>5.1 函数的定义和调用</li>
                             <li>5.2 函数参数</li>
                             <li>5.3 函数返回值</li>
                             <li>5.4 递归函数</li>
-                            <li>5.5  lambda表达式</li>
+                            <li>5.5 lambda表达式</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-5">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.1 函数的定义和调用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>函数定义语法：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>def function_name(parameters):</code><br>
+                                        <code>    """函数文档字符串"""</code><br>
+                                        <code>    # 函数体</code><br>
+                                        <code>    return value</code>
+                                    </div>
+                                    <p><strong>例子：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>def greet(name):</code><br>
+                                        <code>    """向指定的人打招呼"""</code><br>
+                                        <code>    print(f"Hello, {name}!")</code><br>
+                                        <code></code><br>
+                                        <code>greet("张三")  # 调用函数</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.2 函数参数</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>位置参数：</strong>按顺序传递</p>
+                                    <p><strong>关键字参数：</strong>按参数名传递</p>
+                                    <p><strong>默认参数：</strong>设置默认值</p>
+                                    <p><strong>可变参数：</strong>*args和**kwargs</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>def add(a, b=10):</code><br>
+                                        <code>    return a + b</code><br>
+                                        <code></code><br>
+                                        <code>print(add(5))  # 15</code><br>
+                                        <code>print(add(3, 4))  # 7</code><br>
+                                        <code>print(add(b=5, a=10))  # 15</code><br>
+                                        <code></code><br>
+                                        <code>def sum_all(*args):</code><br>
+                                        <code>    return sum(args)</code><br>
+                                        <code>print(sum_all(1, 2, 3, 4))  # 10</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.3 函数返回值</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>def calculate(a, b):</code><br>
+                                        <code>    return a + b, a - b, a * b</code><br>
+                                        <code></code><br>
+                                        <code>sum_val, diff_val, product_val = calculate(10, 5)</code><br>
+                                        <code>print(sum_val, diff_val, product_val)  # 15, 5, 50</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.4 递归函数</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>阶乘例子：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>def factorial(n):</code><br>
+                                        <code>    if n == 0 or n == 1:</code><br>
+                                        <code>        return 1</code><br>
+                                        <code>    return n * factorial(n - 1)</code><br>
+                                        <code></code><br>
+                                        <code>print(factorial(5))  # 120</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.5 lambda表达式</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>匿名函数语法：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>add = lambda x, y: x + y</code><br>
+                                        <code>print(add(3, 5))  # 8</code>
+                                    </div>
+                                    <p><strong>结合map和filter使用：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code>numbers = [1, 2, 3, 4, 5]</code><br>
+                                        <code>squares = list(map(lambda x: x**2, numbers))</code><br>
+                                        <code>print(squares)  # [1,4,9,16,25]</code><br>
+                                        <code></code><br>
+                                        <code>evens = list(filter(lambda x: x % 2 == 0, numbers))</code><br>
+                                        <code>print(evens)  # [2,4]</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第6章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第6章 面向对象编程</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(6)">
+                            <h4 class="text-xl font-semibold mb-3">第6章 面向对象编程</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-6"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>6.1 类和对象</li>
                             <li>6.2 构造方法和析构方法</li>
                             <li>6.3 继承和多态</li>
                             <li>6.4 封装和抽象</li>
                             <li>6.5 面向对象编程实战</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-6">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.1 类和对象</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>类定义：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>class Person:</code><br>
+                                        <code>    # 类属性</code><br>
+                                        <code>    species = "Human"</code><br>
+                                        <code></code><br>
+                                        <code>    # 实例方法</code><br>
+                                        <code>    def __init__(self, name, age):</code><br>
+                                        <code>        self.name = name  # 实例属性</code><br>
+                                        <code>        self.age = age</code><br>
+                                        <code></code><br>
+                                        <code>    def greet(self):</code><br>
+                                        <code>        print(f"你好，我是{self.name}")</code><br>
+                                        <code></code><br>
+                                        <code># 创建对象</code><br>
+                                        <code>p1 = Person("张三", 25)</code><br>
+                                        <code>p1.greet()  # 调用方法</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.2 构造方法和析构方法</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>__init__构造方法：</strong>对象创建时自动调用</p>
+                                    <p><strong>__del__析构方法：</strong>对象销毁时自动调用</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>class Car:</code><br>
+                                        <code>    def __init__(self, brand, color):</code><br>
+                                        <code>        self.brand = brand</code><br>
+                                        <code>        self.color = color</code><br>
+                                        <code>        print(f"{color} {brand} 创建了")</code><br>
+                                        <code></code><br>
+                                        <code>    def __del__(self):</code><br>
+                                        <code>        print(f"{self.color} {self.brand} 销毁了")</code><br>
+                                        <code></code><br>
+                                        <code>my_car = Car("Tesla", "红色")</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.3 继承和多态</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>继承：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>class Animal:</code><br>
+                                        <code>    def __init__(self, name):</code><br>
+                                        <code>        self.name = name</code><br>
+                                        <code></code><br>
+                                        <code>    def speak(self):</code><br>
+                                        <code>        pass</code><br>
+                                        <code></code><br>
+                                        <code>class Dog(Animal):</code><br>
+                                        <code>    def speak(self):</code><br>
+                                        <code>        return f"{self.name} 汪汪叫"</code><br>
+                                        <code></code><br>
+                                        <code>class Cat(Animal):</code><br>
+                                        <code>    def speak(self):</code><br>
+                                        <code>        return f"{self.name} 喵喵叫"</code>
+                                    </div>
+                                    <p><strong>多态：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>def make_speak(animal):</code><br>
+                                        <code>    print(animal.speak())</code><br>
+                                        <code></code><br>
+                                        <code>dog = Dog("旺财")</code><br>
+                                        <code>cat = Cat("咪咪")</code><br>
+                                        <code></code><br>
+                                        <code>make_speak(dog)</code><br>
+                                        <code>make_speak(cat)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.4 封装和抽象</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>私有属性和方法：</strong>使用双下划线 __</p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>class BankAccount:</code><br>
+                                        <code>    def __init__(self, balance):</code><br>
+                                        <code>        self.__balance = balance  # 私有属性</code><br>
+                                        <code></code><br>
+                                        <code>    def deposit(self, amount):</code><br>
+                                        <code>        if amount > 0:</code><br>
+                                        <code>            self.__balance += amount</code><br>
+                                        <code></code><br>
+                                        <code>    def get_balance(self):</code><br>
+                                        <code>        return self.__balance</code><br>
+                                        <code></code><br>
+                                        <code>account = BankAccount(1000)</code><br>
+                                        <code>account.deposit(500)</code><br>
+                                        <code>print(account.get_balance())  # 1500</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.5 面向对象编程实战</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>学生管理系统例子：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code>class Student:</code><br>
+                                        <code>    def __init__(self, name, student_id, grades=None):</code><br>
+                                        <code>        self.name = name</code><br>
+                                        <code>        self.student_id = student_id</code><br>
+                                        <code>        self.grades = grades or []</code><br>
+                                        <code></code><br>
+                                        <code>    def add_grade(self, grade):</code><br>
+                                        <code>        self.grades.append(grade)</code><br>
+                                        <code></code><br>
+                                        <code>    def get_average(self):</code><br>
+                                        <code>        return sum(self.grades) / len(self.grades) if self.grades else 0</code><br>
+                                        <code></code><br>
+                                        <code>class StudentManager:</code><br>
+                                        <code>    def __init__(self):</code><br>
+                                        <code>        self.students = []</code><br>
+                                        <code></code><br>
+                                        <code>    def add_student(self, student):</code><br>
+                                        <code>        self.students.append(student)</code><br>
+                                        <code></code><br>
+                                        <code>    def find_student(self, student_id):</code><br>
+                                        <code>        for s in self.students:</code><br>
+                                        <code>            if s.student_id == student_id:</code><br>
+                                        <code>                return s</code><br>
+                                        <code>        return None</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第7章 -->
                     <div class="glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第7章 Python模块和包</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(7)">
+                            <h4 class="text-xl font-semibold mb-3">第7章 Python模块和包</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-7"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>7.1 模块的导入和使用</li>
                             <li>7.2 标准库的使用</li>
                             <li>7.3 第三方库的安装和使用</li>
                             <li>7.4 包的创建和使用</li>
                             <li>7.5 模块和包的实战应用</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-7">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">7.1 模块的导入和使用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>导入方式：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 导入整个模块</code><br>
+                                        <code>import math</code><br>
+                                        <code>print(math.pi)</code><br>
+                                        <code>print(math.sqrt(16))</code><br>
+                                        <code></code><br>
+                                        <code># 导入特定函数</code><br>
+                                        <code>from math import pi, sqrt</code><br>
+                                        <code>print(pi)</code><br>
+                                        <code>print(sqrt(16))</code><br>
+                                        <code></code><br>
+                                        <code># 导入并重命名</code><br>
+                                        <code>import math as m</code><br>
+                                        <code>print(m.pi)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">7.2 标准库的使用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>常用标准库：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400 mb-4">
+                                        <li>math：数学运算</li>
+                                        <li>random：随机数</li>
+                                        <li>datetime：日期时间</li>
+                                        <li>os：操作系统接口</li>
+                                        <li>sys：系统相关参数</li>
+                                        <li>json：JSON处理</li>
+                                    </ul>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import random</code><br>
+                                        <code>import datetime</code><br>
+                                        <code></code><br>
+                                        <code># 随机数</code><br>
+                                        <code>print(random.randint(1, 100))</code><br>
+                                        <code>print(random.choice(["apple", "banana", "orange"]))</code><br>
+                                        <code></code><br>
+                                        <code># 日期时间</code><br>
+                                        <code>now = datetime.datetime.now()</code><br>
+                                        <code>print(now.strftime("%Y-%m-%d %H:%M:%S"))</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">7.3 第三方库的安装和使用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>pip包管理：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 安装库</code><br>
+                                        <code>pip install requests</code><br>
+                                        <code></code><br>
+                                        <code># 列出已安装的库</code><br>
+                                        <code>pip list</code><br>
+                                        <code></code><br>
+                                        <code># 升级库</code><br>
+                                        <code>pip install --upgrade requests</code><br>
+                                        <code></code><br>
+                                        <code># 卸载库</code><br>
+                                        <code>pip uninstall requests</code>
+                                    </div>
+                                    <p><strong>常用第三方库：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>requests：HTTP请求</li>
+                                        <li>numpy：数值计算</li>
+                                        <li>pandas：数据分析</li>
+                                        <li>matplotlib：数据可视化</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">7.4 包的创建和使用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>包的目录结构：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>my_package/</code><br>
+                                        <code>    __init__.py</code><br>
+                                        <code>    module1.py</code><br>
+                                        <code>    module2.py</code><br>
+                                        <code>    subpackage/</code><br>
+                                        <code>        __init__.py</code><br>
+                                        <code>        module3.py</code>
+                                    </div>
+                                    <p><strong>导入包：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code>from my_package import module1</code><br>
+                                        <code>from my_package.subpackage import module3</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">7.5 模块和包的实战应用</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <p><strong>创建自己的工具模块：</strong></p>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code># utils.py</code><br>
+                                        <code>def is_prime(n):</code><br>
+                                        <code>    if n < 2:</code><br>
+                                        <code>        return False</code><br>
+                                        <code>    for i in range(2, int(n**0.5) + 1):</code><br>
+                                        <code>        if n % i == 0:</code><br>
+                                        <code>            return False</code><br>
+                                        <code>    return True</code><br>
+                                        <code></code><br>
+                                        <code>def fibonacci(n):</code><br>
+                                        <code>    a, b = 0, 1</code><br>
+                                        <code>    result = []</code><br>
+                                        <code>    while len(result) < n:</code><br>
+                                        <code>        result.append(a)</code><br>
+                                        <code>        a, b = b, a + b</code><br>
+                                        <code>    return result</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -361,37 +970,23 @@
         </div>
     </footer>
 
-    <script>
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+    <!-- 滚动进度条 -->
+    <div id="scrollProgress" class="scroll-progress" style="width: 0%;"></div>
+    
+    <!-- 光标跟随效果 -->
+    <div id="cursorFollower" class="cursor-follower"></div>
+    
+    <!-- 回到顶部按钮 -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+    
+    <!-- 粒子背景 -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+    
+    <!-- 星星背景 -->
+    <div id="stars" class="fixed inset-0 pointer-events-none z-0"></div>
 
-        // 导航栏滚动效果
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('bg-opacity-95');
-                nav.classList.add('shadow-xl');
-            } else {
-                nav.classList.remove('bg-opacity-95');
-                nav.classList.remove('shadow-xl');
-            }
-        });
-
-        // 移动端菜单交互
-        document.querySelector('.md\:hidden button').addEventListener('click', function() {
-            alert('移动端菜单功能后续实现');
-        });
-    </script>
+    <script src="../js/script.js"></script>
 </body>
 </html>

@@ -23,43 +23,7 @@
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .glass {
-                background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            .glass-dark {
-                background: rgba(15, 23, 42, 0.8);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.05);
-            }
-            .bg-tech {
-                background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                            radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                            #0F172A;
-            }
-            .text-gradient {
-                background: linear-gradient(90deg, #3B82F6, #10B981);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            .card-hover {
-                transition: all 0.3s ease;
-            }
-            .card-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="bg-tech min-h-screen text-light overflow-x-hidden">
     <!-- 导航栏 -->
@@ -75,12 +39,33 @@
                 <a href="../index.html#about" class="text-light hover:text-accent transition-colors duration-300">关于我</a>
             </div>
             <div class="md:hidden">
-                <button class="text-light hover:text-accent transition-colors duration-300">
+                <button id="mobile-menu-button" class="text-light hover:text-accent transition-colors duration-300">
                     <i class="fa fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden glass-dark border-t border-white/10">
+            <div class="container mx-auto px-4 py-4 space-y-4">
+                <a href="../index.html" class="block text-light hover:text-accent transition-colors duration-300 py-2">首页</a>
+                <a href="../index.html#courses" class="block text-light hover:text-accent transition-colors duration-300 py-2">课程</a>
+                <a href="../index.html#about" class="block text-light hover:text-accent transition-colors duration-300 py-2">关于我</a>
+            </div>
+        </div>
     </nav>
+
+    <!-- 面包屑导航 -->
+    <div class="hidden md:block pt-24 pb-8 px-4">
+        <div class="container mx-auto">
+            <div class="flex items-center space-x-2 text-sm text-gray-400">
+                <a href="../index.html" class="hover:text-accent transition-colors duration-300">首页</a>
+                <i class="fa fa-angle-right"></i>
+                <a href="../index.html#courses" class="hover:text-accent transition-colors duration-300">课程</a>
+                <i class="fa fa-angle-right"></i>
+                <span class="text-light">数据分析技术</span>
+            </div>
+        </div>
+    </div>
 
     <!-- 课程头部 -->
     <section class="pt-32 pb-20 relative">
@@ -143,79 +128,456 @@
                     
                     <!-- 第1章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第1章 数据分析概述</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(1)">
+                            <h4 class="text-xl font-semibold mb-3">第1章 数据分析概述</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-1"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>1.1 数据分析的概念和重要性</li>
                             <li>1.2 数据分析的流程和方法</li>
                             <li>1.3 数据分析的应用场景</li>
                             <li>1.4 数据分析工具介绍</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-1">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.1 数据分析的概念和重要性</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>什么是数据分析：</strong>从数据中提取有价值信息的过程</p>
+                                    <p><strong>数据分析的重要性：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>帮助企业做出更好的决策</li>
+                                        <li>发现商机和趋势</li>
+                                        <li>优化业务流程</li>
+                                        <li>提升竞争力</li>
+                                    </ul>
+                                    <p><strong>数据分析类型：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>描述性分析：发生了什么</li>
+                                        <li>诊断性分析：为什么发生</li>
+                                        <li>预测性分析：将要发生什么</li>
+                                        <li>规范性分析：应该怎么做</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.2 数据分析的流程和方法</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>数据分析流程：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>问题定义</li>
+                                        <li>数据收集</li>
+                                        <li>数据清洗</li>
+                                        <li>数据探索</li>
+                                        <li>建模分析</li>
+                                        <li>结果解释</li>
+                                        <li>结果可视化</li>
+                                        <li>决策支持</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.3 数据分析的应用场景</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>销售分析</li>
+                                        <li>客户分析</li>
+                                        <li>市场分析</li>
+                                        <li>供应链分析</li>
+                                        <li>风险分析</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">1.4 数据分析工具介绍</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>Python：Pandas、NumPy、Scikit-learn</li>
+                                        <li>Excel：数据透视表、图表</li>
+                                        <li>Tableau：可视化工具</li>
+                                        <li>Power BI：微软BI工具</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第2章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第2章 数据预处理</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(2)">
+                            <h4 class="text-xl font-semibold mb-3">第2章 数据预处理</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-2"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>2.1 数据清洗</li>
                             <li>2.2 数据集成</li>
                             <li>2.3 数据变换</li>
                             <li>2.4 数据规约</li>
                             <li>2.5 数据预处理实战</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-2">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.1 数据清洗</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>常见数据问题：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>缺失值</li>
+                                        <li>异常值</li>
+                                        <li>重复数据</li>
+                                        <li>格式不一致</li>
+                                    </ul>
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import pandas as pd</code><br>
+                                        <code></code><br>
+                                        <code># 读取数据</code><br>
+                                        <code>df = pd.read_csv('data.csv')</code><br>
+                                        <code></code><br>
+                                        <code># 检查缺失值</code><br>
+                                        <code>print(df.isnull().sum())</code><br>
+                                        <code></code><br>
+                                        <code># 删除缺失值</code><br>
+                                        <code>df = df.dropna()</code><br>
+                                        <code></code><br>
+                                        <code># 填充缺失值</code><br>
+                                        <code>df['age'] = df['age'].fillna(df['age'].mean())</code><br>
+                                        <code></code><br>
+                                        <code># 检测异常值</code><br>
+                                        <code>Q1 = df['price'].quantile(0.25)</code><br>
+                                        <code>Q3 = df['price'].quantile(0.75)</code><br>
+                                        <code>IQR = Q3 - Q1</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.2 数据集成</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 合并数据框</code><br>
+                                        <code>merged_df = pd.concat([df1, df2])</code><br>
+                                        <code></code><br>
+                                        <code># 数据库风格的合并</code><br>
+                                        <code>merged_df = pd.merge(df1, df2, on='user_id')</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.3 数据变换</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 标准化</code><br>
+                                        <code>from sklearn.preprocessing import StandardScaler</code><br>
+                                        <code>scaler = StandardScaler()</code><br>
+                                        <code>scaled_data = scaler.fit_transform(df[['age', 'income']])</code><br>
+                                        <code></code><br>
+                                        <code># 归一化</code><br>
+                                        <code>from sklearn.preprocessing import MinMaxScaler</code><br>
+                                        <code>minmax = MinMaxScaler()</code><br>
+                                        <code>normalized_data = minmax.fit_transform(df[['age', 'income']])</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">2.4 数据规约</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code># 特征选择</code><br>
+                                        <code>from sklearn.feature_selection import SelectKBest</code><br>
+                                        <code>from sklearn.feature_selection import chi2</code><br>
+                                        <code></code><br>
+                                        <code># PCA降维</code><br>
+                                        <code>from sklearn.decomposition import PCA</code><br>
+                                        <code>pca = PCA(n_components=2)</code><br>
+                                        <code>pca_result = pca.fit_transform(data)</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第3章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第3章 数据可视化</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(3)">
+                            <h4 class="text-xl font-semibold mb-3">第3章 数据可视化</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-3"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>3.1 数据可视化的原则和方法</li>
                             <li>3.2 Matplotlib库的使用</li>
                             <li>3.3 Seaborn库的使用</li>
                             <li>3.4 Plotly库的使用</li>
                             <li>3.5 交互式数据可视化</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-3">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.1 数据可视化的原则和方法</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>图表类型选择：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>趋势：折线图</li>
+                                        <li>比较：柱状图</li>
+                                        <li>分布：直方图、箱线图</li>
+                                        <li>关系：散点图</li>
+                                        <li>占比：饼图</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.2 Matplotlib库的使用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import matplotlib.pyplot as plt</code><br>
+                                        <code>import numpy as np</code><br>
+                                        <code></code><br>
+                                        <code># 折线图</code><br>
+                                        <code>x = [1, 2, 3, 4, 5]</code><br>
+                                        <code>y = [10, 15, 13, 18, 16]</code><br>
+                                        <code>plt.plot(x, y)</code><br>
+                                        <code>plt.title('折线图')</code><br>
+                                        <code>plt.show()</code><br>
+                                        <code></code><br>
+                                        <code># 柱状图</code><br>
+                                        <code>categories = ['A', 'B', 'C', 'D']</code><br>
+                                        <code>values = [30, 45, 25, 35]</code><br>
+                                        <code>plt.bar(categories, values)</code><br>
+                                        <code>plt.show()</code><br>
+                                        <code></code><br>
+                                        <code># 散点图</code><br>
+                                        <code>x = np.random.randn(100)</code><br>
+                                        <code>y = np.random.randn(100)</code><br>
+                                        <code>plt.scatter(x, y)</code><br>
+                                        <code>plt.show()</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.3 Seaborn库的使用</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>import seaborn as sns</code><br>
+                                        <code></code><br>
+                                        <code># 箱线图</code><br>
+                                        <code>sns.boxplot(x='category', y='value', data=df)</code><br>
+                                        <code></code><br>
+                                        <code># 热力图</code><br>
+                                        <code>correlation_matrix = df.corr()</code><br>
+                                        <code>sns.heatmap(correlation_matrix, annot=True)</code><br>
+                                        <code></code><br>
+                                        <code># 配对图</code><br>
+                                        <code>sns.pairplot(df)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">3.4 Plotly库的使用</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code>import plotly.express as px</code><br>
+                                        <code></code><br>
+                                        <code># 交互式散点图</code><br>
+                                        <code>fig = px.scatter(df, x='age', y='income', color='category')</code><br>
+                                        <code>fig.show()</code><br>
+                                        <code></code><br>
+                                        <code># 交互式条形图</code><br>
+                                        <code>fig = px.bar(df, x='category', y='sales', color='year')</code><br>
+                                        <code>fig.show()</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第4章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第4章 统计分析方法</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(4)">
+                            <h4 class="text-xl font-semibold mb-3">第4章 统计分析方法</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-4"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>4.1 描述性统计分析</li>
                             <li>4.2 假设检验</li>
                             <li>4.3 相关分析</li>
                             <li>4.4 回归分析</li>
                             <li>4.5 方差分析</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-4">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.1 描述性统计分析</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># Pandas描述统计</code><br>
+                                        <code>print(df.describe())</code><br>
+                                        <code>print(df.mean())</code><br>
+                                        <code>print(df.median())</code><br>
+                                        <code>print(df.std())</code><br>
+                                        <code>print(df.mode())</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.2 假设检验</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>from scipy import stats</code><br>
+                                        <code></code><br>
+                                        <code># t检验</code><br>
+                                        <code>t_statistic, p_value = stats.ttest_ind(group1, group2)</code><br>
+                                        <code>print(f't统计量: {t_statistic}, p值: {p_value}")</code><br>
+                                        <code></code><br>
+                                        <code># 卡方检验</code><br>
+                                        <code>chi2, p, dof, expected = stats.chi2_contingency(contingency_table)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.3 相关分析</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 相关系数矩阵</code><br>
+                                        <code>correlation = df.corr()</code><br>
+                                        <code>print(correlation)</code><br>
+                                        <code></code><br>
+                                        <code># 皮尔逊相关系数</code><br>
+                                        <code>r, p_value = stats.pearsonr(df['x'], df['y'])</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.4 回归分析</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>from sklearn.linear_model import LinearRegression</code><br>
+                                        <code></code><br>
+                                        <code># 准备数据</code><br>
+                                        <code>X = df[['feature1', 'feature2']]</code><br>
+                                        <code>y = df['target']</code><br>
+                                        <code></code><br>
+                                        <code># 训练模型</code><br>
+                                        <code>model = LinearRegression()</code><br>
+                                        <code>model.fit(X, y)</code><br>
+                                        <code></code><br>
+                                        <code># 结果</code><br>
+                                        <code>print(f'系数: {model.coef_}")</code><br>
+                                        <code>print(f'截距: {model.intercept_}')</code><br>
+                                        <code>print(f'R²: {model.score(X, y)}')</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">4.5 方差分析</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code># 单因素方差分析</code><br>
+                                        <code>f_statistic, p_value = stats.f_oneway(group1, group2, group3)</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第5章 -->
                     <div class="mb-6 glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第5章 机器学习基础</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(5)">
+                            <h4 class="text-xl font-semibold mb-3">第5章 机器学习基础</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-5"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>5.1 机器学习的基本概念</li>
                             <li>5.2 监督学习算法</li>
                             <li>5.3 无监督学习算法</li>
                             <li>5.4 模型评估和选择</li>
                             <li>5.5 机器学习实战</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-5">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.1 机器学习的基本概念</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <p><strong>机器学习类型：</strong></p>
+                                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                                        <li>监督学习：有标签数据</li>
+                                        <li>无监督学习：无标签数据</li>
+                                        <li>强化学习：通过奖励学习</li>
+                                    </ul>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.2 监督学习算法</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>from sklearn.model_selection import train_test_split</code><br>
+                                        <code>from sklearn.linear_model import LogisticRegression</code><br>
+                                        <code>from sklearn.metrics import accuracy_score</code><br>
+                                        <code></code><br>
+                                        <code># 数据划分</code><br>
+                                        <code>X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)</code><br>
+                                        <code></code><br>
+                                        <code># 逻辑回归</code><br>
+                                        <code>model = LogisticRegression()</code><br>
+                                        <code>model.fit(X_train, y_train)</code><br>
+                                        <code></code><br>
+                                        <code># 预测</code><br>
+                                        <code>predictions = model.predict(X_test)</code><br>
+                                        <code>print(f'准确率: {accuracy_score(y_test, predictions)}')</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.3 无监督学习算法</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code>from sklearn.cluster import KMeans</code><br>
+                                        <code></code><br>
+                                        <code># K-Means聚类</code><br>
+                                        <code>kmeans = KMeans(n_clusters=3)</code><br>
+                                        <code>kmeans.fit(data)</code><br>
+                                        <code>labels = kmeans.labels_</code><br>
+                                        <code></code><br>
+                                        <code>from sklearn.decomposition import PCA</code><br>
+                                        <code># 主成分分析</code><br>
+                                        <code>pca = PCA(n_components=2)</code><br>
+                                        <code>pca_data = pca.fit_transform(data)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">5.4 模型评估和选择</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code>from sklearn.metrics import classification_report, confusion_matrix</code><br>
+                                        <code></code><br>
+                                        <code># 分类报告</code><br>
+                                        <code>print(classification_report(y_test, predictions))</code><br>
+                                        <code>print(confusion_matrix(y_test, predictions))</code><br>
+                                        <code></code><br>
+                                        <code># 交叉验证</code><br>
+                                        <code>from sklearn.model_selection import cross_val_score</code><br>
+                                        <code>scores = cross_val_score(model, X, y, cv=5)</code><br>
+                                        <code>print(f'交叉验证分数: {scores.mean()}')</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 第6章 -->
                     <div class="glass rounded-xl p-6 border border-white/5 card-hover">
-                        <h4 class="text-xl font-semibold mb-3">第6章 商务数据分析案例</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleKnowledge(6)">
+                            <h4 class="text-xl font-semibold mb-3">第6章 商务数据分析案例</h4>
+                            <i class="fa fa-chevron-down expand-btn text-accent" id="btn-icon-6"></i>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 mb-4">
                             <li>6.1 销售数据分析</li>
                             <li>6.2 客户行为分析</li>
                             <li>6.3 市场趋势分析</li>
                             <li>6.4 供应链数据分析</li>
                             <li>6.5 综合案例实战</li>
                         </ul>
-
+                        <div class="knowledge-content" id="knowledge-6">
+                            <div class="border-t border-white/10 pt-4">
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.1 销售数据分析</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># 销售数据分析</code><br>
+                                        <code># 按时间分析销售趋势</code><br>
+                                        <code>monthly_sales = df.groupby('month')['sales'].sum()</code><br>
+                                        <code>monthly_sales.plot(kind='line')</code><br>
+                                        <code></code><br>
+                                        <code># 按产品分析销售</code><br>
+                                        <code>product_sales = df.groupby('product')['sales'].sum()</code><br>
+                                        <code>product_sales.plot(kind='bar')</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.2 客户行为分析</h5>
+                                <div class="text-gray-300 space-y-2 mb-4">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm mb-2">
+                                        <code># RFM分析</code><br>
+                                        <code># Recency: 最近一次购买</code><br>
+                                        <code># Frequency: 购买频率</code><br>
+                                        <code># Monetary: 购买金额</code><br>
+                                        <code></code><br>
+                                        <code># 客户分群</code><br>
+                                        <code>customer_segments = kmeans.fit_predict(rfm_data)</code>
+                                    </div>
+                                </div>
+                                <h5 class="text-lg font-semibold text-accent mb-3">6.3 市场趋势分析</h5>
+                                <div class="text-gray-300 space-y-2">
+                                    <div class="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                        <code># 时间序列预测</code><br>
+                                        <code>from statsmodels.tsa.arima.model import ARIMA</code><br>
+                                        <code></code><br>
+                                        <code>model = ARIMA(ts_data, order=(1,1,1))</code><br>
+                                        <code>results = model.fit()</code><br>
+                                        <code>forecast = results.forecast(steps=12)</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -350,37 +712,50 @@
         </div>
     </footer>
 
-    <script>
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+    <!-- 粒子背景 -->
+    <div id="particles-js" class="fixed inset-0 z-0"></div>
 
-        // 导航栏滚动效果
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('bg-opacity-95');
-                nav.classList.add('shadow-xl');
-            } else {
-                nav.classList.remove('bg-opacity-95');
-                nav.classList.remove('shadow-xl');
-            }
-        });
+    <!-- 星星背景 -->
+    <div class="fixed inset-0 z-0" id="stars"></div>
+    <div class="fixed inset-0 z-0" id="stars2"></div>
+    <div class="fixed inset-0 z-0" id="stars3"></div>
 
-        // 移动端菜单交互
-        document.querySelector('.md\:hidden button').addEventListener('click', function() {
-            alert('移动端菜单功能后续实现');
-        });
-    </script>
+    <!-- 光标跟随效果 -->
+    <div id="cursor-follower" class="cursor-follower"></div>
+
+    <!-- 回到顶部按钮 -->
+    <button id="back-to-top" class="back-to-top glass rounded-full p-3 shadow-lg">
+        <i class="fa fa-arrow-up text-accent"></i>
+    </button>
+
+    <!-- 滚动进度条 -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+
+    <!-- 邮箱弹窗 -->
+    <div id="email-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content glass rounded-2xl p-8 max-w-md w-full">
+            <div class="modal-header flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-accent">联系我</h3>
+                <button id="close-email-modal" class="text-gray-400 hover:text-light transition-colors duration-300">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-gray-300 mb-4">如果您有任何问题或建议，欢迎通过以下邮箱联系我：</p>
+                <div class="flex items-center bg-secondary rounded-lg p-3 mb-4">
+                    <input type="text" value="1537794404@qq.com" class="bg-transparent border-none text-light flex-grow focus:outline-none" readonly id="email-input">
+                    <button id="copy-email" class="text-accent hover:text-light transition-colors duration-300 ml-2">
+                        <i class="fa fa-copy"></i>
+                    </button>
+                </div>
+                <div id="copy-success" class="hidden text-green-400 text-sm mb-4">
+                    <i class="fa fa-check-circle"></i> 邮箱地址已复制到剪贴板
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script type="module" src="../js/main.js"></script>
 </body>
 </html>
