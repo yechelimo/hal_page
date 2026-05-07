@@ -3,6 +3,13 @@ let courseData = null;
 let currentChapter = 1;
 let currentProblem = 1;
 
+// 学习进度数据
+let learningProgress = {
+    completedChapters: [],
+    completedProblems: {},
+    exerciseAnswers: {}
+};
+
 // DOM 元素
 const chapterList = document.getElementById('chapterList');
 const chapterTitle = document.getElementById('chapterTitle');
@@ -28,6 +35,8 @@ const multipleChoiceOptions = document.querySelector('.multiple-choice-options')
 const trueFalseContainer = document.querySelector('.true-false-container');
 const navLinks = document.querySelectorAll('nav a');
 const sections = document.querySelectorAll('main > section');
+const prevChapterBtn = document.querySelector('.prev-chapter-btn');
+const nextChapterBtn = document.querySelector('.next-chapter-btn');
 
 // 加载课程数据
 async function loadCourseData() {
@@ -35,21 +44,33 @@ async function loadCourseData() {
     showLoadingState();
     
     try {
+        console.log('Loading course data from: data/data-analysis.json');
         const response = await fetch('data/data-analysis.json');
+        console.log('Response status:', response.status);
+        
         if (!response.ok) {
-            throw new Error('Failed to load course data');
+            throw new Error(`Failed to load course data: ${response.status} ${response.statusText}`);
         }
+        
         courseData = await response.json();
+        console.log('Course data loaded successfully:', courseData);
+        
         initializeNavigation();
         initializeChapters();
         initializeProblems();
         loadChapter(currentChapter);
+        
+        // 确保导航按钮被更新
+        if (prevChapterBtn && nextChapterBtn) {
+            updateNavigationButtons();
+        }
+        
         // 隐藏加载状态
         hideLoadingState();
     } catch (error) {
         console.error('Error loading course data:', error);
-        // 显示错误提示
-        showErrorState('加载课程数据失败，请刷新页面重试');
+        // 显示详细的错误提示
+        showErrorState(`加载课程数据失败: ${error.message}`);
     }
 }
 
@@ -185,11 +206,16 @@ function loadChapter(chapterId) {
     const chapter = courseData.chapters.find(ch => ch.id === chapterId);
     if (!chapter) return;
     
+    currentChapter = chapterId;
+    
     // 更新章节信息
     chapterTitle.innerHTML = `<span class="text-gradient">${chapter.title}</span>`;
     chapterInfoDuration.textContent = chapter.duration;
     chapterInfoDifficulty.textContent = `难度：${chapter.difficulty}`;
     chapterIntro.textContent = chapter.introduction;
+    
+    // 更新导航按钮状态
+    updateNavigationButtons();
     
     // 更新章节列表状态
     const chapterItems = chapterList.querySelectorAll('div');
@@ -334,10 +360,10 @@ function loadChapter(chapterId) {
                     const isCorrect = JSON.stringify(selectedOptions.sort()) === JSON.stringify(exercise.correctAnswer.sort());
                     if (isCorrect) {
                         feedbackElement.className = 'answer-feedback mt-3 text-green-500';
-                        feedbackElement.textContent = '回答正确！';
+                        feedbackElement.innerHTML = '回答正确！' + (exercise.explanation ? `<br><span class="text-gray-400">${exercise.explanation}</span>` : '');
                     } else {
                         feedbackElement.className = 'answer-feedback mt-3 text-red-500';
-                        feedbackElement.textContent = '回答错误，请再试一次';
+                        feedbackElement.innerHTML = '回答错误，请再试一次' + (exercise.explanation ? `<br><span class="text-gray-400">${exercise.explanation}</span>` : '');
                     }
                 } else if (type === 'true-false') {
                     // 判断题检查
@@ -352,10 +378,10 @@ function loadChapter(chapterId) {
                     const isCorrect = answer === exercise.correctAnswer;
                     if (isCorrect) {
                         feedbackElement.className = 'answer-feedback mt-3 text-green-500';
-                        feedbackElement.textContent = '回答正确！';
+                        feedbackElement.innerHTML = '回答正确！' + (exercise.explanation ? `<br><span class="text-gray-400">${exercise.explanation}</span>` : '');
                     } else {
                         feedbackElement.className = 'answer-feedback mt-3 text-red-500';
-                        feedbackElement.textContent = '回答错误，请再试一次';
+                        feedbackElement.innerHTML = '回答错误，请再试一次' + (exercise.explanation ? `<br><span class="text-gray-400">${exercise.explanation}</span>` : '');
                     }
                 }
                 
@@ -366,6 +392,33 @@ function loadChapter(chapterId) {
     
     // 保存进度
     saveProgress(chapterId);
+}
+
+// 更新导航按钮状态
+function updateNavigationButtons() {
+    const totalChapters = courseData.course.totalChapters;
+    
+    // 处理上一章按钮
+    if (currentChapter === 1) {
+        prevChapterBtn.disabled = true;
+        prevChapterBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        prevChapterBtn.classList.remove('hover:bg-white/20');
+    } else {
+        prevChapterBtn.disabled = false;
+        prevChapterBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        prevChapterBtn.classList.add('hover:bg-white/20');
+    }
+    
+    // 处理下一章按钮
+    if (currentChapter === totalChapters) {
+        nextChapterBtn.disabled = true;
+        nextChapterBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        nextChapterBtn.classList.remove('hover:bg-accent/90');
+    } else {
+        nextChapterBtn.disabled = false;
+        nextChapterBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        nextChapterBtn.classList.add('hover:bg-accent/90');
+    }
 }
 
 // 初始化题目列表
@@ -390,12 +443,47 @@ function loadProblems(chapterId) {
         problemItem.addEventListener('click', () => {
             currentProblem = problem.id;
             loadProblem(chapterId, currentProblem);
+            updateProblemNavigationButtons();
         });
         problemList.appendChild(problemItem);
     });
     
     // 加载第一个题目
     loadProblem(chapterId, currentProblem);
+    updateProblemNavigationButtons();
+}
+
+// 更新题目导航按钮状态
+function updateProblemNavigationButtons() {
+    const problems = courseData.problems[currentChapter.toString()];
+    if (!problems) return;
+    
+    const prevProblemBtn = document.querySelector('.prev-problem-btn');
+    const nextProblemBtn = document.querySelector('.next-problem-btn');
+    
+    if (!prevProblemBtn || !nextProblemBtn) return;
+    
+    // 处理上一题按钮
+    if (currentProblem === 1) {
+        prevProblemBtn.disabled = true;
+        prevProblemBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        prevProblemBtn.classList.remove('hover:bg-white/20');
+    } else {
+        prevProblemBtn.disabled = false;
+        prevProblemBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        prevProblemBtn.classList.add('hover:bg-white/20');
+    }
+    
+    // 处理下一题按钮
+    if (currentProblem === problems.length) {
+        nextProblemBtn.disabled = true;
+        nextProblemBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        nextProblemBtn.classList.remove('hover:bg-white/20');
+    } else {
+        nextProblemBtn.disabled = false;
+        nextProblemBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        nextProblemBtn.classList.add('hover:bg-white/20');
+    }
 }
 
 // 加载题目详情
@@ -619,7 +707,8 @@ function goToNextProblem() {
 // 保存进度
 function saveProgress(chapterId) {
     try {
-        localStorage.setItem('dataAnalysisProgress', chapterId.toString());
+        learningProgress.lastChapter = chapterId;
+        localStorage.setItem('dataAnalysisProgress', JSON.stringify(learningProgress));
     } catch (error) {
         console.error('Error saving progress:', error);
     }
@@ -630,7 +719,17 @@ function loadProgress() {
     try {
         const savedProgress = localStorage.getItem('dataAnalysisProgress');
         if (savedProgress) {
-            currentChapter = parseInt(savedProgress);
+            const parsed = JSON.parse(savedProgress);
+            if (typeof parsed === 'object') {
+                learningProgress = { ...learningProgress, ...parsed };
+                if (learningProgress.lastChapter) {
+                    currentChapter = learningProgress.lastChapter;
+                }
+            } else if (typeof parsed === 'number') {
+                // 兼容旧版本
+                currentChapter = parsed;
+                learningProgress.lastChapter = parsed;
+            }
         }
     } catch (error) {
         console.error('Error loading progress:', error);

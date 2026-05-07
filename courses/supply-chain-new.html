@@ -185,8 +185,11 @@
                                 <h3 class="text-xl font-semibold mb-4 text-accent flex items-center">
                                     <i class="fa fa-pencil mr-2"></i>随堂练习
                                 </h3>
-                                <div class="space-y-4">
-                                    <!-- 练习内容将由JavaScript动态生成 -->
+                                <div class="glass rounded-xl p-6 border border-white/10">
+                                    <p class="text-gray-300 mb-4">测试您的供应链分析知识，包含各章节的知识点练习题。</p>
+                                    <a href="supply-chain-practice.html" class="inline-flex items-center bg-accent hover:bg-accent/90 transition-colors duration-300 px-6 py-3 rounded-lg text-white">
+                                        <i class="fa fa-graduation-cap mr-2"></i>开始知识点练习
+                                    </a>
                                 </div>
                             </div>
 
@@ -405,9 +408,31 @@
                     </div>
 
                     <div class="mt-12 flex justify-center">
-                        <button class="bg-accent hover:bg-accent/90 transition-colors duration-300 px-8 py-4 rounded-lg flex items-center text-lg font-medium">
+                        <button id="submitExamBtn" class="bg-accent hover:bg-accent/90 transition-colors duration-300 px-8 py-4 rounded-lg flex items-center text-lg font-medium" onclick="submitExam()">
                             <i class="fa fa-check-circle mr-2"></i>提交考试
                         </button>
+                    </div>
+
+                    <!-- 考试结果区域 -->
+                    <div id="examResult" class="mt-12 hidden">
+                        <div class="glass rounded-2xl p-8 border border-white/5">
+                            <div class="text-center mb-8">
+                                <i class="fa fa-trophy text-5xl text-yellow-400 mb-4"></i>
+                                <h3 class="text-2xl font-bold mb-2">考试完成！</h3>
+                                <div class="text-4xl font-bold text-blue-400">
+                                    <span id="examScore">0</span> / 100分
+                                </div>
+                            </div>
+                            <div id="examDetails" class="space-y-3 mb-8"></div>
+                            <div class="flex justify-center gap-4">
+                                <button onclick="retakeExam()" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg transition-colors">
+                                    <i class="fa fa-refresh mr-2"></i>重新考试
+                                </button>
+                                <button onclick="hideExamResult()" class="bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded-lg transition-colors">
+                                    <i class="fa fa-check mr-2"></i>完成
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

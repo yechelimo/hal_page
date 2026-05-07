@@ -185,8 +185,11 @@
                                 <h3 class="text-xl font-semibold mb-4 text-accent flex items-center">
                                     <i class="fa fa-pencil mr-2"></i>随堂练习
                                 </h3>
-                                <div class="space-y-4">
-                                    <!-- 练习内容将由JavaScript动态生成 -->
+                                <div class="glass rounded-xl p-6 border border-white/10">
+                                    <p class="text-gray-300 mb-4">测试您的数据分析知识，包含各章节的知识点练习题。</p>
+                                    <a href="data-analysis-practice.html" class="inline-flex items-center bg-accent hover:bg-accent/90 transition-colors duration-300 px-6 py-3 rounded-lg text-white">
+                                        <i class="fa fa-graduation-cap mr-2"></i>开始知识点练习
+                                    </a>
                                 </div>
                             </div>
 
@@ -405,9 +408,31 @@
                     </div>
 
                     <div class="mt-12 flex justify-center">
-                        <button class="bg-accent hover:bg-accent/90 transition-colors duration-300 px-8 py-4 rounded-lg flex items-center text-lg font-medium">
+                        <button id="submitExamBtn" class="bg-accent hover:bg-accent/90 transition-colors duration-300 px-8 py-4 rounded-lg flex items-center text-lg font-medium" onclick="submitExam()">
                             <i class="fa fa-check-circle mr-2"></i>提交考试
                         </button>
+                    </div>
+                    
+                    <!-- 考试结果展示区域 -->
+                    <div id="examResult" class="mt-8 hidden">
+                        <div class="glass rounded-xl p-6 border border-white/10">
+                            <h4 class="text-xl font-semibold mb-4 text-accent">考试结果</h4>
+                            <div class="text-center mb-6">
+                                <div class="text-5xl font-bold text-accent mb-2" id="examScore">0</div>
+                                <div class="text-gray-400">分</div>
+                            </div>
+                            <div class="space-y-4" id="examDetails">
+                                <!-- 详细结果将在这里显示 -->
+                            </div>
+                            <div class="mt-6 flex justify-center space-x-4">
+                                <button onclick="retakeExam()" class="bg-white/10 hover:bg-white/20 transition-colors duration-300 px-6 py-3 rounded-lg">
+                                    <i class="fa fa-refresh mr-2"></i>重新考试
+                                </button>
+                                <button onclick="hideExamResult()" class="bg-accent hover:bg-accent/90 transition-colors duration-300 px-6 py-3 rounded-lg">
+                                    <i class="fa fa-check mr-2"></i>完成
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -416,5 +441,102 @@
 
     <script type="module" src="../js/main.js"></script>
     <script src="js/data-analysis.js"></script>
+    <script>
+        // 考试评分功能
+        function submitExam() {
+            const correctAnswers = {
+                q1: 'D',  // 数据加密不是数据分析步骤
+                q2: 'D',  // NumPy不是可视化库
+                q3: 'false'  // 数据清洗不是第一步
+            };
+            
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+            const details = [];
+            
+            for (let q in correctAnswers) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                const isCorrect = selected && selected.value === correctAnswers[q];
+                
+                if (isCorrect) {
+                    score += 10;
+                }
+                
+                details.push({
+                    question: q,
+                    correct: isCorrect,
+                    userAnswer: selected ? selected.value : '未作答',
+                    correctAnswer: correctAnswers[q]
+                });
+            }
+            
+            // 显示结果
+            document.getElementById('examScore').textContent = score;
+            const detailsContainer = document.getElementById('examDetails');
+            detailsContainer.innerHTML = '';
+            
+            details.forEach((detail, index) => {
+                const resultItem = document.createElement('div');
+                resultItem.className = `p-3 rounded-lg ${detail.correct ? 'bg-green-500/20 border border-green-500/30' : 'bg-red-500/20 border border-red-500/30'}`;
+                resultItem.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-medium">题目 ${index + 1}</span>
+                        <span class="${detail.correct ? 'text-green-400' : 'text-red-400'}">
+                            <i class="fa ${detail.correct ? 'fa-check' : 'fa-times'} mr-1"></i>
+                            ${detail.correct ? '正确' : '错误'}
+                        </span>
+                    </div>
+                    ${!detail.correct ? `<div class="text-sm text-gray-400 mt-1">正确答案: ${detail.correctAnswer}</div>` : ''}
+                `;
+                detailsContainer.appendChild(resultItem);
+            });
+            
+            // 保存考试结果
+            saveExamResult(score, totalQuestions * 10);
+            
+            // 显示结果区域
+            document.getElementById('examResult').classList.remove('hidden');
+            document.getElementById('submitExamBtn').classList.add('hidden');
+            
+            // 滚动到结果区域
+            document.getElementById('examResult').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 保存考试结果
+        function saveExamResult(score, total) {
+            const examData = {
+                course: 'data-analysis',
+                score: score,
+                total: total,
+                date: new Date().toISOString(),
+                percentage: Math.round((score / total) * 100)
+            };
+            
+            let examHistory = JSON.parse(localStorage.getItem('examHistory') || '[]');
+            examHistory.push(examData);
+            localStorage.setItem('examHistory', JSON.stringify(examHistory));
+        }
+        
+        // 重新考试
+        function retakeExam() {
+            // 清除所有选择
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.checked = false;
+            });
+            
+            // 隐藏结果，显示提交按钮
+            document.getElementById('examResult').classList.add('hidden');
+            document.getElementById('submitExamBtn').classList.remove('hidden');
+            
+            // 滚动到考试区域顶部
+            document.getElementById('exam').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 隐藏考试结果
+        function hideExamResult() {
+            document.getElementById('examResult').classList.add('hidden');
+            document.getElementById('submitExamBtn').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>

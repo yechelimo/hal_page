@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python基础 - 知识点练习</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            min-height: 100vh;
+            color: #F8FAFC;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .option-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #3B82F6;
+        }
+        .option-item.selected {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        .option-item.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10B981;
+        }
+        .option-item.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #EF4444;
+        }
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #3B82F6, #10B981);
+            height: 100%;
+            transition: width 0.3s;
+        }
+        .chapter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .chapter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .chapter-btn.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        .result-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
+        .result-modal.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- 头部 -->
+        <header class="glass rounded-2xl p-6 mb-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="python-basic-new.html" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-arrow-left text-xl"></i>
+                    </a>
+                    <div>
+                        <h1 class="text-2xl font-bold text-blue-400">Python基础 - 知识点练习</h1>
+                        <p class="text-gray-400 text-sm mt-1">根据CSDN教程整理的章节练习题</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-gray-400">当前进度</div>
+                    <div class="text-2xl font-bold text-blue-400">
+                        <span id="currentQuestion">1</span> / <span id="totalQuestions">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="progress-bar mt-4">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- 章节选择侧边栏 -->
+            <aside class="lg:col-span-1">
+                <div class="glass rounded-2xl p-4">
+                    <h3 class="text-lg font-semibold mb-4 text-blue-400">选择章节</h3>
+                    <div class="space-y-2" id="chapterList">
+                        <!-- 章节按钮将由JS生成 -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 练习区域 -->
+            <main class="lg:col-span-3">
+                <div class="glass rounded-2xl p-6" id="practiceArea">
+                    <!-- 题目内容将由JS生成 -->
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa fa-book text-4xl mb-4"></i>
+                        <p>请选择左侧章节开始练习</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 结果弹窗 -->
+    <div class="result-modal" id="resultModal">
+        <div class="glass rounded-2xl p-8 max-w-md w-full mx-4">
+            <div class="text-center">
+                <i class="fa fa-trophy text-5xl text-yellow-400 mb-4"></i>
+                <h2 class="text-2xl font-bold mb-2">练习完成！</h2>
+                <div class="text-4xl font-bold text-blue-400 my-4">
+                    <span id="score">0</span>分
+                </div>
+                <p class="text-gray-400 mb-6" id="resultMessage"></p>
+                <div class="flex gap-4 justify-center">
+                    <button onclick="restartPractice()" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg transition-colors">
+                        <i class="fa fa-refresh mr-2"></i>重新练习
+                    </button>
+                    <button onclick="closeResult()" class="bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded-lg transition-colors">
+                        <i class="fa fa-check mr-2"></i>完成
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 知识点练习题库 - 基于CSDN教程内容
+        const practiceData = {
+            'chapter1': {
+                title: '第一章：软件安装',
+                questions: [
+                    {
+                        id: 1,
+                        question: 'Python程序运行需要什么？',
+                        type: 'single',
+                        options: ['Python解释器', 'Word文档', 'Photoshop', 'Excel'],
+                        correct: 0,
+                        explanation: 'Python是解释型语言，需要Python解释器将代码转换为字节码执行。'
+                    },
+                    {
+                        id: 2,
+                        question: '安装Python时，应该勾选哪个选项将Python添加到系统环境变量？',
+                        type: 'single',
+                        options: ['Install for all users', 'Add Python to PATH', 'Create shortcuts', 'Precompile standard library'],
+                        correct: 1,
+                        explanation: '勾选"Add Python to PATH"可以将Python添加到系统环境变量，让电脑知道Python安装的位置。'
+                    },
+                    {
+                        id: 3,
+                        question: 'PyCharm的哪个版本是免费的？',
+                        type: 'single',
+                        options: ['Professional版', 'Community版', 'Education版', 'Enterprise版'],
+                        correct: 1,
+                        explanation: 'PyCharm Community版（社区版）是免费的，Professional版（专业版）需要付费。'
+                    },
+                    {
+                        id: 4,
+                        question: '如何检测Python是否安装成功？',
+                        type: 'single',
+                        options: ['打开浏览器输入python', '在命令提示符输入python', '双击Python安装包', '重启电脑'],
+                        correct: 1,
+                        explanation: '在命令提示符(cmd)中输入python，如果显示Python版本信息则表示安装成功。'
+                    }
+                ]
+            },
+            'chapter2': {
+                title: '第二章：新建Python程序文件',
+                questions: [
+                    {
+                        id: 1,
+                        question: 'Python文件的扩展名是什么？',
+                        type: 'single',
+                        options: ['.txt', '.doc', '.py', '.pdf'],
+                        correct: 2,
+                        explanation: 'Python文件的扩展名是.py，例如hello.py。'
+                    },
+                    {
+                        id: 2,
+                        question: '在PyCharm中，venv文件夹的作用是什么？',
+                        type: 'single',
+                        options: ['存放代码文件', '虚拟环境文件夹', '配置文件', '日志文件'],
+                        correct: 1,
+                        explanation: 'venv是虚拟环境文件夹，让不同项目可以使用不同的Python解释器版本和第三方库。'
+                    },
+                    {
+                        id: 3,
+                        question: '新建Python文件时，文件名不能包含什么？',
+                        type: 'multiple',
+                        options: ['空格', '表情包', '英文', '数字'],
+                        correct: [0, 1],
+                        explanation: '文件名要求以英文、数字、下划线组成，不能有空格、表情包等特殊字符。'
+                    },
+                    {
+                        id: 4,
+                        question: '如何将PyCharm界面设置为中文？',
+                        type: 'single',
+                        options: ['重新安装软件', '安装Chinese插件', '修改系统语言', '无法设置'],
+                        correct: 1,
+                        explanation: '在Plugins（插件）中搜索"chinese"，安装汉化插件后重启PyCharm即可。'
+                    }
+                ]
+            },
+            'chapter3': {
+                title: '第三章：基础语法指令',
+                questions: [
+                    {
+                        id: 1,
+                        question: 'print指令的作用是什么？',
+                        type: 'single',
+                        options: ['打印文档', '输出内容到控制台', '保存文件', '打开网页'],
+                        correct: 1,
+                        explanation: 'print是打印指令，用于将内容输出到控制台显示。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个是合法的变量名？',
+                        type: 'single',
+                        options: ['2name', 'my-name', 'my_name', 'my name'],
+                        correct: 2,
+                        explanation: '变量名规则：字母、数字、下划线组成；不能有除下划线外的符号；不能有空格；不能以数字开头。'
+                    },
+                    {
+                        id: 3,
+                        question: 'Python中，"6"和6分别是什么类型？',
+                        type: 'single',
+                        options: ['都是整数', '都是字符串', '字符串和整数', '整数和浮点数'],
+                        correct: 2,
+                        explanation: '"6"带引号是字符串str类型，6不带引号是整数int类型。'
+                    },
+                    {
+                        id: 4,
+                        question: 'input指令的作用是什么？',
+                        type: 'single',
+                        options: ['输出内容', '读取用户输入', '导入模块', '定义函数'],
+                        correct: 1,
+                        explanation: 'input指令用于读取用户从键盘输入的数据。'
+                    },
+                    {
+                        id: 5,
+                        question: '条件语句中，==和!=分别表示什么？',
+                        type: 'single',
+                        options: ['赋值和比较', '等于和不等于', '大于和小于', '与和或'],
+                        correct: 1,
+                        explanation: '==是比较运算符"等于"，!=是比较运算符"不等于"。'
+                    },
+                    {
+                        id: 6,
+                        question: '以下哪些是Python的数据类型？',
+                        type: 'multiple',
+                        options: ['字符串str', '整数int', '布尔bool', '空值NoneType'],
+                        correct: [0, 1, 2, 3],
+                        explanation: 'Python常见数据类型包括：字符串str、整数int、浮点数float、布尔bool、空值NoneType。'
+                    },
+                    {
+                        id: 7,
+                        question: '列表和元组的主要区别是什么？',
+                        type: 'single',
+                        options: ['列表用[]，元组用()', '列表可修改，元组不可修改', '两者完全相同', '元组可以存储更多数据'],
+                        correct: 1,
+                        explanation: '列表list是可变数据类型，可以添加、删除元素；元组tuple是不可变数据类型，创建后不能修改。'
+                    },
+                    {
+                        id: 8,
+                        question: '字典的键key必须是什么类型？',
+                        type: 'single',
+                        options: ['只能是字符串', '只能是数字', '不可变数据类型', '任意类型都可以'],
+                        correct: 2,
+                        explanation: '字典的键必须为不可变数据类型，如字符串、整数、浮点数等，不能是列表等可变类型。'
+                    },
+                    {
+                        id: 9,
+                        question: 'for循环和while循环的主要区别是什么？',
+                        type: 'single',
+                        options: ['for循环更快', 'for用于已知次数，while用于未知次数', 'while循环更先进', '没有区别'],
+                        correct: 1,
+                        explanation: '有明确的循环对象或次数时用for循环；循环次数未知时用while循环。'
+                    },
+                    {
+                        id: 10,
+                        question: 'range(5, 10, 2)生成的序列是什么？',
+                        type: 'single',
+                        options: ['5,6,7,8,9', '5,7,9', '2,4,6,8,10', '5,6,7,8,9,10'],
+                        correct: 1,
+                        explanation: 'range(5,10,2)从5开始，到10结束（不包含10），步长为2，生成5,7,9。'
+                    }
+                ]
+            },
+            'chapter4': {
+                title: '第四章：进阶函数',
+                questions: [
+                    {
+                        id: 1,
+                        question: '类的命名通常使用什么命名法？',
+                        type: 'single',
+                        options: ['下划线命名法', 'Pascal命名法（首字母大写）', '全大写', '全小写'],
+                        correct: 1,
+                        explanation: 'Python中类的命名通常使用Pascal命名法，即每个单词首字母大写，如MyClass。'
+                    },
+                    {
+                        id: 2,
+                        question: '类的构造函数名称是什么？',
+                        type: 'single',
+                        options: ['__init__', '__main__', '__class__', '__new__'],
+                        correct: 0,
+                        explanation: '类的构造函数必须命名为__init__，前后各有两个下划线。'
+                    },
+                    {
+                        id: 3,
+                        question: '打开文件时，模式"r"、"w"、"a"分别表示什么？',
+                        type: 'single',
+                        options: ['读、写、追加', '运行、写入、追加', '读、等待、追加', '重置、写入、添加'],
+                        correct: 0,
+                        explanation: '"r"是读取模式，"w"是写入模式（会清空原有内容），"a"是追加模式。'
+                    },
+                    {
+                        id: 4,
+                        question: '使用with open() as f:方式打开文件有什么好处？',
+                        type: 'single',
+                        options: ['读取速度更快', '自动关闭文件', '可以打开多个文件', '文件内容更清晰'],
+                        correct: 1,
+                        explanation: '使用with语句打开文件，操作完成后会自动关闭文件，无需手动调用close()。'
+                    },
+                    {
+                        id: 5,
+                        question: 'try/except语句的作用是什么？',
+                        type: 'single',
+                        options: ['加速程序运行', '捕获和处理异常', '定义函数', '导入模块'],
+                        correct: 1,
+                        explanation: 'try/except语句用于捕获和处理程序运行中可能出现的异常错误。'
+                    },
+                    {
+                        id: 6,
+                        question: 'unittest测试方法命名必须以什么开头？',
+                        type: 'single',
+                        options: ['check_', 'verify_', 'test_', 'assert_'],
+                        correct: 2,
+                        explanation: 'unittest测试方法命名必须以test_开头，这样unittest库才能识别并运行测试用例。'
+                    },
+                    {
+                        id: 7,
+                        question: '什么是高阶函数？',
+                        type: 'single',
+                        options: ['执行速度很快的函数', '将函数作为参数的函数', '高级的函数', '内置函数'],
+                        correct: 1,
+                        explanation: '高阶函数是指将函数作为参数的函数，可以接收其他函数作为参数或返回函数。'
+                    },
+                    {
+                        id: 8,
+                        question: '匿名函数的关键字是什么？',
+                        type: 'single',
+                        options: ['def', 'func', 'lambda', 'anon'],
+                        correct: 2,
+                        explanation: '匿名函数使用lambda关键字定义，是一种没有函数名的简单函数。'
+                    }
+                ]
+            }
+        };
+
+        let currentChapter = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let score = 0;
+
+        // 初始化章节列表
+        function initChapterList() {
+            const chapterList = document.getElementById('chapterList');
+            chapterList.innerHTML = '';
+            
+            for (let key in practiceData) {
+                const chapter = practiceData[key];
+                const btn = document.createElement('div');
+                btn.className = 'chapter-btn';
+                btn.innerHTML = `
+                    <div class="font-medium">${chapter.title}</div>
+                    <div class="text-sm text-gray-400 mt-1">${chapter.questions.length}道题</div>
+                `;
+                btn.onclick = () => selectChapter(key);
+                chapterList.appendChild(btn);
+            }
+        }
+
+        // 选择章节
+        function selectChapter(chapterKey) {
+            currentChapter = chapterKey;
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            score = 0;
+            
+            // 更新按钮状态
+            document.querySelectorAll('.chapter-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', Object.keys(practiceData)[index] === chapterKey);
+            });
+            
+            // 更新总题数
+            document.getElementById('totalQuestions').textContent = practiceData[chapterKey].questions.length;
+            
+            // 显示第一题
+            showQuestion();
+        }
+
+        // 显示题目
+        function showQuestion() {
+            const chapter = practiceData[currentChapter];
+            const question = chapter.questions[currentQuestionIndex];
+            const practiceArea = document.getElementById('practiceArea');
+            
+            // 更新进度
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            const progress = ((currentQuestionIndex + 1) / chapter.questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // 生成选项HTML
+            let optionsHtml = '';
+            if (question.type === 'single') {
+                optionsHtml = question.options.map((opt, idx) => `
+                    <div class="option-item" onclick="selectOption(${idx})" data-index="${idx}">
+                        <span class="font-medium">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                    </div>
+                `).join('');
+            } else if (question.type === 'multiple') {
+                optionsHtml = question.options.map((opt, idx) => `
+                    <div class="option-item" onclick="toggleOption(${idx})" data-index="${idx}">
+                        <span class="font-medium">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                    </div>
+                `).join('');
+            }
+            
+            practiceArea.innerHTML = `
+                <div class="mb-6">
+                    <span class="text-blue-400 text-sm font-medium">${chapter.title}</span>
+                    <h2 class="text-xl font-bold mt-2">${currentQuestionIndex + 1}. ${question.question}</h2>
+                    ${question.type === 'multiple' ? '<p class="text-gray-400 text-sm mt-2">（多选题）</p>' : ''}
+                </div>
+                <div class="space-y-3 mb-6" id="optionsContainer">
+                    ${optionsHtml}
+                </div>
+                <div class="flex justify-between items-center">
+                    <button onclick="prevQuestion()" class="px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 transition-colors ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                        <i class="fa fa-arrow-left mr-2"></i>上一题
+                    </button>
+                    <button onclick="nextQuestion()" class="px-6 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition-colors" id="nextBtn">
+                        ${currentQuestionIndex === chapter.questions.length - 1 ? '提交' : '下一题'} <i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            `;
+            
+            // 恢复已选答案
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                if (question.type === 'single') {
+                    selectOption(userAnswers[currentQuestionIndex], false);
+                } else {
+                    userAnswers[currentQuestionIndex].forEach(idx => toggleOption(idx, false));
+                }
+            }
+        }
+
+        // 单选
+        function selectOption(index, save = true) {
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelector(`[data-index="${index}"]`).classList.add('selected');
+            if (save) {
+                userAnswers[currentQuestionIndex] = index;
+            }
+        }
+
+        // 多选
+        function toggleOption(index, save = true) {
+            const item = document.querySelector(`[data-index="${index}"]`);
+            item.classList.toggle('selected');
+            
+            if (save) {
+                if (!userAnswers[currentQuestionIndex]) {
+                    userAnswers[currentQuestionIndex] = [];
+                }
+                const idx = userAnswers[currentQuestionIndex].indexOf(index);
+                if (idx > -1) {
+                    userAnswers[currentQuestionIndex].splice(idx, 1);
+                } else {
+                    userAnswers[currentQuestionIndex].push(index);
+                }
+            }
+        }
+
+        // 上一题
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+            }
+        }
+
+        // 下一题/提交
+        function nextQuestion() {
+            const chapter = practiceData[currentChapter];
+            
+            // 检查是否已作答
+            if (userAnswers[currentQuestionIndex] === undefined || 
+                (Array.isArray(userAnswers[currentQuestionIndex]) && userAnswers[currentQuestionIndex].length === 0)) {
+                alert('请先选择答案！');
+                return;
+            }
+            
+            if (currentQuestionIndex < chapter.questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            } else {
+                // 提交并显示结果
+                submitPractice();
+            }
+        }
+
+        // 提交练习
+        function submitPractice() {
+            const chapter = practiceData[currentChapter];
+            let correctCount = 0;
+            
+            chapter.questions.forEach((q, idx) => {
+                const userAnswer = userAnswers[idx];
+                if (q.type === 'single') {
+                    if (userAnswer === q.correct) correctCount++;
+                } else if (q.type === 'multiple') {
+                    const correct = Array.isArray(q.correct) ? q.correct : [q.correct];
+                    const user = Array.isArray(userAnswer) ? userAnswer : [userAnswer];
+                    if (JSON.stringify(correct.sort()) === JSON.stringify(user.sort())) {
+                        correctCount++;
+                    }
+                }
+            });
+            
+            score = Math.round((correctCount / chapter.questions.length) * 100);
+            document.getElementById('score').textContent = score;
+            
+            let message = '';
+            if (score >= 90) {
+                message = '太棒了！你对Python基础掌握得很好！🎉';
+            } else if (score >= 70) {
+                message = '不错！继续加油，巩固知识点！💪';
+            } else if (score >= 60) {
+                message = '及格了！建议再复习一下相关知识点。📚';
+            } else {
+                message = '需要加强学习哦，建议重新阅读教程内容。📖';
+            }
+            document.getElementById('resultMessage').textContent = message;
+            
+            document.getElementById('resultModal').classList.add('show');
+            
+            // 保存成绩到localStorage
+            saveScore(currentChapter, score);
+        }
+
+        // 保存成绩
+        function saveScore(chapter, score) {
+            const scores = JSON.parse(localStorage.getItem('pythonPracticeScores') || '{}');
+            scores[chapter] = {
+                score: score,
+                date: new Date().toISOString()
+            };
+            localStorage.setItem('pythonPracticeScores', JSON.stringify(scores));
+        }
+
+        // 重新练习
+        function restartPractice() {
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            score = 0;
+            document.getElementById('resultModal').classList.remove('show');
+            showQuestion();
+        }
+
+        // 关闭结果
+        function closeResult() {
+            document.getElementById('resultModal').classList.remove('show');
+            // 返回章节选择
+            document.getElementById('practiceArea').innerHTML = `
+                <div class="text-center py-12 text-gray-400">
+                    <i class="fa fa-check-circle text-4xl mb-4 text-green-400"></i>
+                    <p>练习已完成！</p>
+                    <p class="text-sm mt-2">最终得分：${score}分</p>
+                    <button onclick="restartPractice()" class="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors">
+                        <i class="fa fa-refresh mr-2"></i>重新练习
+                    </button>
+                </div>
+            `;
+        }
+
+        // 初始化
+        initChapterList();
+    </script>
+</body>
+</html>

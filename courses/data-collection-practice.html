@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据采集与处理 - 知识点练习</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            min-height: 100vh;
+            color: #F8FAFC;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .option-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #3B82F6;
+        }
+        .option-item.selected {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #3B82F6, #10B981);
+            height: 100%;
+            transition: width 0.3s;
+        }
+        .chapter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .chapter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .chapter-btn.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        .result-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
+        .result-modal.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-6xl mx-auto">
+        <header class="glass rounded-2xl p-6 mb-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="data-collection-new.html" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-arrow-left text-xl"></i>
+                    </a>
+                    <div>
+                        <h1 class="text-2xl font-bold text-blue-400">数据采集与处理 - 知识点练习</h1>
+                        <p class="text-gray-400 text-sm mt-1">测试您的数据采集知识</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-gray-400">当前进度</div>
+                    <div class="text-2xl font-bold text-blue-400">
+                        <span id="currentQuestion">1</span> / <span id="totalQuestions">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="progress-bar mt-4">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <aside class="lg:col-span-1">
+                <div class="glass rounded-2xl p-4">
+                    <h3 class="text-lg font-semibold mb-4 text-blue-400">选择章节</h3>
+                    <div class="space-y-2" id="chapterList"></div>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-3">
+                <div class="glass rounded-2xl p-6" id="practiceArea">
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa fa-book text-4xl mb-4"></i>
+                        <p>请选择左侧章节开始练习</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="result-modal" id="resultModal">
+        <div class="glass rounded-2xl p-8 max-w-md w-full mx-4">
+            <div class="text-center">
+                <i class="fa fa-trophy text-5xl text-yellow-400 mb-4"></i>
+                <h2 class="text-2xl font-bold mb-2">练习完成！</h2>
+                <div class="text-4xl font-bold text-blue-400 my-4">
+                    <span id="score">0</span>分
+                </div>
+                <p class="text-gray-400 mb-6" id="resultMessage"></p>
+                <div class="flex gap-4 justify-center">
+                    <button onclick="restartPractice()" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg transition-colors">
+                        <i class="fa fa-refresh mr-2"></i>重新练习
+                    </button>
+                    <button onclick="closeResult()" class="bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded-lg transition-colors">
+                        <i class="fa fa-check mr-2"></i>完成
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const practiceData = {
+            'chapter1': {
+                title: '第一章：数据采集概述',
+                questions: [
+                    {
+                        id: 1,
+                        question: '数据采集的主要目的是什么？',
+                        type: 'single',
+                        options: ['删除数据', '收集数据以供分析', '加密数据', '备份数据'],
+                        correct: 1,
+                        explanation: '数据采集的主要目的是收集数据以供后续分析和处理。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个不是数据采集的方法？',
+                        type: 'single',
+                        options: ['网络爬虫', 'API调用', '数据加密', '表单采集'],
+                        correct: 2,
+                        explanation: '数据加密不是数据采集方法，而是数据安全手段。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是数据采集的常见来源？',
+                        type: 'multiple',
+                        options: ['网站', 'API接口', '数据库', '日志文件'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '数据采集的常见来源包括网站、API接口、数据库和日志文件等。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：数据采集是数据分析的第一步。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: '数据采集是数据分析的第一步，没有数据就无法进行分析。'
+                    }
+                ]
+            },
+            'chapter2': {
+                title: '第二章：网络爬虫基础',
+                questions: [
+                    {
+                        id: 1,
+                        question: 'Python中最常用的HTTP请求库是？',
+                        type: 'single',
+                        options: ['numpy', 'pandas', 'requests', 'matplotlib'],
+                        correct: 2,
+                        explanation: 'requests是Python中最常用的HTTP请求库。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个是用于解析HTML的Python库？',
+                        type: 'single',
+                        options: ['requests', 'BeautifulSoup', 'scrapy', 'selenium'],
+                        correct: 1,
+                        explanation: 'BeautifulSoup是用于解析HTML和XML文档的Python库。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是网络爬虫需要注意的事项？',
+                        type: 'multiple',
+                        options: ['遵守robots.txt', '设置请求间隔', '使用代理IP', '伪装User-Agent'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '网络爬虫需要遵守robots.txt、设置请求间隔、使用代理IP和伪装User-Agent等。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：Scrapy是一个高级的Python爬虫框架。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: 'Scrapy是一个功能强大的Python爬虫框架，支持异步爬取。'
+                    }
+                ]
+            },
+            'chapter3': {
+                title: '第三章：API数据获取',
+                questions: [
+                    {
+                        id: 1,
+                        question: 'RESTful API常用的HTTP方法不包括？',
+                        type: 'single',
+                        options: ['GET', 'POST', 'UPDATE', 'DELETE'],
+                        correct: 2,
+                        explanation: 'RESTful API常用的HTTP方法包括GET、POST、PUT、DELETE，UPDATE不是标准HTTP方法。'
+                    },
+                    {
+                        id: 2,
+                        question: 'API返回的数据格式通常是什么？',
+                        type: 'single',
+                        options: ['HTML', 'JSON', 'XML', 'CSV'],
+                        correct: 1,
+                        explanation: 'API返回的数据格式通常是JSON格式，易于解析和处理。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是API认证方式？',
+                        type: 'multiple',
+                        options: ['API Key', 'OAuth', 'Token认证', 'Basic认证'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '常见的API认证方式包括API Key、OAuth、Token认证和Basic认证。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：API的Rate Limit是指API的响应速度限制。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: 'Rate Limit是指API对请求频率的限制，防止滥用。'
+                    }
+                ]
+            },
+            'chapter4': {
+                title: '第四章：数据清洗与预处理',
+                questions: [
+                    {
+                        id: 1,
+                        question: '数据清洗不包括以下哪项操作？',
+                        type: 'single',
+                        options: ['处理缺失值', '处理异常值', '处理重复值', '增加数据量'],
+                        correct: 3,
+                        explanation: '数据清洗主要处理缺失值、异常值和重复值，不包括增加数据量。'
+                    },
+                    {
+                        id: 2,
+                        question: 'IQR方法常用于检测什么？',
+                        type: 'single',
+                        options: ['缺失值', '异常值', '重复值', '错误值'],
+                        correct: 1,
+                        explanation: 'IQR（四分位数范围）方法常用于检测异常值。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是数据预处理步骤？',
+                        type: 'multiple',
+                        options: ['数据清洗', '数据转换', '数据标准化', '数据可视化'],
+                        correct: [0, 1, 2],
+                        explanation: '数据预处理步骤包括数据清洗、数据转换和数据标准化，数据可视化不属于预处理。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：数据标准化可以提高模型的收敛速度。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: '数据标准化可以将数据缩放到相同范围，提高模型的收敛速度和准确性。'
+                    }
+                ]
+            },
+            'chapter5': {
+                title: '第五章：数据存储',
+                questions: [
+                    {
+                        id: 1,
+                        question: '以下哪个不是常用的数据存储格式？',
+                        type: 'single',
+                        options: ['CSV', 'JSON', 'XLSX', 'TXT'],
+                        correct: 3,
+                        explanation: 'TXT是纯文本格式，不是专门的数据存储格式，CSV、JSON、XLSX是常用的数据存储格式。'
+                    },
+                    {
+                        id: 2,
+                        question: '使用with open()方式打开文件有什么好处？',
+                        type: 'single',
+                        options: ['读取速度更快', '自动关闭文件', '可以打开多个文件', '文件内容更清晰'],
+                        correct: 1,
+                        explanation: '使用with语句打开文件，操作完成后会自动关闭文件。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是常用的数据库类型？',
+                        type: 'multiple',
+                        options: ['MySQL', 'PostgreSQL', 'SQLite', 'MongoDB'],
+                        correct: [0, 1, 2, 3],
+                        explanation: 'MySQL、PostgreSQL、SQLite和MongoDB都是常用的数据库。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：SQLite是一个轻量级的嵌入式数据库。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: 'SQLite是一个轻量级的嵌入式数据库，不需要独立的服务器进程。'
+                    }
+                ]
+            },
+            'chapter6': {
+                title: '第六章：数据采集实战',
+                questions: [
+                    {
+                        id: 1,
+                        question: '在爬虫中设置User-Agent的目的是什么？',
+                        type: 'single',
+                        options: ['加速爬取', '伪装成浏览器', '加密数据', '压缩数据'],
+                        correct: 1,
+                        explanation: '设置User-Agent可以伪装成浏览器，避免被服务器识别为爬虫。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个是动态网页爬取工具？',
+                        type: 'single',
+                        options: ['requests', 'BeautifulSoup', 'Selenium', 'Scrapy'],
+                        correct: 2,
+                        explanation: 'Selenium可以模拟浏览器行为，用于爬取动态网页。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是反爬虫策略？',
+                        type: 'multiple',
+                        options: ['IP封禁', '验证码', 'Cookie验证', '请求频率限制'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '常见的反爬虫策略包括IP封禁、验证码、Cookie验证和请求频率限制等。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：使用代理IP可以绕过IP封禁。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: '使用代理IP可以更换请求来源，绕过IP封禁限制。'
+                    }
+                ]
+            }
+        };
+
+        let currentChapter = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let score = 0;
+
+        function initChapterList() {
+            const chapterList = document.getElementById('chapterList');
+            chapterList.innerHTML = '';
+            
+            for (let key in practiceData) {
+                const chapter = practiceData[key];
+                const btn = document.createElement('div');
+                btn.className = 'chapter-btn';
+                btn.innerHTML = `
+                    <div class="font-medium">${chapter.title}</div>
+                    <div class="text-sm text-gray-400 mt-1">${chapter.questions.length}道题</div>
+                `;
+                btn.onclick = () => selectChapter(key);
+                chapterList.appendChild(btn);
+            }
+        }
+
+        function selectChapter(chapterKey) {
+            currentChapter = chapterKey;
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            score = 0;
+            
+            document.querySelectorAll('.chapter-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', Object.keys(practiceData)[index] === chapterKey);
+            });
+            
+            document.getElementById('totalQuestions').textContent = practiceData[chapterKey].questions.length;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const chapter = practiceData[currentChapter];
+            const question = chapter.questions[currentQuestionIndex];
+            const practiceArea = document.getElementById('practiceArea');
+            
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            const progress = ((currentQuestionIndex + 1) / chapter.questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            let optionsHtml = '';
+            if (question.type === 'single') {
+                optionsHtml = question.options.map((opt, idx) => `
+                    <div class="option-item" onclick="selectOption(${idx})" data-index="${idx}">
+                        <span class="font-medium">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                    </div>
+                `).join('');
+            } else if (question.type === 'multiple') {
+                optionsHtml = question.options.map((opt, idx) => `
+                    <div class="option-item" onclick="toggleOption(${idx})" data-index="${idx}">
+                        <span class="font-medium">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                    </div>
+                `).join('');
+            }
+            
+            practiceArea.innerHTML = `
+                <div class="mb-6">
+                    <span class="text-blue-400 text-sm font-medium">${chapter.title}</span>
+                    <h2 class="text-xl font-bold mt-2">${currentQuestionIndex + 1}. ${question.question}</h2>
+                    ${question.type === 'multiple' ? '<p class="text-gray-400 text-sm mt-2">（多选题）</p>' : ''}
+                </div>
+                <div class="space-y-3 mb-6" id="optionsContainer">${optionsHtml}</div>
+                <div class="flex justify-between items-center">
+                    <button onclick="prevQuestion()" class="px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 transition-colors ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                        <i class="fa fa-arrow-left mr-2"></i>上一题
+                    </button>
+                    <button onclick="nextQuestion()" class="px-6 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition-colors">
+                        ${currentQuestionIndex === chapter.questions.length - 1 ? '提交' : '下一题'} <i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            `;
+            
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                if (question.type === 'single') {
+                    selectOption(userAnswers[currentQuestionIndex], false);
+                } else {
+                    userAnswers[currentQuestionIndex].forEach(idx => toggleOption(idx, false));
+                }
+            }
+        }
+
+        function selectOption(index, save = true) {
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelector(`[data-index="${index}"]`).classList.add('selected');
+            if (save) {
+                userAnswers[currentQuestionIndex] = index;
+            }
+        }
+
+        function toggleOption(index, save = true) {
+            const item = document.querySelector(`[data-index="${index}"]`);
+            item.classList.toggle('selected');
+            
+            if (save) {
+                if (!userAnswers[currentQuestionIndex]) {
+                    userAnswers[currentQuestionIndex] = [];
+                }
+                const idx = userAnswers[currentQuestionIndex].indexOf(index);
+                if (idx > -1) {
+                    userAnswers[currentQuestionIndex].splice(idx, 1);
+                } else {
+                    userAnswers[currentQuestionIndex].push(index);
+                }
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            const chapter = practiceData[currentChapter];
+            
+            if (userAnswers[currentQuestionIndex] === undefined || 
+                (Array.isArray(userAnswers[currentQuestionIndex]) && userAnswers[currentQuestionIndex].length === 0)) {
+                alert('请先选择答案！');
+                return;
+            }
+            
+            if (currentQuestionIndex < chapter.questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            } else {
+                submitPractice();
+            }
+        }
+
+        function submitPractice() {
+            const chapter = practiceData[currentChapter];
+            let correctCount = 0;
+            
+            chapter.questions.forEach((q, idx) => {
+                const userAnswer = userAnswers[idx];
+                if (q.type === 'single') {
+                    if (userAnswer === q.correct) correctCount++;
+                } else if (q.type === 'multiple') {
+                    const correct = Array.isArray(q.correct) ? q.correct : [q.correct];
+                    const user = Array.isArray(userAnswer) ? userAnswer : [userAnswer];
+                    if (JSON.stringify(correct.sort()) === JSON.stringify(user.sort())) {
+                        correctCount++;
+                    }
+                }
+            });
+            
+            score = Math.round((correctCount / chapter.questions.length) * 100);
+            document.getElementById('score').textContent = score;
+            
+            let message = '';
+            if (score >= 90) {
+                message = '太棒了！你对数据采集知识掌握得很好！🎉';
+            } else if (score >= 70) {
+                message = '不错！继续加油，巩固知识点！💪';
+            } else if (score >= 60) {
+                message = '及格了！建议再复习一下相关知识点。📚';
+            } else {
+                message = '需要加强学习哦，建议重新阅读教程内容。📖';
+            }
+            document.getElementById('resultMessage').textContent = message;
+            
+            document.getElementById('resultModal').classList.add('show');
+            saveScore(currentChapter, score);
+        }
+
+        function saveScore(chapter, score) {
+            const scores = JSON.parse(localStorage.getItem('dataCollectionPracticeScores') || '{}');
+            scores[chapter] = { score: score, date: new Date().toISOString() };
+            localStorage.setItem('dataCollectionPracticeScores', JSON.stringify(scores));
+        }
+
+        function restartPractice() {
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            score = 0;
+            document.getElementById('resultModal').classList.remove('show');
+            showQuestion();
+        }
+
+        function closeResult() {
+            document.getElementById('resultModal').classList.remove('show');
+            document.getElementById('practiceArea').innerHTML = `
+                <div class="text-center py-12 text-gray-400">
+                    <i class="fa fa-check-circle text-4xl mb-4 text-green-400"></i>
+                    <p>练习已完成！</p>
+                    <p class="text-sm mt-2">最终得分：${score}分</p>
+                    <button onclick="restartPractice()" class="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors">
+                        <i class="fa fa-refresh mr-2"></i>重新练习
+                    </button>
+                </div>
+            `;
+        }
+
+        initChapterList();
+    </script>
+</body>
+</html>

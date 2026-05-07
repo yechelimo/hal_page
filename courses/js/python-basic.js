@@ -18,23 +18,30 @@ async function loadCourseData() {
     showLoadingState();
     
     try {
+        console.log('Loading course data from: data/python-basic.json');
         const response = await fetch('data/python-basic.json');
+        console.log('Response status:', response.status);
+        
         if (!response.ok) {
-            throw new Error('Failed to load course data');
+            throw new Error(`Failed to load course data: ${response.status} ${response.statusText}`);
         }
+        
         courseData = await response.json();
+        console.log('Course data loaded successfully:', courseData);
+        
         // 数据加载完成后初始化页面
         loadProgress();
         initNavigation();
         initChapters();
         initPractice();
         loadSavedProgress();
+        
         // 隐藏加载状态
         hideLoadingState();
     } catch (error) {
         console.error('Error loading course data:', error);
-        // 显示错误提示
-        showErrorState('加载课程数据失败，请刷新页面重试');
+        // 显示详细的错误提示
+        showErrorState(`加载课程数据失败: ${error.message}`);
     }
 }
 
@@ -486,6 +493,92 @@ function initCodeEditor() {
 document.addEventListener('DOMContentLoaded', function() {
     initCodeEditor();
 });
+
+// 提交考试
+function submitExam() {
+    const correctAnswers = {
+        q1: 'C',
+        q2: 'A',
+        q3: 'true'
+    };
+    
+    let score = 0;
+    const totalQuestions = Object.keys(correctAnswers).length;
+    const details = [];
+    
+    for (let q in correctAnswers) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        const isCorrect = selected && selected.value === correctAnswers[q];
+        
+        if (isCorrect) {
+            score += Math.round(100 / totalQuestions);
+        }
+        
+        details.push({
+            question: q,
+            correct: isCorrect,
+            userAnswer: selected ? selected.value : '未作答',
+            correctAnswer: correctAnswers[q]
+        });
+    }
+    
+    document.getElementById('examScore').textContent = score;
+    const detailsContainer = document.getElementById('examDetails');
+    detailsContainer.innerHTML = '';
+    
+    details.forEach((detail, index) => {
+        const resultItem = document.createElement('div');
+        resultItem.className = `p-3 rounded-lg ${detail.correct ? 'bg-green-500/20 border border-green-500/30' : 'bg-red-500/20 border border-red-500/30'}`;
+        resultItem.innerHTML = `
+            <div class="flex items-center justify-between">
+                <span class="font-medium">题目 ${index + 1}</span>
+                <span class="${detail.correct ? 'text-green-400' : 'text-red-400'}">
+                    <i class="fa ${detail.correct ? 'fa-check' : 'fa-times'} mr-1"></i>
+                    ${detail.correct ? '正确' : '错误'}
+                </span>
+            </div>
+            ${!detail.correct ? `<div class="text-sm text-gray-400 mt-1">正确答案: ${detail.correctAnswer}</div>` : ''}
+        `;
+        detailsContainer.appendChild(resultItem);
+    });
+    
+    saveExamResult(score, 100);
+    
+    document.getElementById('examResult').classList.remove('hidden');
+    document.getElementById('submitExamBtn').classList.add('hidden');
+    
+    document.getElementById('examResult').scrollIntoView({ behavior: 'smooth' });
+}
+
+function saveExamResult(score, total) {
+    const examData = {
+        course: 'python-basic',
+        score: score,
+        total: total,
+        date: new Date().toISOString(),
+        percentage: Math.round((score / total) * 100)
+    };
+    
+    let examHistory = JSON.parse(localStorage.getItem('examHistory') || '[]');
+    examHistory.push(examData);
+    localStorage.setItem('examHistory', JSON.stringify(examHistory));
+}
+
+function retakeExam() {
+    document.querySelectorAll('input[type="radio"]').forEach(input => {
+        input.checked = false;
+    });
+    
+    document.getElementById('examResult').classList.add('hidden');
+    document.getElementById('submitExamBtn').classList.remove('hidden');
+    
+    document.getElementById('exam').scrollIntoView({ behavior: 'smooth' });
+}
+
+function hideExamResult() {
+    document.getElementById('examResult').classList.add('hidden');
+    document.getElementById('submitExamBtn').classList.remove('hidden');
+}
 
 // 提交答案
 function submitAnswer() {

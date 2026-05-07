@@ -3,6 +3,13 @@ let courseData = null;
 let currentChapter = 1;
 let currentProblem = 1;
 
+// 学习进度数据
+let learningProgress = {
+    completedChapters: [],
+    completedProblems: {},
+    exerciseAnswers: {}
+};
+
 // DOM 元素
 const chapterList = document.getElementById('chapterList');
 const chapterTitle = document.getElementById('chapterTitle');
@@ -28,6 +35,8 @@ const multipleChoiceOptions = document.querySelector('.multiple-choice-options')
 const trueFalseContainer = document.querySelector('.true-false-container');
 const navLinks = document.querySelectorAll('nav a');
 const sections = document.querySelectorAll('main > section');
+const prevChapterBtn = document.querySelector('.prev-chapter-btn');
+const nextChapterBtn = document.querySelector('.next-chapter-btn');
 
 // 加载课程数据
 async function loadCourseData() {
@@ -35,21 +44,33 @@ async function loadCourseData() {
     showLoadingState();
     
     try {
+        console.log('Loading course data from: data/supply-chain.json');
         const response = await fetch('data/supply-chain.json');
+        console.log('Response status:', response.status);
+        
         if (!response.ok) {
-            throw new Error('Failed to load course data');
+            throw new Error(`Failed to load course data: ${response.status} ${response.statusText}`);
         }
+        
         courseData = await response.json();
+        console.log('Course data loaded successfully:', courseData);
+        
         initializeNavigation();
         initializeChapters();
         initializeProblems();
         loadChapter(currentChapter);
+        
+        // 确保导航按钮被更新
+        if (prevChapterBtn && nextChapterBtn) {
+            updateNavigationButtons();
+        }
+        
         // 隐藏加载状态
         hideLoadingState();
     } catch (error) {
         console.error('Error loading course data:', error);
-        // 显示错误提示
-        showErrorState('加载课程数据失败，请刷新页面重试');
+        // 显示详细的错误提示
+        showErrorState(`加载课程数据失败: ${error.message}`);
     }
 }
 
@@ -178,6 +199,33 @@ function initializeChapters() {
     });
 }
 
+// 更新导航按钮状态
+function updateNavigationButtons() {
+    const totalChapters = courseData.course.totalChapters;
+    
+    // 处理上一章按钮
+    if (currentChapter === 1) {
+        prevChapterBtn.disabled = true;
+        prevChapterBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        prevChapterBtn.classList.remove('hover:bg-white/20');
+    } else {
+        prevChapterBtn.disabled = false;
+        prevChapterBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        prevChapterBtn.classList.add('hover:bg-white/20');
+    }
+    
+    // 处理下一章按钮
+    if (currentChapter === totalChapters) {
+        nextChapterBtn.disabled = true;
+        nextChapterBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        nextChapterBtn.classList.remove('hover:bg-accent/90');
+    } else {
+        nextChapterBtn.disabled = false;
+        nextChapterBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        nextChapterBtn.classList.add('hover:bg-accent/90');
+    }
+}
+
 // 加载章节内容
 function loadChapter(chapterId) {
     if (!courseData) return;
@@ -185,11 +233,16 @@ function loadChapter(chapterId) {
     const chapter = courseData.chapters.find(ch => ch.id === chapterId);
     if (!chapter) return;
     
+    currentChapter = chapterId;
+    
     // 更新章节信息
     chapterTitle.innerHTML = `<span class="text-gradient">${chapter.title}</span>`;
     chapterInfoDuration.textContent = chapter.duration;
     chapterInfoDifficulty.textContent = `难度：${chapter.difficulty}`;
     chapterIntro.textContent = chapter.introduction;
+    
+    // 更新导航按钮状态
+    updateNavigationButtons();
     
     // 更新章节列表状态
     const chapterItems = chapterList.querySelectorAll('div');
@@ -558,6 +611,100 @@ function goToNextChapter() {
     }
 }
 
+// 提交考试
+function submitExam() {
+    const correctAnswers = {
+        q1: 'D',
+        q2: 'A',
+        q3: 'true'
+    };
+    
+    let score = 0;
+    const totalQuestions = Object.keys(correctAnswers).length;
+    const details = [];
+    
+    for (let q in correctAnswers) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        const isCorrect = selected && selected.value === correctAnswers[q];
+        
+        if (isCorrect) {
+            score += Math.round(100 / totalQuestions);
+        }
+        
+        details.push({
+            question: q,
+            correct: isCorrect,
+            userAnswer: selected ? selected.value : '未作答',
+            correctAnswer: correctAnswers[q]
+        });
+    }
+    
+    document.getElementById('examScore').textContent = score;
+    const detailsContainer = document.getElementById('examDetails');
+    detailsContainer.innerHTML = '';
+    
+    details.forEach((detail, index) => {
+        const resultItem = document.createElement('div');
+        resultItem.className = `p-3 rounded-lg ${detail.correct ? 'bg-green-500/20 border border-green-500/30' : 'bg-red-500/20 border border-red-500/30'}`;
+        resultItem.innerHTML = `
+            <div class="flex items-center justify-between">
+                <span class="font-medium">题目 ${index + 1}</span>
+                <span class="${detail.correct ? 'text-green-400' : 'text-red-400'}">
+                    <i class="fa ${detail.correct ? 'fa-check' : 'fa-times'} mr-1"></i>
+                    ${detail.correct ? '正确' : '错误'}
+                </span>
+            </div>
+            ${!detail.correct ? `<div class="text-sm text-gray-400 mt-1">正确答案: ${detail.correctAnswer}</div>` : ''}
+        `;
+        detailsContainer.appendChild(resultItem);
+    });
+    
+    saveExamResult(score, 100);
+    
+    document.getElementById('examResult').classList.remove('hidden');
+    document.getElementById('submitExamBtn').classList.add('hidden');
+    
+    document.getElementById('examResult').scrollIntoView({ behavior: 'smooth' });
+}
+
+function saveExamResult(score, total) {
+    const examData = {
+        course: 'supply-chain',
+        score: score,
+        total: total,
+        date: new Date().toISOString(),
+        percentage: Math.round((score / total) * 100)
+    };
+    
+    let examHistory = JSON.parse(localStorage.getItem('examHistory') || '[]');
+    examHistory.push(examData);
+    localStorage.setItem('examHistory', JSON.stringify(examHistory));
+}
+
+function retakeExam() {
+    document.querySelectorAll('input[type="radio"]').forEach(input => {
+        input.checked = false;
+    });
+    
+    document.getElementById('examResult').classList.add('hidden');
+    document.getElementById('submitExamBtn').classList.remove('hidden');
+    
+    document.getElementById('exam').scrollIntoView({ behavior: 'smooth' });
+}
+
+function hideExamResult() {
+    document.getElementById('examResult').classList.add('hidden');
+    document.getElementById('submitExamBtn').classList.remove('hidden');
+}
+
+// 下一章
+function goToNextChapter() {
+    if (currentChapter < courseData.course.totalChapters) {
+        currentChapter++;
+        loadChapter(currentChapter);
+    }
+}
+
 // 上一题
 function goToPrevProblem() {
     const problems = courseData.problems[currentChapter.toString()];
@@ -579,7 +726,8 @@ function goToNextProblem() {
 // 保存进度
 function saveProgress(chapterId) {
     try {
-        localStorage.setItem('supplyChainProgress', chapterId.toString());
+        learningProgress.lastChapter = chapterId;
+        localStorage.setItem('supplyChainProgress', JSON.stringify(learningProgress));
     } catch (error) {
         console.error('Error saving progress:', error);
     }
@@ -590,7 +738,17 @@ function loadProgress() {
     try {
         const savedProgress = localStorage.getItem('supplyChainProgress');
         if (savedProgress) {
-            currentChapter = parseInt(savedProgress);
+            const parsed = JSON.parse(savedProgress);
+            if (typeof parsed === 'object') {
+                learningProgress = { ...learningProgress, ...parsed };
+                if (learningProgress.lastChapter) {
+                    currentChapter = learningProgress.lastChapter;
+                }
+            } else if (typeof parsed === 'number') {
+                // 兼容旧版本
+                currentChapter = parsed;
+                learningProgress.lastChapter = parsed;
+            }
         }
     } catch (error) {
         console.error('Error loading progress:', error);

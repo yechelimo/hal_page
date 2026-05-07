@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据库原理与应用 - 知识点练习</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            min-height: 100vh;
+            color: #F8FAFC;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .option-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #3B82F6;
+        }
+        .option-item.selected {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #3B82F6, #10B981);
+            height: 100%;
+            transition: width 0.3s;
+        }
+        .chapter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .chapter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .chapter-btn.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        .result-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
+        .result-modal.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-6xl mx-auto">
+        <header class="glass rounded-2xl p-6 mb-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="database-new.html" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-arrow-left text-xl"></i>
+                    </a>
+                    <div>
+                        <h1 class="text-2xl font-bold text-blue-400">数据库原理与应用 - 知识点练习</h1>
+                        <p class="text-gray-400 text-sm mt-1">测试您的数据库知识</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-gray-400">当前进度</div>
+                    <div class="text-2xl font-bold text-blue-400">
+                        <span id="currentQuestion">1</span> / <span id="totalQuestions">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="progress-bar mt-4">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <aside class="lg:col-span-1">
+                <div class="glass rounded-2xl p-4">
+                    <h3 class="text-lg font-semibold mb-4 text-blue-400">选择章节</h3>
+                    <div class="space-y-2" id="chapterList"></div>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-3">
+                <div class="glass rounded-2xl p-6" id="practiceArea">
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa fa-book text-4xl mb-4"></i>
+                        <p>请选择左侧章节开始练习</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="result-modal" id="resultModal">
+        <div class="glass rounded-2xl p-8 max-w-md w-full mx-4">
+            <div class="text-center">
+                <i class="fa fa-trophy text-5xl text-yellow-400 mb-4"></i>
+                <h2 class="text-2xl font-bold mb-2">练习完成！</h2>
+                <div class="text-4xl font-bold text-blue-400 my-4">
+                    <span id="score">0</span>分
+                </div>
+                <p class="text-gray-400 mb-6" id="resultMessage"></p>
+                <div class="flex gap-4 justify-center">
+                    <button onclick="restartPractice()" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg transition-colors">
+                        <i class="fa fa-refresh mr-2"></i>重新练习
+                    </button>
+                    <button onclick="closeResult()" class="bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded-lg transition-colors">
+                        <i class="fa fa-check mr-2"></i>完成
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const practiceData = {
+            'chapter1': {
+                title: '第一章：数据库基础概念',
+                questions: [
+                    {
+                        id: 1,
+                        question: '数据库是按照什么组织、存储和管理数据的仓库？',
+                        type: 'single',
+                        options: ['文件系统', '数据模型', '编程语言', '操作系统'],
+                        correct: 1,
+                        explanation: '数据库是按照一定的数据模型组织、存储和管理数据的仓库。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个不是数据库的特点？',
+                        type: 'single',
+                        options: ['数据结构化', '数据共享', '数据孤立', '数据完整性'],
+                        correct: 2,
+                        explanation: '数据库的特点包括数据结构化、数据共享、数据独立性、数据完整性等，数据孤立不是数据库的特点。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是数据库的分类？',
+                        type: 'multiple',
+                        options: ['关系型数据库', 'NoSQL数据库', 'NewSQL数据库', '时序数据库'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '数据库主要分为关系型数据库、NoSQL数据库、NewSQL数据库和时序数据库等类型。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：数据库管理系统（DBMS）是管理数据库的软件系统。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: 'DBMS是管理数据库的软件系统，提供数据定义、数据操纵、数据控制等功能。'
+                    }
+                ]
+            },
+            'chapter2': {
+                title: '第二章：关系型数据库',
+                questions: [
+                    {
+                        id: 1,
+                        question: '关系模型中的"元组"指的是什么？',
+                        type: 'single',
+                        options: ['表格', '表格中的一行', '表格中的一列', '数据库'],
+                        correct: 1,
+                        explanation: '元组（Tuple）指的是关系型数据库表格中的一行记录。'
+                    },
+                    {
+                        id: 2,
+                        question: '唯一标识元组的属性或属性组合称为？',
+                        type: 'single',
+                        options: ['外键', '主键', '索引', '约束'],
+                        correct: 1,
+                        explanation: '主键（Primary Key）是唯一标识元组的属性或属性组合。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是关系完整性约束？',
+                        type: 'multiple',
+                        options: ['实体完整性', '参照完整性', '用户定义完整性', '数据完整性'],
+                        correct: [0, 1, 2],
+                        explanation: '关系完整性约束包括实体完整性、参照完整性和用户定义完整性。'
+                    },
+                    {
+                        id: 4,
+                        question: '引用其他关系主键的属性称为？',
+                        type: 'single',
+                        options: ['主键', '外键', '候选键', '超键'],
+                        correct: 1,
+                        explanation: '外键（Foreign Key）是引用其他关系主键的属性。'
+                    }
+                ]
+            },
+            'chapter3': {
+                title: '第三章：SQL语言基础',
+                questions: [
+                    {
+                        id: 1,
+                        question: 'SQL中用于查询数据的语句是？',
+                        type: 'single',
+                        options: ['INSERT', 'UPDATE', 'SELECT', 'DELETE'],
+                        correct: 2,
+                        explanation: 'SELECT语句用于查询数据库中的数据。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个属于DDL（数据定义语言）？',
+                        type: 'single',
+                        options: ['SELECT', 'INSERT', 'CREATE', 'UPDATE'],
+                        correct: 2,
+                        explanation: 'CREATE属于DDL（数据定义语言），用于创建数据库对象。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是SQL的分类？',
+                        type: 'multiple',
+                        options: ['DDL', 'DML', 'DQL', 'DCL'],
+                        correct: [0, 1, 2, 3],
+                        explanation: 'SQL分为DDL（数据定义语言）、DML（数据操纵语言）、DQL（数据查询语言）和DCL（数据控制语言）。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：GRANT语句属于DCL（数据控制语言）。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: 'GRANT语句用于授予用户权限，属于DCL（数据控制语言）。'
+                    }
+                ]
+            },
+            'chapter4': {
+                title: '第四章：数据库设计',
+                questions: [
+                    {
+                        id: 1,
+                        question: '数据库设计的第一范式要求什么？',
+                        type: 'single',
+                        options: ['消除部分函数依赖', '消除传递函数依赖', '每个属性都是原子的', '建立主键'],
+                        correct: 2,
+                        explanation: '第一范式要求每个属性都是原子的，不可再分。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个不是数据库设计的步骤？',
+                        type: 'single',
+                        options: ['需求分析', '概念设计', '物理设计', '代码编写'],
+                        correct: 3,
+                        explanation: '数据库设计步骤包括需求分析、概念设计、逻辑设计和物理设计，代码编写不属于数据库设计步骤。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是数据库设计的范式？',
+                        type: 'multiple',
+                        options: ['第一范式', '第二范式', '第三范式', 'BCNF范式'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '常见的数据库设计范式包括第一范式、第二范式、第三范式和BCNF范式等。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：ER图（实体关系图）用于数据库的概念设计。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: 'ER图用于数据库的概念设计阶段，描述实体、属性和实体之间的关系。'
+                    }
+                ]
+            },
+            'chapter5': {
+                title: '第五章：数据库管理与优化',
+                questions: [
+                    {
+                        id: 1,
+                        question: '索引的主要作用是什么？',
+                        type: 'single',
+                        options: ['加密数据', '加速查询', '删除数据', '备份数据'],
+                        correct: 1,
+                        explanation: '索引的主要作用是加速数据库查询操作。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个不是数据库优化策略？',
+                        type: 'single',
+                        options: ['创建索引', '优化SQL语句', '增加内存', '删除索引'],
+                        correct: 3,
+                        explanation: '删除索引会降低查询性能，不是优化策略。合理创建和使用索引才是优化策略。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是数据库备份方式？',
+                        type: 'multiple',
+                        options: ['完全备份', '增量备份', '差异备份', '日志备份'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '常见的数据库备份方式包括完全备份、增量备份、差异备份和日志备份。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：数据库事务具有ACID特性。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: '数据库事务具有ACID特性：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。'
+                    }
+                ]
+            },
+            'chapter6': {
+                title: '第六章：数据库应用开发',
+                questions: [
+                    {
+                        id: 1,
+                        question: 'Python中常用的数据库连接库是？',
+                        type: 'single',
+                        options: ['requests', 'pandas', 'sqlite3', 'numpy'],
+                        correct: 2,
+                        explanation: 'sqlite3是Python内置的数据库连接库，用于连接SQLite数据库。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个不是数据库连接池的优点？',
+                        type: 'single',
+                        options: ['提高性能', '减少连接开销', '增加内存使用', '管理连接'],
+                        correct: 2,
+                        explanation: '连接池的优点包括提高性能、减少连接开销和管理连接，不会增加内存使用。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是数据库应用开发的最佳实践？',
+                        type: 'multiple',
+                        options: ['使用参数化查询', '关闭连接', '使用连接池', '避免SQL注入'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '数据库应用开发的最佳实践包括使用参数化查询、及时关闭连接、使用连接池和避免SQL注入。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：ORM（对象关系映射）可以将对象映射到数据库表。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: 'ORM（对象关系映射）可以将编程语言中的对象映射到数据库表，简化数据库操作。'
+                    }
+                ]
+            }
+        };
+
+        let currentChapter = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let score = 0;
+
+        function initChapterList() {
+            const chapterList = document.getElementById('chapterList');
+            chapterList.innerHTML = '';
+            
+            for (let key in practiceData) {
+                const chapter = practiceData[key];
+                const btn = document.createElement('div');
+                btn.className = 'chapter-btn';
+                btn.innerHTML = `
+                    <div class="font-medium">${chapter.title}</div>
+                    <div class="text-sm text-gray-400 mt-1">${chapter.questions.length}道题</div>
+                `;
+                btn.onclick = () => selectChapter(key);
+                chapterList.appendChild(btn);
+            }
+        }
+
+        function selectChapter(chapterKey) {
+            currentChapter = chapterKey;
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            score = 0;
+            
+            document.querySelectorAll('.chapter-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', Object.keys(practiceData)[index] === chapterKey);
+            });
+            
+            document.getElementById('totalQuestions').textContent = practiceData[chapterKey].questions.length;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const chapter = practiceData[currentChapter];
+            const question = chapter.questions[currentQuestionIndex];
+            const practiceArea = document.getElementById('practiceArea');
+            
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            const progress = ((currentQuestionIndex + 1) / chapter.questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            let optionsHtml = '';
+            if (question.type === 'single') {
+                optionsHtml = question.options.map((opt, idx) => `
+                    <div class="option-item" onclick="selectOption(${idx})" data-index="${idx}">
+                        <span class="font-medium">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                    </div>
+                `).join('');
+            } else if (question.type === 'multiple') {
+                optionsHtml = question.options.map((opt, idx) => `
+                    <div class="option-item" onclick="toggleOption(${idx})" data-index="${idx}">
+                        <span class="font-medium">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                    </div>
+                `).join('');
+            }
+            
+            practiceArea.innerHTML = `
+                <div class="mb-6">
+                    <span class="text-blue-400 text-sm font-medium">${chapter.title}</span>
+                    <h2 class="text-xl font-bold mt-2">${currentQuestionIndex + 1}. ${question.question}</h2>
+                    ${question.type === 'multiple' ? '<p class="text-gray-400 text-sm mt-2">（多选题）</p>' : ''}
+                </div>
+                <div class="space-y-3 mb-6" id="optionsContainer">${optionsHtml}</div>
+                <div class="flex justify-between items-center">
+                    <button onclick="prevQuestion()" class="px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 transition-colors ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                        <i class="fa fa-arrow-left mr-2"></i>上一题
+                    </button>
+                    <button onclick="nextQuestion()" class="px-6 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition-colors">
+                        ${currentQuestionIndex === chapter.questions.length - 1 ? '提交' : '下一题'} <i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            `;
+            
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                if (question.type === 'single') {
+                    selectOption(userAnswers[currentQuestionIndex], false);
+                } else {
+                    userAnswers[currentQuestionIndex].forEach(idx => toggleOption(idx, false));
+                }
+            }
+        }
+
+        function selectOption(index, save = true) {
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelector(`[data-index="${index}"]`).classList.add('selected');
+            if (save) {
+                userAnswers[currentQuestionIndex] = index;
+            }
+        }
+
+        function toggleOption(index, save = true) {
+            const item = document.querySelector(`[data-index="${index}"]`);
+            item.classList.toggle('selected');
+            
+            if (save) {
+                if (!userAnswers[currentQuestionIndex]) {
+                    userAnswers[currentQuestionIndex] = [];
+                }
+                const idx = userAnswers[currentQuestionIndex].indexOf(index);
+                if (idx > -1) {
+                    userAnswers[currentQuestionIndex].splice(idx, 1);
+                } else {
+                    userAnswers[currentQuestionIndex].push(index);
+                }
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            const chapter = practiceData[currentChapter];
+            
+            if (userAnswers[currentQuestionIndex] === undefined || 
+                (Array.isArray(userAnswers[currentQuestionIndex]) && userAnswers[currentQuestionIndex].length === 0)) {
+                alert('请先选择答案！');
+                return;
+            }
+            
+            if (currentQuestionIndex < chapter.questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            } else {
+                submitPractice();
+            }
+        }
+
+        function submitPractice() {
+            const chapter = practiceData[currentChapter];
+            let correctCount = 0;
+            
+            chapter.questions.forEach((q, idx) => {
+                const userAnswer = userAnswers[idx];
+                if (q.type === 'single') {
+                    if (userAnswer === q.correct) correctCount++;
+                } else if (q.type === 'multiple') {
+                    const correct = Array.isArray(q.correct) ? q.correct : [q.correct];
+                    const user = Array.isArray(userAnswer) ? userAnswer : [userAnswer];
+                    if (JSON.stringify(correct.sort()) === JSON.stringify(user.sort())) {
+                        correctCount++;
+                    }
+                }
+            });
+            
+            score = Math.round((correctCount / chapter.questions.length) * 100);
+            document.getElementById('score').textContent = score;
+            
+            let message = '';
+            if (score >= 90) {
+                message = '太棒了！你对数据库知识掌握得很好！🎉';
+            } else if (score >= 70) {
+                message = '不错！继续加油，巩固知识点！💪';
+            } else if (score >= 60) {
+                message = '及格了！建议再复习一下相关知识点。📚';
+            } else {
+                message = '需要加强学习哦，建议重新阅读教程内容。📖';
+            }
+            document.getElementById('resultMessage').textContent = message;
+            
+            document.getElementById('resultModal').classList.add('show');
+            saveScore(currentChapter, score);
+        }
+
+        function saveScore(chapter, score) {
+            const scores = JSON.parse(localStorage.getItem('databasePracticeScores') || '{}');
+            scores[chapter] = { score: score, date: new Date().toISOString() };
+            localStorage.setItem('databasePracticeScores', JSON.stringify(scores));
+        }
+
+        function restartPractice() {
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            score = 0;
+            document.getElementById('resultModal').classList.remove('show');
+            showQuestion();
+        }
+
+        function closeResult() {
+            document.getElementById('resultModal').classList.remove('show');
+            document.getElementById('practiceArea').innerHTML = `
+                <div class="text-center py-12 text-gray-400">
+                    <i class="fa fa-check-circle text-4xl mb-4 text-green-400"></i>
+                    <p>练习已完成！</p>
+                    <p class="text-sm mt-2">最终得分：${score}分</p>
+                    <button onclick="restartPractice()" class="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors">
+                        <i class="fa fa-refresh mr-2"></i>重新练习
+                    </button>
+                </div>
+            `;
+        }
+
+        initChapterList();
+    </script>
+</body>
+</html>

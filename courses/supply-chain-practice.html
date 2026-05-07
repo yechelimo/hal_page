@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应链数据分析 - 知识点练习</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            min-height: 100vh;
+            color: #F8FAFC;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .option-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #3B82F6;
+        }
+        .option-item.selected {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #3B82F6, #10B981);
+            height: 100%;
+            transition: width 0.3s;
+        }
+        .chapter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .chapter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .chapter-btn.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        .result-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
+        .result-modal.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-6xl mx-auto">
+        <header class="glass rounded-2xl p-6 mb-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="supply-chain-new.html" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-arrow-left text-xl"></i>
+                    </a>
+                    <div>
+                        <h1 class="text-2xl font-bold text-blue-400">供应链数据分析 - 知识点练习</h1>
+                        <p class="text-gray-400 text-sm mt-1">测试您的供应链分析知识</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-gray-400">当前进度</div>
+                    <div class="text-2xl font-bold text-blue-400">
+                        <span id="currentQuestion">1</span> / <span id="totalQuestions">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="progress-bar mt-4">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <aside class="lg:col-span-1">
+                <div class="glass rounded-2xl p-4">
+                    <h3 class="text-lg font-semibold mb-4 text-blue-400">选择章节</h3>
+                    <div class="space-y-2" id="chapterList"></div>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-3">
+                <div class="glass rounded-2xl p-6" id="practiceArea">
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa fa-book text-4xl mb-4"></i>
+                        <p>请选择左侧章节开始练习</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="result-modal" id="resultModal">
+        <div class="glass rounded-2xl p-8 max-w-md w-full mx-4">
+            <div class="text-center">
+                <i class="fa fa-trophy text-5xl text-yellow-400 mb-4"></i>
+                <h2 class="text-2xl font-bold mb-2">练习完成！</h2>
+                <div class="text-4xl font-bold text-blue-400 my-4">
+                    <span id="score">0</span>分
+                </div>
+                <p class="text-gray-400 mb-6" id="resultMessage"></p>
+                <div class="flex gap-4 justify-center">
+                    <button onclick="restartPractice()" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg transition-colors">
+                        <i class="fa fa-refresh mr-2"></i>重新练习
+                    </button>
+                    <button onclick="closeResult()" class="bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded-lg transition-colors">
+                        <i class="fa fa-check mr-2"></i>完成
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const practiceData = {
+            'chapter1': {
+                title: '第一章：供应链分析概述',
+                questions: [
+                    {
+                        id: 1,
+                        question: '供应链分析的主要目的是什么？',
+                        type: 'single',
+                        options: ['降低员工工资', '提高供应链效率和降低成本', '增加库存', '减少供应商'],
+                        correct: 1,
+                        explanation: '供应链分析的主要目的是提高供应链效率和降低成本。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个不是供应链的组成部分？',
+                        type: 'single',
+                        options: ['供应商', '制造商', '零售商', '客户服务中心'],
+                        correct: 3,
+                        explanation: '供应链主要包括供应商、制造商、分销商、零售商等，客户服务中心不属于供应链核心组成部分。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是供应链分析的应用领域？',
+                        type: 'multiple',
+                        options: ['需求预测', '库存管理', '供应商管理', '物流优化'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '供应链分析应用于需求预测、库存管理、供应商管理和物流优化等领域。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：供应链分析可以帮助企业做出更明智的决策。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: '通过供应链分析，企业可以基于数据做出更明智的决策。'
+                    }
+                ]
+            },
+            'chapter2': {
+                title: '第二章：供应链数据分析基础',
+                questions: [
+                    {
+                        id: 1,
+                        question: '供应链数据分析的第一步是什么？',
+                        type: 'single',
+                        options: ['数据可视化', '数据收集', '数据建模', '结果分析'],
+                        correct: 1,
+                        explanation: '供应链数据分析的第一步是数据收集，没有数据就无法进行分析。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个不是供应链数据的来源？',
+                        type: 'single',
+                        options: ['ERP系统', '物流管理系统', '社交媒体', '仓库管理系统'],
+                        correct: 2,
+                        explanation: 'ERP系统、物流管理系统和仓库管理系统都是供应链数据的来源，社交媒体不是主要数据来源。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是供应链数据分析方法？',
+                        type: 'multiple',
+                        options: ['描述性分析', '预测性分析', '规范性分析', '可视化分析'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '供应链数据分析方法包括描述性分析、预测性分析、规范性分析和可视化分析。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：数据质量对供应链分析结果影响不大。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 1,
+                        explanation: '数据质量对供应链分析结果有重大影响，垃圾数据会导致错误的分析结论。'
+                    }
+                ]
+            },
+            'chapter3': {
+                title: '第三章：库存管理分析',
+                questions: [
+                    {
+                        id: 1,
+                        question: '库存周转率的计算公式是什么？',
+                        type: 'single',
+                        options: ['销售成本 / 平均库存', '平均库存 / 销售成本', '销售成本 * 平均库存', '平均库存 + 销售成本'],
+                        correct: 0,
+                        explanation: '库存周转率 = 销售成本 / 平均库存，反映库存的周转效率。'
+                    },
+                    {
+                        id: 2,
+                        question: '安全库存的主要目的是什么？',
+                        type: 'single',
+                        options: ['增加库存成本', '应对需求波动', '减少订单数量', '降低仓储空间'],
+                        correct: 1,
+                        explanation: '安全库存用于应对需求波动和供应延迟，确保服务水平。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是库存管理模型？',
+                        type: 'multiple',
+                        options: ['EOQ模型', 'ROP模型', 'ABC分类法', 'JIT模式'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '常见的库存管理模型包括EOQ模型、ROP模型、ABC分类法和JIT模式。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：ABC分类法将库存分为A、B、C三类，其中A类库存价值最高。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: 'ABC分类法根据价值将库存分为三类，A类库存价值最高，需要重点管理。'
+                    }
+                ]
+            },
+            'chapter4': {
+                title: '第四章：需求预测',
+                questions: [
+                    {
+                        id: 1,
+                        question: '以下哪个不是需求预测方法？',
+                        type: 'single',
+                        options: ['移动平均法', '指数平滑法', '回归分析', '库存盘点'],
+                        correct: 3,
+                        explanation: '移动平均法、指数平滑法和回归分析都是需求预测方法，库存盘点不是预测方法。'
+                    },
+                    {
+                        id: 2,
+                        question: '时间序列预测方法主要基于什么？',
+                        type: 'single',
+                        options: ['专家意见', '历史数据', '市场调研', '主观判断'],
+                        correct: 1,
+                        explanation: '时间序列预测方法主要基于历史数据，通过分析过去的趋势来预测未来。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是需求预测的应用场景？',
+                        type: 'multiple',
+                        options: ['生产计划', '库存管理', '物流规划', '员工招聘'],
+                        correct: [0, 1, 2],
+                        explanation: '需求预测应用于生产计划、库存管理和物流规划，员工招聘通常不直接使用需求预测。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：需求预测的准确性越高，供应链成本越低。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: '准确的需求预测可以减少库存积压和缺货，从而降低供应链成本。'
+                    }
+                ]
+            },
+            'chapter5': {
+                title: '第五章：供应商管理',
+                questions: [
+                    {
+                        id: 1,
+                        question: '供应商评估的主要指标不包括以下哪项？',
+                        type: 'single',
+                        options: ['交货准时率', '产品质量', '供应商规模', '价格竞争力'],
+                        correct: 2,
+                        explanation: '供应商评估指标包括交货准时率、产品质量、价格竞争力等，供应商规模不是主要评估指标。'
+                    },
+                    {
+                        id: 2,
+                        question: '供应商关系管理的目标是什么？',
+                        type: 'single',
+                        options: ['降低供应商数量', '建立长期合作关系', '减少沟通', '提高采购价格'],
+                        correct: 1,
+                        explanation: '供应商关系管理的目标是建立长期、互利的合作关系。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是供应商选择的标准？',
+                        type: 'multiple',
+                        options: ['价格', '质量', '交货能力', '地理位置'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '供应商选择标准包括价格、质量、交货能力和地理位置等因素。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：单一供应商策略可以降低供应链风险。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 1,
+                        explanation: '单一供应商策略会增加供应链风险，多元化供应商策略可以降低风险。'
+                    }
+                ]
+            },
+            'chapter6': {
+                title: '第六章：供应链风险管理',
+                questions: [
+                    {
+                        id: 1,
+                        question: '供应链风险主要分为哪两类？',
+                        type: 'single',
+                        options: ['内部风险和外部风险', '财务风险和市场风险', '运营风险和战略风险', '短期风险和长期风险'],
+                        correct: 0,
+                        explanation: '供应链风险主要分为内部风险（如运营风险）和外部风险（如市场风险、自然灾害等）。'
+                    },
+                    {
+                        id: 2,
+                        question: '以下哪个不是供应链风险应对策略？',
+                        type: 'single',
+                        options: ['风险规避', '风险转移', '风险忽视', '风险缓解'],
+                        correct: 2,
+                        explanation: '供应链风险应对策略包括风险规避、风险转移和风险缓解，风险忽视不是有效的应对策略。'
+                    },
+                    {
+                        id: 3,
+                        question: '以下哪些是供应链风险的来源？',
+                        type: 'multiple',
+                        options: ['自然灾害', '政治不稳定', '供应商倒闭', '需求波动'],
+                        correct: [0, 1, 2, 3],
+                        explanation: '供应链风险来源包括自然灾害、政治不稳定、供应商倒闭和需求波动等。'
+                    },
+                    {
+                        id: 4,
+                        question: '判断：供应链弹性是指供应链应对风险和恢复的能力。',
+                        type: 'single',
+                        options: ['正确', '错误'],
+                        correct: 0,
+                        explanation: '供应链弹性是指供应链在面临干扰时能够快速恢复和适应的能力。'
+                    }
+                ]
+            }
+        };
+
+        let currentChapter = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let score = 0;
+
+        function initChapterList() {
+            const chapterList = document.getElementById('chapterList');
+            chapterList.innerHTML = '';
+            
+            for (let key in practiceData) {
+                const chapter = practiceData[key];
+                const btn = document.createElement('div');
+                btn.className = 'chapter-btn';
+                btn.innerHTML = `
+                    <div class="font-medium">${chapter.title}</div>
+                    <div class="text-sm text-gray-400 mt-1">${chapter.questions.length}道题</div>
+                `;
+                btn.onclick = () => selectChapter(key);
+                chapterList.appendChild(btn);
+            }
+        }
+
+        function selectChapter(chapterKey) {
+            currentChapter = chapterKey;
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            score = 0;
+            
+            document.querySelectorAll('.chapter-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', Object.keys(practiceData)[index] === chapterKey);
+            });
+            
+            document.getElementById('totalQuestions').textContent = practiceData[chapterKey].questions.length;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const chapter = practiceData[currentChapter];
+            const question = chapter.questions[currentQuestionIndex];
+            const practiceArea = document.getElementById('practiceArea');
+            
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            const progress = ((currentQuestionIndex + 1) / chapter.questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            let optionsHtml = '';
+            if (question.type === 'single') {
+                optionsHtml = question.options.map((opt, idx) => `
+                    <div class="option-item" onclick="selectOption(${idx})" data-index="${idx}">
+                        <span class="font-medium">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                    </div>
+                `).join('');
+            } else if (question.type === 'multiple') {
+                optionsHtml = question.options.map((opt, idx) => `
+                    <div class="option-item" onclick="toggleOption(${idx})" data-index="${idx}">
+                        <span class="font-medium">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                    </div>
+                `).join('');
+            }
+            
+            practiceArea.innerHTML = `
+                <div class="mb-6">
+                    <span class="text-blue-400 text-sm font-medium">${chapter.title}</span>
+                    <h2 class="text-xl font-bold mt-2">${currentQuestionIndex + 1}. ${question.question}</h2>
+                    ${question.type === 'multiple' ? '<p class="text-gray-400 text-sm mt-2">（多选题）</p>' : ''}
+                </div>
+                <div class="space-y-3 mb-6" id="optionsContainer">${optionsHtml}</div>
+                <div class="flex justify-between items-center">
+                    <button onclick="prevQuestion()" class="px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 transition-colors ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                        <i class="fa fa-arrow-left mr-2"></i>上一题
+                    </button>
+                    <button onclick="nextQuestion()" class="px-6 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition-colors">
+                        ${currentQuestionIndex === chapter.questions.length - 1 ? '提交' : '下一题'} <i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            `;
+            
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                if (question.type === 'single') {
+                    selectOption(userAnswers[currentQuestionIndex], false);
+                } else {
+                    userAnswers[currentQuestionIndex].forEach(idx => toggleOption(idx, false));
+                }
+            }
+        }
+
+        function selectOption(index, save = true) {
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelector(`[data-index="${index}"]`).classList.add('selected');
+            if (save) {
+                userAnswers[currentQuestionIndex] = index;
+            }
+        }
+
+        function toggleOption(index, save = true) {
+            const item = document.querySelector(`[data-index="${index}"]`);
+            item.classList.toggle('selected');
+            
+            if (save) {
+                if (!userAnswers[currentQuestionIndex]) {
+                    userAnswers[currentQuestionIndex] = [];
+                }
+                const idx = userAnswers[currentQuestionIndex].indexOf(index);
+                if (idx > -1) {
+                    userAnswers[currentQuestionIndex].splice(idx, 1);
+                } else {
+                    userAnswers[currentQuestionIndex].push(index);
+                }
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            const chapter = practiceData[currentChapter];
+            
+            if (userAnswers[currentQuestionIndex] === undefined || 
+                (Array.isArray(userAnswers[currentQuestionIndex]) && userAnswers[currentQuestionIndex].length === 0)) {
+                alert('请先选择答案！');
+                return;
+            }
+            
+            if (currentQuestionIndex < chapter.questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            } else {
+                submitPractice();
+            }
+        }
+
+        function submitPractice() {
+            const chapter = practiceData[currentChapter];
+            let correctCount = 0;
+            
+            chapter.questions.forEach((q, idx) => {
+                const userAnswer = userAnswers[idx];
+                if (q.type === 'single') {
+                    if (userAnswer === q.correct) correctCount++;
+                } else if (q.type === 'multiple') {
+                    const correct = Array.isArray(q.correct) ? q.correct : [q.correct];
+                    const user = Array.isArray(userAnswer) ? userAnswer : [userAnswer];
+                    if (JSON.stringify(correct.sort()) === JSON.stringify(user.sort())) {
+                        correctCount++;
+                    }
+                }
+            });
+            
+            score = Math.round((correctCount / chapter.questions.length) * 100);
+            document.getElementById('score').textContent = score;
+            
+            let message = '';
+            if (score >= 90) {
+                message = '太棒了！你对供应链分析知识掌握得很好！🎉';
+            } else if (score >= 70) {
+                message = '不错！继续加油，巩固知识点！💪';
+            } else if (score >= 60) {
+                message = '及格了！建议再复习一下相关知识点。📚';
+            } else {
+                message = '需要加强学习哦，建议重新阅读教程内容。📖';
+            }
+            document.getElementById('resultMessage').textContent = message;
+            
+            document.getElementById('resultModal').classList.add('show');
+            saveScore(currentChapter, score);
+        }
+
+        function saveScore(chapter, score) {
+            const scores = JSON.parse(localStorage.getItem('supplyChainPracticeScores') || '{}');
+            scores[chapter] = { score: score, date: new Date().toISOString() };
+            localStorage.setItem('supplyChainPracticeScores', JSON.stringify(scores));
+        }
+
+        function restartPractice() {
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            score = 0;
+            document.getElementById('resultModal').classList.remove('show');
+            showQuestion();
+        }
+
+        function closeResult() {
+            document.getElementById('resultModal').classList.remove('show');
+            document.getElementById('practiceArea').innerHTML = `
+                <div class="text-center py-12 text-gray-400">
+                    <i class="fa fa-check-circle text-4xl mb-4 text-green-400"></i>
+                    <p>练习已完成！</p>
+                    <p class="text-sm mt-2">最终得分：${score}分</p>
+                    <button onclick="restartPractice()" class="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors">
+                        <i class="fa fa-refresh mr-2"></i>重新练习
+                    </button>
+                </div>
+            `;
+        }
+
+        initChapterList();
+    </script>
+</body>
+</html>
